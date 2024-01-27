@@ -8,16 +8,27 @@
         <polygon points="0,0 9,0 3,6 -9,6 -9,0" fill="#790000" stroke-width="1" stroke="grey">
             <animateMotion rotate="auto" dur="3s" repeatCount="indefinite" path="M 922 790 L 979 790" />
         </polygon>
-        <polygon points="0,0 9,0 3,6 -9,6 -9,0" fill="grey" stroke-width="1" stroke="#790000">
-            <animateMotion rotate="auto" dur="1.5s" repeatCount="indefinite" path="M 1708 960 L 1708 965 Q 1708 989 1683 989 L 1658 989" />
-        </polygon>
-        <polygon points="0,0 9,0 3,6 -9,6 -9,0" fill="grey" stroke-width="1" stroke="#790000">
-            <animateMotion rotate="auto" dur="2s" repeatCount="indefinite" path="M 1658 989 L 1683 989 Q 1708 989 1708 965 L 1708 960" />
+        <polygon id="t1" points="0,0 9,0 3,6 -9,6 -9,0" fill="grey" stroke-width="2" stroke="#790000">
         </polygon>
     </svg>
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
+    <style>
+        #t1 {
+            offset-path: path("M1575,790 Q1603,799 1613,812");
+            animation: move 1s linear infinite both;
+            animation-iteration-count: 1;
+        }
 
+        @keyframes move {
+            from {
+                offset-distance: 30%;
+            }
+            to {
+                offset-distance: 70%;
+            }
+        }
+    </style>
 </body>
 <style>
 

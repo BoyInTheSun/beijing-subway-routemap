@@ -1,6 +1,8 @@
+# TODO
+
 ## 文档
 
-[SVG]https://developer.mozilla.org/en-US/docs/Web/SVG
+[SVG](https://developer.mozilla.org/en-US/docs/Web/SVG)
 
 ## 主要功能
 
@@ -18,7 +20,7 @@
 
 ## 可变变量
 
-+ 刷新速率，默认15hz，最高60hz。当机器性能不足时，弹窗提示降低。
++ （弃）刷新速率，默认15hz，最高60hz。当机器性能不足时，弹窗提示降低。
 
 + 时间默认x1，可调至x10
 
@@ -29,9 +31,3 @@
 + 工作日和双休日分开两套
 
 + 时刻表位移，单位分钟。即显示的前端输出和动画运行实际的时间的差
-
-
-
-
-
-
