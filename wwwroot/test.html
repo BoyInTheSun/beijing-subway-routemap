@@ -6,29 +6,15 @@
 
     <svg id="svg" width="2000" height="2000" xmlns="http://www.w3.org/2000/svg">
         <polygon points="0,0 9,0 3,6 -9,6 -9,0" fill="#790000" stroke-width="1" stroke="grey">
-            <animateMotion rotate="auto" dur="3s" repeatCount="indefinite" path="M 922 790 L 979 790" />
+            <animateMotion begin="0s" rotate="auto" dur="3s" repeatCount="1" path="M 922 790 L 979 790" />
+            <animateMotion begin="3s" rotate="auto" dur="3s" repeatCount="1" path="M979,790 L1010,790" />
         </polygon>
-        <polygon id="t1" points="0,0 9,0 3,6 -9,6 -9,0" fill="grey" stroke-width="2" stroke="#790000">
+        <polygon points="0,0 9,0 3,6 -9,6 -9,0" fill="#790000" stroke-width="1" stroke="grey">
+            <animateMotion begin="1s" rotate="auto" dur="3s" repeatCount="1" path="M733,790 L783,790" />
         </polygon>
     </svg>
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
-    <style>
-        #t1 {
-            offset-path: path("M1575,790 Q1603,799 1613,812");
-            animation: move 1s linear infinite both;
-            animation-iteration-count: 1;
-        }
-
-        @keyframes move {
-            from {
-                offset-distance: 30%;
-            }
-            to {
-                offset-distance: 70%;
-            }
-        }
-    </style>
 </body>
 <style>
 
