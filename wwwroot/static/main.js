@@ -110,13 +110,16 @@ for (var i = 0; i < root.childElementCount; i++) {
     paths[line_name][1].reverse();
     // TODO：画站
     for (var j = 0; j < line.childElementCount; j++) {
-        stations[line_name][0].push(line.children[j].getAttribute("lb"));
-        stations[line_name][1].unshift(line.children[j].getAttribute("lb"));
+        if (line.children[j].getAttribute("st") === "true") {
+            stations[line_name][0].push(line.children[j].getAttribute("lb"));
+            stations[line_name][1].unshift(line.children[j].getAttribute("lb"));
+        }
     }
 
 
 }
 
+console.log(stations);
 console.log(paths);
 
 // 算小车位置
@@ -152,7 +155,8 @@ for (line_name in sche_wd) {
 
 
 // 画车动画
-begin_minute = 500;
+begin_minute = 295;
+transparency_second = 0.5;
 for (line_name in sche_wd) {
     direct_index = -1;
     for (direct in sche_wd[line_name]) {
@@ -170,22 +174,40 @@ for (line_name in sche_wd) {
                     is_pass = true;
                 }
                 if (this_time.indexOf("-") !== -1) {
-                    path = paths[line_name][direct_index][index].split(" ")[0];
+                    index = stations[line_name][direct_index].indexOf(this_station_name);
+                    path = paths[line_name][direct_index][index].split(" ")[0];  // only Mx,y
                     is_close = true;
                 }
-                else{
+                else {
                     index = stations[line_name][direct_index].indexOf(this_station_name);
                     path = paths[line_name][direct_index][index];
                 }
                 this_time_minute = hm2time(this_time);
                 next_time_minute = hm2time(next_time);
                 train = svg.select("#T_" + train_num);
+                if (i === 0) {
+                    train.append("animate")
+                        .attr("begin", (this_time_minute - begin_minute).toString() + "s")
+                        .attr("attributeName", "opacity")
+                        .attr("values", "0;1")
+                        .attr("dur", transparency_second.toString() + "s")
+                        .attr("repeatCount", "1");
+                }
                 train.append("animateMotion")
                     .attr("begin", (this_time_minute - begin_minute).toString() + "s")
                     .attr("rotate", "auto")
                     .attr("dur", (next_time_minute - this_time_minute).toString() + "s")
                     .attr("repeatCount", "1")
                     .attr("path", path);
+                if (i === sche_wd[line_name][direct][train_num].length - 2) {
+                    train.append("animate")
+                        .attr("begin", (next_time_minute - begin_minute - transparency_second).toString() + "s")
+                        .attr("attributeName", "opacity")
+                        .attr("values", "1;0")
+                        .attr("dur", transparency_second.toString() + "s")
+                        .attr("repeatCount", "1");
+
+                }
             }
         }
     }

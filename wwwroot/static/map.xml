@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sw cid="北京市" n="17" c="北京">
     <l lid="地铁1号线八通线" lb="1号线八通线" i="1" li="1" slb="1,1,八通" lp="300,810,70,20;1304,815,70,20;1720,880,70,20" n="23" loop="false" lbx="999" lby="840" lbr="0.0" lc="0xC23A30" lnub="0" lcode="01">
-        <p n="0"  scode="103"   acc="150995203" lb="苹果园" x="280" y="760" dy="-4.5" dox="1" doy="-0.5" uox="-1" uoy="0.8" ax="296" ay="776" aa="226" rx="-20" ry="-35" st="true" ex="true" iu="true" rc="false" slb="true" int="5" arr="0" ut="220" dt="0" us="0" ds="0" ud="2.606" dd="0"/>
         <p n="1"  scode="104"   acc="150995204" lb="古城" x="310" y="790" dox="0.5" doy="-1" uox="-0.5" uoy="1" ax="336" ay="790" aa="180" rx="-16" ry="3" st="true" ex="false" iu="true" rc="false" slb="true" int="3" arr="0" ut="150" dt="220" us="30" ds="30" ud="1.921" dd="2.606"/>
         <p n="2"  scode="105"   acc="150995205" lb="八角游乐园" x="363" y="790" dox="0" doy="-1" uox="0" uoy="1" ax="385" ay="790" aa="180" rx="-10" ry="-26" st="true" ex="false" iu="true" rc="false" slb="true" int="3" arr="0" ut="150" dt="150" us="30" ds="30" ud="1.953" dd="1.921"/>
         <p n="3"  scode="106"   acc="150995206" lb="八宝山" x="407" y="790" dox="0" doy="-1" uox="0" uoy="1" ax="428" ay="790" aa="180" rx="-18.9" ry="3" st="true" ex="false" iu="true" rc="false" slb="true" int="3" arr="0" ut="120" dt="150" us="25" ds="30" ud="1.479" dd="1.953"/>
@@ -41,8 +40,6 @@
         <p n="37" scode="9716"  acc="151019792" lb="环球度假区" x="1658" y="989" dox="0" doy="1" dy="-4.5" uox="0" uoy="-1" rx="-30" ry="4" st="true" ex="true" iu="true" rc="false" slb="true" arr="11" ut="0" dt="80" us="0" ds="0" ud="0" dd="0"/>
     </l>
     <l lid="地铁2号线" lb="2号线" i="2" li="2" slb="2" lp="875,639,70,20" n="18" loop="true" lbx="960" lby="740" lbr="0.0" lc="0x006098" lnub="1" lcode="02">
-        <p n="0"  scode="201" acc="150995457" lb="西直门" x="783" y="660" dox="-1" doy="-1" uox="1" uoy="1" ax="806" ay="632" aa="180" rx="-44.5" ry="4.9" arc="783:632" uoarc="1:1" doarc="-1:-1" st="true" ex="true" iu="true" rc="false" slb="true" int="2" arr="1|2|8" ut="166" dt="83" us="0" ds="0" ud="0" dd="0"/>
-        <p n="1"  scode=""    acc="" lb="" x="806" y="632" dox="0" doy="-1" uox="0" uoy="1" rx="-44.5" ry="4.9" st="false" ex="true" iu="true" rc="false" slb="true" int="2" arr="1|2|8" ut="0" dt="0" us="0" ds="0" ud="0" dd="0"/>
         <p n="2"  scode="218" acc="150995474" lb="积水潭" x="870" y="632" dox="0" doy="-1" uox="0" uoy="1" ax="897" ay="632" aa="180" rx="-41" ry="-23.9" st="true" ex="true" iu="true" rc="false" slb="true" int="3" arr="1" ut="129" dt="158" us="50" ds="50" ud="0" dd="0"/>
         <p n="3"  scode="217" acc="150995473" lb="鼓楼大街" x="950" y="632" dox="0" doy="-1" uox="0" uoy="1" ax="980" ay="632" aa="180" rx="-56.6" ry="-23.9" st="true" ex="true" iu="true" rc="false" slb="true" int="2" arr="1|5" ut="98" dt="127" us="50" ds="50" ud="0" dd="0"/>
         <p n="4"  scode="216" acc="150995472" lb="安定门" x="1007" y="632" dox="0" doy="-1" uox="0" uoy="1" ax="1035" ay="632" aa="180" rx="-19.3" ry="-23.9" st="true" ex="false" iu="true" rc="false" slb="true" int="2" arr="1" ut="74" dt="99" us="30" ds="30" ud="0" dd="0"/>
@@ -65,6 +62,8 @@
         <p n="21" scode="204" acc="150995460" lb="复兴门" x="783" y="790" dox="-1" doy="0" uox="1" uoy="0" ax="783" ay="769" aa="90" rx="-42" ry="4" st="true" ex="true" iu="true" rc="false" slb="false" int="3" arr="0|1" ut="137" dt="116" us="50" ds="50" ud="0" dd="0"/>
         <p n="22" scode="203" acc="150995459" lb="阜成门" x="783" y="750" dox="-1" doy="0" uox="1" uoy="0" ax="783" ay="732" aa="90" rx="5" ry="-8.6" st="true" ex="false" iu="true" rc="false" slb="true" int="2" arr="1" ut="85" dt="137" us="30" ds="30" ud="0" dd="0"/>
         <p n="23" scode="202" acc="150995458" lb="车公庄" x="783" y="710" dox="-1" doy="0" uox="1" uoy="0" ax="783" ay="686" aa="90" rx="-42" ry="-23" st="true" ex="true" iu="true" rc="false" slb="true" int="3" arr="1|4" ut="87" dt="83" us="45" ds="45" ud="0" dd="0"/>
+        <p n="0"  scode="201" acc="150995457" lb="西直门" x="783" y="660" dox="-1" doy="-1" uox="1" uoy="1" ax="806" ay="632" aa="180" rx="-44.5" ry="4.9" arc="783:632" uoarc="1:1" doarc="-1:-1" st="true" ex="true" iu="true" rc="false" slb="true" int="2" arr="1|2|8" ut="166" dt="83" us="0" ds="0" ud="0" dd="0"/>
+        <p n="1"  scode=""    acc="" lb="" x="806" y="632" dox="0" doy="-1" uox="0" uoy="1" rx="-44.5" ry="4.9" st="false" ex="true" iu="true" rc="false" slb="true" int="2" arr="1|2|8" ut="0" dt="0" us="0" ds="0" ud="0" dd="0"/>
     </l>
     <l lid="地铁4号线大兴线" lb="4号线大兴线" i="3" li="3" slb="4,大兴" lp="418,364,70,20;756,1228,70,20" n="35" loop="false" lbx="666" lby="816" lbr="0.0" lc="0x008E9C" lnub="2" lcode="04">
         <p n="0"  scode="421" acc="150995989" lb="安河桥北" x="457" y="410" dox="0" doy="-1" uox="0" uoy="1" ax="486" ay="410" aa="180" rx="-28" ry="-25" st="true" ex="false" iu="true" rc="false" slb="true" int="1" arr="2" ut="109" dt="0" us="0" ds="0" ud="0" dd="0"/>
