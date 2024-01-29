@@ -9,7 +9,8 @@
 
 ## 数据来源
 
-时刻表数据来源于[beijing-subway-schedule](/BoyInTheSun/beijing-subway-schedule)。
+时刻表数据来源于[beijing-subway-schedule](//BoyInTheSun/beijing-subway-schedule)。
+
 地图数据来源于[北京地铁线路图](https://map.bjsubway.com/)
 
 ## 依赖

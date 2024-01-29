@@ -1,5 +1,6 @@
 
 function hm2time(hm) {
+    hm = hm.replace("(", "").replace("-", "");
     t = hm.split(":");
     h = t[0];
     m = t[1];
@@ -164,27 +165,27 @@ for (line_name in sche_wd) {
                 this_time = sche_wd[line_name][direct][train_num][i][1];
                 next_time = sche_wd[line_name][direct][train_num][i + 1][1];
                 is_pass = false;
-                stop_minute = 0;
-                if (this_time.indexOf("(") == 0) {
+                is_close = false;
+                if (this_time.indexOf("(") !== -1) {
                     is_pass = true;
-                    this_time = this_time.slice(1);
                 }
-                if (this_time.indexOf("-") == 6) {
-                    t = this_time.split("-");
-                    this_time = t[0];
-                    stop_minute = hm2time(t[1]) - hm2time(t[0]);
-                    //TODO 待避列车没写
+                if (this_time.indexOf("-") !== -1) {
+                    path = paths[line_name][direct_index][index].split(" ")[0];
+                    is_close = true;
+                }
+                else{
+                    index = stations[line_name][direct_index].indexOf(this_station_name);
+                    path = paths[line_name][direct_index][index];
                 }
                 this_time_minute = hm2time(this_time);
                 next_time_minute = hm2time(next_time);
-                index = stations[line_name][direct_index].indexOf(this_station_name);
                 train = svg.select("#T_" + train_num);
                 train.append("animateMotion")
                     .attr("begin", (this_time_minute - begin_minute).toString() + "s")
                     .attr("rotate", "auto")
                     .attr("dur", (next_time_minute - this_time_minute).toString() + "s")
                     .attr("repeatCount", "1")
-                    .attr("path", paths[line_name][direct_index][index]);
+                    .attr("path", path);
             }
         }
     }
