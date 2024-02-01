@@ -4,7 +4,7 @@ function hm2time(hm) {
     t = hm.split(":");
     h = t[0];
     m = t[1];
-    time = parseInt(h) * 60 + parseInt(m)
+    time = parseInt(h) * 60 + parseInt(m);
     if (parseInt(h) <= 2) {
         time += 60 * 24;
     }
@@ -28,7 +28,7 @@ xhr_map.open("GET", "static/map.xml", false);
 xhr_map.send();
 root = xhr_map.responseXML.getElementsByTagName("sw")[0];  // 根节点
 
-
+xml_paths = new Array();
 for (var i = 0; i < root.childElementCount; i++) {
     line = root.children[i];
     line_id = line.getAttribute("i")
@@ -37,7 +37,7 @@ for (var i = 0; i < root.childElementCount; i++) {
 
     // 画路径，存paths，stations
     // 环线
-    if (line.getAttribute("loop") == "true") {
+    if (line.getAttribute("loop") === "true") {
         line_child_count = line.childElementCount + 1;
     }
     // 非环线
@@ -71,11 +71,7 @@ for (var i = 0; i < root.childElementCount; i++) {
         }
 
         paths[line_name][0].push(d);
-        svg.append("path")
-            .attr("stroke", line_color)
-            .attr("fill", "none")
-            .attr("d", d);
-
+        xml_paths.push(`<path stroke="${line_color}" fill="none" d="${d}"></path>`)
         d = `M${end_p.getAttribute("x")},${end_p.getAttribute("y")}`; // 下个起点
 
     }
@@ -137,32 +133,22 @@ sche_we = JSON.parse(xhr_sche_we.responseText);
 console.log(sche_wd);
 
 
-
-// 画车
-
-for (line_name in sche_wd) {
-    for (direct in sche_wd[line_name]) {
-        for (train_num in sche_wd[line_name][direct]) {
-            svg.append("polygon")
-                .attr("id", "T_" + train_num)
-                .attr("points", "0,0 9,0 3,6 -9,6 -9,0")
-                .attr("stroke-width", "2")
-                .attr("fill", "grey")
-                .attr("stroke", "#790000")
-        }
-    }
-}
-
+//document.getElementsByTagNameNS();
 
 // 画车动画
 begin_minute = 295;
+end_minute = 4320;
+speed = 60;
 transparency_second = 0.5;
+
+xml_polygons = new Array();
 for (line_name in sche_wd) {
     direct_index = -1;
     for (direct in sche_wd[line_name]) {
         direct_index += 1;
         console.log(direct_index, direct);
         for (train_num in sche_wd[line_name][direct]) {
+            xml_animates = new Array();
             for (var i = 0; i < sche_wd[line_name][direct][train_num].length - 1; i++) {
                 this_station_name = sche_wd[line_name][direct][train_num][i][0];
                 next_station_name = sche_wd[line_name][direct][train_num][i + 1][0];
@@ -170,10 +156,10 @@ for (line_name in sche_wd) {
                 next_time = sche_wd[line_name][direct][train_num][i + 1][1];
                 is_pass = false;
                 is_close = false;
-                if (this_time.indexOf("(") !== -1) {
+                if (this_time.indexOf('(') !== -1) {
                     is_pass = true;
                 }
-                if (this_time.indexOf("-") !== -1) {
+                if (this_time.indexOf('-') !== -1) {
                     index = stations[line_name][direct_index].indexOf(this_station_name);
                     path = paths[line_name][direct_index][index].split(" ")[0];  // only Mx,y
                     is_close = true;
@@ -184,39 +170,34 @@ for (line_name in sche_wd) {
                 }
                 this_time_minute = hm2time(this_time);
                 next_time_minute = hm2time(next_time);
-                train = svg.select("#T_" + train_num);
-                if (i === 0) {
-                    train.append("animate")
-                        .attr("begin", (this_time_minute - begin_minute).toString() + "s")
-                        .attr("attributeName", "opacity")
-                        .attr("values", "0;1")
-                        .attr("dur", transparency_second.toString() + "s")
-                        .attr("repeatCount", "1");
+                if (begin_minute > this_time_minute) {
+                    continue;
                 }
-                train.append("animateMotion")
-                    .attr("begin", (this_time_minute - begin_minute).toString() + "s")
-                    .attr("rotate", "auto")
-                    .attr("dur", (next_time_minute - this_time_minute).toString() + "s")
-                    .attr("repeatCount", "1")
-                    .attr("path", path);
-                if (i === sche_wd[line_name][direct][train_num].length - 2) {
-                    train.append("animate")
-                        .attr("begin", (next_time_minute - begin_minute - transparency_second).toString() + "s")
-                        .attr("attributeName", "opacity")
-                        .attr("values", "1;0")
-                        .attr("dur", transparency_second.toString() + "s")
-                        .attr("repeatCount", "1");
 
-                }
+                begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                dur =parseInt((next_time_minute - this_time_minute) * 60 / speed * 1000) + 'ms';
+                xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" rotate="auto" path="${path}" repeatCount="1"></animateMotion>`)
+                
             }
+            xml_polygon = `<polygon id="T_${train_num}" points="0,0 9,0 3,6 -9,6 -9,0" stroke-width="2" fill="grey" stroke="#790000">${xml_animates.join('')}</polygon>`;
+            xml_polygons.push(xml_polygon);
         }
     }
 }
-/*
+svg.html(svg.html() + xml_paths.join('') + xml_polygons.join(''));
+
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function test() {
+    for (i = begin_minute; ; i++) {
+        console.log(i);
+        await sleep(1000);
+    }
+}
+test;
+/*
 async function write_animate() {
 
     for (var i = 296; i < 1500; i++) {
