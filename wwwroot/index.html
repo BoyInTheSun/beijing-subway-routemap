@@ -17,26 +17,27 @@
 
 <body>
     <div class="container-scroller">
-        <!-- 展开闭合按钮 -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="navbar-brand-wrapper d-flex justify-content-center">
-                <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-                    <a class="navbar-brand brand-logo" href="index.html"><img src="template/images/bjsub.jpeg"
-                            alt="logo" /></a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="template/images/bjsub.jpeg"
-                            alt="logo" /></a>
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                        data-toggle="minimize">
-                        <span class="mdi mdi-sort-variant"></span>
-                    </button>
-                </div>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-            </div>
-        </nav>
-        <!-- partial -->
+
         <div class="container-fluid page-body-wrapper">
             <!-- 侧边栏 -->
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div class="navbar-brand-wrapper d-flex justify-content-center">
+                  <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">  
+                    <a class="navbar-brand brand-logo" href="index.html"><img src="template/images/bjsub.jpeg"
+                        alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="template/images/bjsub-mini.jpeg"
+                        alt="logo" /></a>
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                      <span class="mdi mdi-sort-variant"></span>
+                    </button>
+                  </div>  
+                </div>
+                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                  <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                  </button>
+                </div>
+              </nav>
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
@@ -234,10 +235,6 @@
     <!--plugins: js-->
     <script src="template/vendors/base/vendor.bundle.base.js"></script>
     <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <script src="template/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <!-- End plugin js for this page-->
     <!-- inject:js -->
     <script src="template/js/off-canvas.js"></script>
     <script src="template/js/hoverable-collapse.js"></script>
