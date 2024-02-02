@@ -1,38 +1,181 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <!-- 适应手机浏览器屏幕 -->
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>北京地铁</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="template/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="template/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="template/css/style.css">
+    <!-- endinject -->
 </head>
 
 <body>
-    <form>
-        <label for="startTime">开始时间：</label>
-        <input id="startTime" type="time" name="startTime" />
-        <span class="validity"></span>
-    </form>
-    <form>
-        <label for="endtTime">结束时间：</label>
-        <input id="endTime" type="time" name="endTime" />
-        <span class="validity"></span>
-    </form>
-    <form>选择运行速度：
-        <select name="speed_select">
-            <option value="speed1" selected>1</option>
-            <option value="speed2">2</option>
-            <option value="speed3">4</option>
-            <option value="speed4">8</option>
-            <option value="speed5">15</option>
-            <option value="speed6">30</option>
-            <option value="speed7">60</option>
-            <option value="speed8">120</option>
-          </select>
-    </form>
+    <div class="container-scroller">
+        <!-- 展开闭合按钮 -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="navbar-brand-wrapper d-flex justify-content-center">
+                <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+                    <a class="navbar-brand brand-logo" href="index.html"><img src="template/images/bjsub.jpeg"
+                            alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="template/images/bjsub.jpeg"
+                            alt="logo" /></a>
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-toggle="minimize">
+                        <span class="mdi mdi-sort-variant"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- 侧边栏 -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="mdi mdi-home menu-icon"></i>
+                            <span class="menu-title">首页</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#set-time" aria-expanded="false"
+                            aria-controls="set-time">
+                            <i class="mdi mdi-circle-outline menu-icon"></i>
+                            <span class="menu-title">设置时间</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="set-time">
+                            <ul class="nav flex-column sub-menu">
+                                <form>
+                                    <label for="startTime">开始时间：</label>
+                                    <input id="startTime" type="time" name="startTime" step="2" />
+                                </form>
+                                <form>
+                                    <label for="endtTime">结束时间：</label>
+                                    <input id="endTime" type="time" name="endTime" step="2" />
+                                </form>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#set-speed" aria-expanded="false"
+                            aria-controls="set-speed">
+                            <i class="mdi mdi-account menu-icon"></i>
+                            <span class="menu-title">设置速度</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="set-speed">
+                            <ul class="nav flex-column sub-menu">
+                                <form>
+                                    <label for="speed1">1</label>
+                                </form>
+                                <form>
+                                    <label for="speed2">2</label>
+                                </form>
+                                <form>
+                                    <label for="speed4">4</label>
+                                </form>
+                                <form>
+                                    <label for="speed8">8</label>
+                                </form>
+                                <form>
+                                    <label for="speed15">15</label>
+                                </form>
+                                <form>
+                                    <label for="speed30">30</label>
+                                </form>
+                                <form>
+                                    <label for="speed60">60</label>
+                                </form>
+                                <form>
+                                    <label for="speed120">120</label>
+                                </form>
+                                <form>
+                                    <input type="text" class="form-control" placeholder="其他" aria-label="speed-else"
+                                        aria-describedby="speed-else">
+                                </form>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="template/documentation/documentation.html">
+                            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                            <span class="menu-title">文件说明</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <!--地铁-->
+                                <div class="card-body dashboard-tabs p-0">
+                                    <ul class="nav nav-tabs px-4" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="wd-chart-tab" data-bs-toggle="tab"
+                                                href="#wd-chart" role="tab" aria-controls="wd-chart"
+                                                aria-selected="true">工作日运行图</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="do-chart-tab" data-bs-toggle="tab" href="#do-chart"
+                                                role="tab" aria-controls="do-chart" aria-selected="false">休息日运行图</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content py-0 px-0">
+                                        <div class="tab-pane fade show active" id="wd-chart" role="tabpanel"
+                                            aria-labelledby="wd-chart-tab">
+                                            <div class="d-flex flex-wrap justify-content-xl-between">
 
-    <svg id="svg" width=auto height=auto xmlns="http://www.w3.org/2000/svg"></svg>
+
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="do-chart" role="tabpanel"
+                                            aria-labelledby="do-chart-tab">
+                                            <div class="d-flex flex-wrap justify-content-xl-between">
+                                                <svg id="svg" width=auto height=2000
+                                                    xmlns="http://www.w3.org/2000/svg"></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright ©
+                            <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com
+                            </a>2021</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best
+                            <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard </a>
+                            templates</span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
+
 
     <script>
         const startTime = document.getElementById("startTime");
@@ -41,22 +184,26 @@
         startTime.addEventListener(
             "input",
             () => {
-                if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
-                    if (startTime.value >= endTime.value) {
+                if (endTime.value == "") {
+                    if (startTime.value <= "03:00:00") {
+                        var time_now = new Date();
+                        var hour = time_now.getHours();////获取当前时间的时
+                        var minute = time_now.getMinutes(); ///获取当前时间的分
+                        var seconds = time_now.getSeconds(); ///获取当前时间的分
+                        time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute + ((seconds < 10) ? ":0" : ":") + seconds;
+                        startTime.value = time_now;
+                    }
+                }
+                else {
+                    if (startTime.value <= "03:00:00" || startTime.value >= endTime.value) {
                         var end_hour = endTime.value.slice(0, 2);
-                        var end_minute = Number(endTime.value.slice(3, 5))-1;
+                        var end_minute = Number(endTime.value.slice(3, 5)) - 1;
+                        var end_seconds = Number(endTime.value.slice(6, 8));
                         if (end_minute == -1) {
                             end_minute = 59;
                             end_hour = Number(end_hour) - 1;
                         }
-                        startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
-                    }
-                    else {
-                        var time_now = new Date();
-                        var hour = time_now.getHours();////获取当前时间的时
-                        var minute = time_now.getMinutes(); ///获取当前时间的分
-                        time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
-                        startTime.value = time_now;
+                        startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute + ((end_seconds < 10) ? ":0" : ":") + end_seconds;
                     }
                 }
             },
@@ -65,22 +212,45 @@
         endTime.addEventListener(
             "input",
             () => {
-                if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
+                if (endTime.value <= "01:00:00" || endTime.value <= startTime.value) {
                     var start_hour = startTime.value.slice(0, 2);
                     var start_minute = Number(startTime.value.slice(3, 5)) + 1;
+                    var start_seconds = Number(startTime.value.slice(6, 8));
                     if (start_minute == 60) {
                         start_minute = 0;
                         start_hour = Number(start_hour) + 1;
                     }
-                    endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
+                    endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute + ((start_seconds < 10) ? ":0" : ":") + start_seconds;
                 }
             },
             false,
         );
     </script>
-</body>
-<style>
 
-</style>
+    <!-- 自适应 -->
+
+
+    <!-- container-scroller -->
+    <!--plugins: js-->
+    <script src="template/vendors/base/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="template/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="template/js/off-canvas.js"></script>
+    <script src="template/js/hoverable-collapse.js"></script>
+    <script src="template/js/template.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="template/js/dashboard.js"></script>
+    <script src="template/js/data-table.js"></script>
+    <script src="template/js/jquery.dataTables.js"></script>
+    <script src="template/js/dataTables.bootstrap4.js"></script>
+    <!-- End custom js for this page-->
+
+    <script src="template/js/jquery.cookie.js" type="text/javascript"></script>
+</body>
 
 </html>
