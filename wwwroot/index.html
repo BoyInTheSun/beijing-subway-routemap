@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 适应手机浏览器屏幕 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+</head>
+
+<body>
+    <form>
+        <label for="startTime">开始时间：</label>
+        <input id="startTime" type="time" name="startTime" />
+        <span class="validity"></span>
+    </form>
+    <form>
+        <label for="endtTime">结束时间：</label>
+        <input id="endTime" type="time" name="endTime" />
+        <span class="validity"></span>
+    </form>
+    <form>选择运行速度：
+        <select name="speed_select">
+            <option value="speed1" selected>1</option>
+            <option value="speed2">2</option>
+            <option value="speed3">4</option>
+            <option value="speed4">8</option>
+            <option value="speed5">15</option>
+            <option value="speed6">30</option>
+            <option value="speed7">60</option>
+            <option value="speed8">120</option>
+          </select>
+    </form>
+
+    <svg id="svg" width=auto height=auto xmlns="http://www.w3.org/2000/svg"></svg>
+    <script src="static/d3.v7.min.js"></script>
+    <script src="static/main.js"></script>
+
+    <script>
+        const startTime = document.getElementById("startTime");
+        const endTime = document.getElementById("endTime");
+
+        startTime.addEventListener(
+            "input",
+            () => {
+                if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
+                    if (startTime.value >= endTime.value) {
+                        var end_hour = endTime.value.slice(0, 2);
+                        var end_minute = Number(endTime.value.slice(3, 5))-1;
+                        if (end_minute == -1) {
+                            end_minute = 59;
+                            end_hour = Number(end_hour) - 1;
+                        }
+                        startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
+                    }
+                    else {
+                        var time_now = new Date();
+                        var hour = time_now.getHours();////获取当前时间的时
+                        var minute = time_now.getMinutes(); ///获取当前时间的分
+                        time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
+                        startTime.value = time_now;
+                    }
+                }
+            },
+            false,
+        );
+        endTime.addEventListener(
+            "input",
+            () => {
+                if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
+                    var start_hour = startTime.value.slice(0, 2);
+                    var start_minute = Number(startTime.value.slice(3, 5)) + 1;
+                    if (start_minute == 60) {
+                        start_minute = 0;
+                        start_hour = Number(start_hour) + 1;
+                    }
+                    endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
+                }
+            },
+            false,
+        );
+    </script>
+</body>
+<style>
+
+</style>
+
+</html>
