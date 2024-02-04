@@ -4,6 +4,8 @@
     <meta name='viewport'
         content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=scale=1.0,user-scalable=no'>
     <title>index</title>
+    <link rel="stylesheet" type="text/css" href="template/font_o05anmyduc/iconfont.css">
+</head>
 </head>
 <style>
     .container {
@@ -16,7 +18,7 @@
         margin-left: 50px;
     }
 
-    .siderbar {
+    .siderbar-fold {
         height: 100%;
         width: 50px;
         position: fixed;
@@ -27,33 +29,60 @@
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        display: "";
     }
 
-    .sider-openbtn {
-        position: fixed;
+    .siderbar-foldbtn {
+        border: none;
+        width: 20px;
+        margin-left: 210px;
+    }
+    .siderbar-foldbtn:hover{
+        color: #f1f1f1;
+        background-color: #444;
+    }
+
+    .siderbar-fold-navbtn {
+        width: 20px;
         margin-left: 10px;
         border: #f1f1f1;
     }
 
-    .sider-closebtn {
-        margin-left: 10px;
-        border: #f1f1f1;
-    }
-
-    .sidernav {
-        width: 0;
+    .siderbar-unfold {
+        height: 100%;
+        width: 250px;
         position: fixed;
         z-index: 1;
+        top: 0;
+        left: 0;
         background-color: #f1f1f1;
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        display: "none";
     }
 
-    .siderbtn {
-        width: 100%;
+    .siderbar-unfoldbtn {
         border: none;
+        width: 20px;
+        left: 0;
+        margin-left: 10px;
+    }
+    .siderbar-unfoldbtn:hover{
+        color: #f1f1f1;
+        background-color: #444;
+    }
+    .siderbar-iconfont{
+        border: none;
+        width: 20px;
+        margin-left: 10px;
+    }
+
+    .siderbar-operation, .siderbar-wkd, .siderbar-time, .siderbar-route, .siderbar-speed, .siderbar-info {
+        width: 200px;
+        text-align: left;
         color: #000;
+        border: none;
         padding: 16px 32px;
         text-align: center;
         text-decoration: none;
@@ -65,13 +94,12 @@
         cursor: pointer;
     }
 
-    .siderbtn:hover {
-        text-align: center;
+    .siderbar-operation:hover, .siderbar-wkd:hover, .siderbar-time:hover, .siderbar-route:hover, .siderbar-speed:hover, .siderbar-info:hover {
         color: #f1f1f1;
         background-color: #444;
     }
 
-    .siderbtn-dropdown {
+    .siderbar-btn-dropdown {
         display: none;
         position: absolute;
         background-color: #f9f9f9;
@@ -94,32 +122,10 @@
         text-align: center;
     }
 
-    .handle {
+    .routine {
         position: relative;
         overflow: hidden;
         height: 30px;
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 100%;
-            width: 0;
-            height: 2px;
-            background-color: #000;
-            transition: all 0.3s ease-out;
-        }
-
-        &:hover {
-            &::after {
-                width: 30px;
-                left: 0;
-            }
-
-            &+.handle::after {
-                left: 0;
-            }
-        }
     }
 
     @media screen and (max-width: 768px) {
@@ -160,26 +166,37 @@
 </style>
 
 <body>
-    <div class="siderbar" id="siderbar">
-        <button class="sider-openbtn" id="sider-openbtn" onclick="opensiderbar()">☰</button>
-        <div class="sidernav" id="sidernav">
-            <button class="sider-closebtn" id="sider-closebtn" onclick="closesiderbar()">☰</button>
-            <div class="siderbtn">首页</div>
-            <div class="siderbtn">
-                <span>设置时间</span>
-                <div class="siderbtn-dropdown">
-                    <form>
-                        <label for="startTime">开始时间：</label>
-                        <input id="startTime" type="time" name="startTime" step="2" />
-                    </form>
-                    <form>
-                        <label for="endtTime">结束时间：</label>
-                        <input id="endTime" type="time" name="endTime" step="2" />
-                    </form>
-                </div>
+    <div class="siderbar-fold" id="siderbar-fold">
+        <div class="siderbar-unfoldbtn" id="siderbar-unfoldbtn" onclick="unfoldsiderbar()"><i
+                class="iconfont">&#xe61f;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe6f9;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe638;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe651;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe72a;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe69a;</i></div>
+        <div class="siderbar-iconfont"><i class="iconfont">&#xe6bf;</i></div>
+    </div>
+    <div class="siderbar-unfold" id="siderbar-unfold">
+        <button class="siderbar-foldbtn" id="siderbar-foldbtn" onclick="foldsiderbar()"><i
+                class="iconfont">&#xe61f;</i></button>
+        <div class="siderbar-operation"><i class="iconfont">&#xe6f9;</i>开始运行</div>
+        <div class="siderbar-wkd"><i class="iconfont">&#xe638;</i>工作日/休息日</div>
+        <div class="siderbar-time">
+            <span><i class="iconfont">&#xe651;</i>设置时间</span>
+            <div class="siderbar-btn-dropdown">
+                <form>
+                    <label for="startTime">开始时间：</label>
+                    <input id="startTime" type="time" name="startTime" step="2" />
+                </form>
+                <form>
+                    <label for="endtTime">结束时间：</label>
+                    <input id="endTime" type="time" name="endTime" step="2" />
+                </form>
             </div>
-            <div class="siderbtn">选择速度</div>
-            <div class="siderbtn-dropdown">
+        </div>
+        <div class="siderbar-route"><i class="iconfont">&#xe72a;</i>选择线路</div>
+        <div class="siderbar-speed"><i class="iconfont">&#xe69a;</i>倍速</div>
+        <div class="siderbar-btn-dropdown">
             <form>
                 <label for="speed1">1</label>
             </form>
@@ -209,36 +226,44 @@
                     aria-describedby="speed-else">
             </form>
         </div>
-            <div class="siderbtn">文件说明</div>
-        </div>
+        <div class="siderbar-info"><i class="iconfont">&#xe6bf;</i>关于</div>
     </div>
 
 
     <div id="container" class="container">
         <div class="headline" id="headline">北京地铁轨道交通运行图</div>
         <div>
-            <a class="handle">工作日</a>
-            <a class="handle">休息日</a>
+            <div class="routine" id="routine">工作日</div>
         </div>
-        <div class="content" id="content"><svg id="svg" width="2000" height="2000"
-                xmlns="http://www.w3.org/2000/svg"></svg></div>
+        <!-- <div class="content" id="content"><svg id="svg" width="2000" height="2000"
+                xmlns="http://www.w3.org/2000/svg"></svg></div> -->
         <div class="footer" id="footer">北京地铁轨道交通运行图</div>
     </div>
 
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <!--侧边栏图标-->
+    <script src="template/font_o05anmyduc/iconfont.js"></script>
+    <!--地铁运行图-->
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
-        function opensiderbar() {
-            document.getElementById("siderbar").style.width = "250px";
-            document.getElementById("sidernav").style.width = "250px";
+        //侧边栏展开与关闭
+        function unfoldsiderbar() {
+            document.getElementById("siderbar-fold").style.display = "none";
+            document.getElementById("siderbar-unfold").style.display = "";
             document.getElementById("container").style.marginLeft = "250px";
         }
-        function closesiderbar() {
-            document.getElementById("siderbar").style.width = "50px";
-            document.getElementById("sidernav").style.width = "0";
+        function foldsiderbar() {
+            document.getElementById("siderbar-fold").style.display = "";
+            document.getElementById("siderbar-unfold").style.display = "none";
             document.getElementById("container").style.marginLeft = "50px";
         }
+        //时间函数
+
+        //routine函数，路线图运行时间
+
+        //
 
     </script>
 </body>
