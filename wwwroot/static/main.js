@@ -159,28 +159,44 @@ function set_time(begin_minute, start_minute, speed){
     time_p.innerText = time;
 }
 // 画车动画
-function draw_trains(begin_minute, end_minute, speed) {
+function draw_trains(begin_minute, end_minute, speed, day, ) {
     transparency_second = 0.5;
     xml_polygons = new Array();
-    for (line_name in sche_wd) {
+
+    if (day === 'wd'){
+        sche = sche_wd;
+    }
+    else if (day === 'we') {
+        sche = sche_we;
+    }
+    else {
+        alert('draw_trains函数day参数错误');
+    }
+
+    for (line_name in sche) {
         direct_index = -1;
-        for (direct in sche_wd[line_name]) {
+        for (direct in sche[line_name]) {
             direct_index += 1;
             console.log(direct_index, direct);
-            for (train_num in sche_wd[line_name][direct]) {
+            for (train_num in sche[line_name][direct]) {
                 xml_animates = new Array();
 
                 // 淡入
-                this_time_minute = hm2time(sche_wd[line_name][direct][train_num][0][1]);
-                begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
-                dur = parseInt((transparency_second) * 1000) + 'ms';
-                xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1"></animate>`);
+                this_time_minute = hm2time(sche[line_name][direct][train_num][0][1]);
+                if (end_minute <= this_time_minute) {
+                    continue;
+                }
+                if (begin_minute <= this_time_minute) {
+                    begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                    dur = parseInt((transparency_second) * 1000) + 'ms';
+                    xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1" />`);
+                }
 
-                for (var i = 0; i < sche_wd[line_name][direct][train_num].length - 1; i++) {
-                    this_station_name = sche_wd[line_name][direct][train_num][i][0];
-                    next_station_name = sche_wd[line_name][direct][train_num][i + 1][0];
-                    this_time = sche_wd[line_name][direct][train_num][i][1];
-                    next_time = sche_wd[line_name][direct][train_num][i + 1][1];
+                for (var i = 0; i < sche[line_name][direct][train_num].length - 1; i++) {
+                    this_station_name = sche[line_name][direct][train_num][i][0];
+                    next_station_name = sche[line_name][direct][train_num][i + 1][0];
+                    this_time = sche[line_name][direct][train_num][i][1];
+                    next_time = sche[line_name][direct][train_num][i + 1][1];
                     is_pass = false;
                     is_close = false;
                     if (this_time.indexOf('(') !== -1) {
@@ -197,21 +213,39 @@ function draw_trains(begin_minute, end_minute, speed) {
                     }
                     this_time_minute = hm2time(this_time);
                     next_time_minute = hm2time(next_time);
+
                     if (begin_minute > next_time_minute) {
                         continue;
                     }
 
                     begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
                     dur = parseInt((next_time_minute - this_time_minute) * 60 / speed * 1000) + 'ms';
-                    xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" rotate="auto" path="${path}" repeatCount="1"></animateMotion>`)
+                    if (end_minute > next_time_minute) {
+                        xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" rotate="auto" path="${path}" repeatCount="1" />`);
+                    }
+                    else {
+                        end = parseInt((end_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                        xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
+                        t = path.split(' ');
+                        t = path.split(' ')[t.length - 1].split(',');
+                        x = t[0];
+                        if (x.charCodeAt(0) < 48 || x.charCodeAt(0) > 57) {
+                            x = x.slice(1);
+                        }
+                        x = parseInt(x);
+                        y = parseInt(t[1]);
+                        //xml_animates.push(`<set begin="${end}" attributeName="x" to="${x}"/>`);
+                        //xml_animates.push(`<set begin="${end}" attributeName="y" to="${y}"/>`);
+                        break;
+                    }
 
                 }
-
                 // 淡出
                 begin = parseInt(((next_time_minute - begin_minute) * 60 / speed - transparency_second) * 1000) + 'ms';
                 dur = parseInt((transparency_second) * 1000) + 'ms';
-                xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="1;0" repeatCount="1"></animate>`)
-
+                if (begin_minute <= next_time_minute && end_minute >= next_time_minute) {
+                    xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="1;0" repeatCount="1" />`)
+                }
                 xml_polygon = `<polygon id="T_${train_num}" points="0,0 9,0 3,6 -9,6 -9,0" stroke-width="2" fill="grey" stroke="#790000">${xml_animates.join('')}</polygon>`;
                 xml_polygons.push(xml_polygon);
             }
@@ -227,7 +261,8 @@ function draw_trains(begin_minute, end_minute, speed) {
     start_set_time(begin_minute, get_now_minute(), speed);
 
 }
-draw_trains(get_now_minute(), 4320, 30);
+//draw_trains(get_now_minute(), 4320, 30, 'we');
+draw_trains(1300, 1310, 600, 'we');
 /*
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
