@@ -28,7 +28,7 @@
         background-color: #f1f1f1;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
+        padding-top: 30px;
         display: "";
     }
 
@@ -57,7 +57,7 @@
         background-color: #f1f1f1;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
+        padding-top: 30px;
         display: "none";
     }
 
@@ -96,12 +96,22 @@
     }
 
     .side-wkd-btn {
+        background-color: #dbdbdb;
+        display: inline-block;
+        color: #000;
+        padding: 5px 10px;
+        text-align: center;
+        margin: 0 2px;
+        cursor: pointer;
         font-size: 16px;
-        margin: 0 auto;
         display: inline;
     }
 
     .side-wkd-btn:focus {
+        background-color: green;
+    }
+
+    .side-wkd-btn:hover {
         background-color: green;
     }
 
@@ -253,14 +263,10 @@
         <div id="side-wkd">
             <div href="#" class="side-first">选择运行图 <i class="iconfont">&#xe638;</i></div>
             <div class="side-first">
-                <label>
-                    <button class="side-wkd-btn" type="radio" name="wkd" value="wkd">工作日</button></label>
-                <label>
-                    <button class="side-wkd-btn" type="radio" name="tdo" value="tdo">休息日</button></label>
+                <button class="side-wkd-btn" type="radio" name="wkd" value="wkd">工作日</button>
+                <button class="side-wkd-btn" type="radio" name="tdo" value="tdo">休息日</button>
             </div>
         </div>
-
-
 
 
         <div id="side-time">
