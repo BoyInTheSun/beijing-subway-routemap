@@ -78,7 +78,7 @@
 
     .side-first {
         width: 200px;
-        text-align: left;
+        text-align: right;
         color: #000;
         border: none;
         padding: 16px 32px;
@@ -95,8 +95,17 @@
         background-color: #dbdbdb;
     }
 
-    .side-second,
-    .side-wkd-item {
+    .side-wkd-btn {
+        font-size: 16px;
+        margin: 0 auto;
+        display: inline;
+    }
+
+    .side-wkd-btn:focus {
+        background-color: green;
+    }
+
+    .side-second {
         display: none;
         max-height: 200px;
         /*设置菜单高度为200px*/
@@ -104,12 +113,14 @@
         /*设置滚动条*/
     }
 
-    .side-second::-webkit-scrollbar ,side-third{
+    .side-second::-webkit-scrollbar,
+    side-third {
         width: 6px;
         /*滚动条宽度*/
     }
 
-    .side-second::-webkit-scrollbar-thumb ,side-third{
+    .side-second::-webkit-scrollbar-thumb,
+    side-third {
         background-color: #c1c1c1;
         /*滚动条颜色*/
         border-radius: 5px;
@@ -138,14 +149,16 @@
         background-color: white;
     }
 
-    .side-third-num{
+    .side-third-num {
         height: 50px;
         width: 80px;
     }
-    .side-third-route{
+
+    .side-third-route {
         height: 50px;
         width: 100%;
     }
+
     .side-third-item {
         height: 25px;
     }
@@ -177,6 +190,7 @@
         position: relative;
         overflow: hidden;
         height: 30px;
+        text-align: center;
     }
 
     @media screen and (max-width: 768px) {
@@ -219,8 +233,9 @@
 <body>
     <div class="side-fold" id="side-fold">
         <button class="side-unfoldbtn" id="side-unfoldbtn" onclick="unfoldsiderbar()"><i
-            class="iconfont">&#xe61f;</i></button>
+                class="iconfont">&#xe61f;</i></button>
         <div class="side-iconfont"><i class="iconfont">&#xe6f9;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe702;</i></div>
         <div class="side-iconfont"><i class="iconfont">&#xe638;</i></div>
         <div class="side-iconfont"><i class="iconfont">&#xe651;</i></div>
         <div class="side-iconfont"><i class="iconfont">&#xe72a;</i></div>
@@ -231,40 +246,43 @@
         <button class="side-foldbtn" id="side-foldbtn" onclick="foldsiderbar()"><i
                 class="iconfont">&#xe61f;</i></button>
 
-        <div class="side-first" id="side-operation" onclick="foldsiderbar()"><i class="iconfont">&#xe6f9;</i>开始运行</div>
+        <div class="side-first" id="side-operation" onclick="foldsiderbar()">开始运行 <i class="iconfont">&#xe6f9;</i></div>
 
-        <div id="side-wkd" onmouseover="dropdown('side-wkd-item','block')"
-            onmouseout="dropdown('side-wkd-item','none')">
-            <div href="#" class="side-first"><i class="iconfont">&#xe638;</i>工作日/休息日</div>
-            <div class="side-second" id="side-wkd-item">
-                <div class="side-second-item">工作日</div>
-                <div class="side-second-item">休息日</div>
+        <div class="side-first" id="side-operation" onclick="refresh()">重置参数 <i class="iconfont">&#xe702;</i></div>
+
+        <div id="side-wkd">
+            <div href="#" class="side-first">选择运行图 <i class="iconfont">&#xe638;</i></div>
+            <div class="side-first">
+                <label>
+                    <button class="side-wkd-btn" type="radio" name="wkd" value="wkd">工作日</button></label>
+                <label>
+                    <button class="side-wkd-btn" type="radio" name="tdo" value="tdo">休息日</button></label>
             </div>
         </div>
 
-        <div id="side-time" onmouseover="dropdown('side-time-item','block')"
-            onmouseout="dropdown('side-time-item','none')">
-            <div href="#" class="side-first"><i class="iconfont">&#xe651;</i>设置时间</div>
-            <div class="side-second" id="side-time-item">
-                <div class="side-second-item">
-                    <form>
-                        <label for="startTime">开始时间：</label>
-                        <input id="startTime" type="time" name="startTime" step="2" />
-                    </form>
-                </div>
-                <div class="side-second-item">
-                    <form>
-                        <label for="endtTime">结束时间：</label>
-                        <input id="endTime" type="time" name="endTime" step="2" />
-                    </form>
-                </div>
+
+
+
+        <div id="side-time">
+            <div href="#" class="side-first">
+                <form>
+                    <label for="startTime">开始时间：</label>
+                    <input id="startTime" type="time" name="startTime" step="2" />
+                </form>
+            </div>
+
+            <div href="#" class="side-first">
+                <form>
+                    <label for="endtTime">结束时间：</label>
+                    <input id="endTime" type="time" name="endTime" step="2" />
+                </form>
             </div>
         </div>
 
 
         <div id="side-route" onmouseover="dropdown('side-route-item','block')"
             onmouseout="dropdown('side-route-item','none')">
-            <div class="side-first"><i class="iconfont">&#xe72a;</i>选择线路</div>
+            <div class="side-first">选择线路 <i class="iconfont">&#xe72a;</i></div>
             <div class="side-second" id="side-route-item">
                 <!-- <div class="side-second-item"> -->
                 <div class="side-third">
@@ -294,31 +312,31 @@
 
         <div id="side-speed" onmouseover="dropdown('side-speed-item','block')"
             onmouseout="dropdown('side-speed-item','none')">
-            <div class="side-first"><i class="iconfont">&#xe69a;</i>倍速</div>
+            <div class="side-first">倍速 <i class="iconfont">&#xe69a;</i></div>
             <div class="side-second" id="side-speed-item" size=3>
                 <div class="side-second-item">
-                    <label for="speed1">1</label>
+                    <label for="speed1">x 1</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed2">2</label>
+                    <label for="speed2">x 2</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed4">4</label>
+                    <label for="speed4">x 4</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed8">8</label>
+                    <label for="speed8">x 8</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed15">15</label>
+                    <label for="speed15">x 15</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed30">30</label>
+                    <label for="speed30">x 30</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed60">60</label>
+                    <label for="speed60">x 60</label>
                 </div>
                 <div class="side-second-item">
-                    <label for="speed120">120</label>
+                    <label for="speed120">x 120</label>
                 </div>
                 <div class="side-second-item">
                     <form>
@@ -328,14 +346,14 @@
                 </div>
             </div>
         </div>
-        <div class="side-first" id="side-route"><i class="iconfont">&#xe6bf;</i>关于</div>
+        <div class="side-first" id="side-route">关于 <i class="iconfont">&#xe6bf;</i></div>
     </div>
 
 
     <div id="container" class="container">
         <div class="headline" id="headline">北京地铁轨道交通运行图</div>
         <div>
-            <div class="routine" id="routine">工作日</div>
+            <div class="routine" id="time"></div>
         </div>
         <!-- <div class="content" id="content"><svg id="svg" width="2000" height="2000"
                 xmlns="http://www.w3.org/2000/svg"></svg></div> -->
@@ -362,7 +380,70 @@
             document.getElementById("container").style.marginLeft = "50px";
         }
         //时间函数
+        const startTime = document.getElementById("startTime");
+        const endTime = document.getElementById("endTime");
 
+        startTime.addEventListener(
+            "input",
+            () => {
+                if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
+                    if (startTime.value >= endTime.value) {
+                        if (endTime.value == "") {
+                            if (startTime.value <= "03:00:00") {
+                                var time_now = new Date();
+                                var hour = time_now.getHours();////获取当前时间的时
+                                var minute = time_now.getMinutes(); ///获取当前时间的分
+                                var seconds = time_now.getSeconds(); ///获取当前时间的分
+                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute + ((seconds < 10) ? ":0" : ":") + seconds;
+                                startTime.value = time_now;
+                            }
+                        }
+                        else {
+                            if (startTime.value <= "03:00:00" || startTime.value >= endTime.value) {
+                                var end_hour = endTime.value.slice(0, 2);
+                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
+                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
+                                var end_seconds = Number(endTime.value.slice(6, 8));
+                                if (end_minute == -1) {
+                                    end_minute = 59;
+                                    end_hour = Number(end_hour) - 1;
+                                }
+                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
+                            }
+                            else {
+                                var time_now = new Date();
+                                var hour = time_now.getHours();////获取当前时间的时
+                                var minute = time_now.getMinutes(); ///获取当前时间的分
+                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
+                                startTime.value = time_now;
+                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute + ((end_seconds < 10) ? ":0" : ":") + end_seconds;
+                            }
+                        }
+                    }
+                }
+            },
+            false,
+        );
+
+        endTime.addEventListener(
+            "input",
+            () => {
+                if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
+                    if (endTime.value <= "01:00:00" || endTime.value <= startTime.value) {
+                        var start_hour = startTime.value.slice(0, 2);
+                        var start_minute = Number(startTime.value.slice(3, 5)) + 1;
+                        var start_seconds = Number(startTime.value.slice(6, 8));
+                        if (start_minute == 60) {
+                            start_minute = 0;
+                            start_hour = Number(start_hour) + 1;
+                        }
+                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
+                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute + ((start_seconds < 10) ? ":0" : ":") + start_seconds;
+                    }
+                }
+            },
+            false,
+        );
         //routine函数，路线图运行时间
 
         //菜单下拉函数
