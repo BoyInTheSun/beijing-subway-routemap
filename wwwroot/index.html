@@ -18,7 +18,7 @@
         margin-left: 50px;
     }
 
-    .siderbar-fold {
+    .side-fold {
         height: 100%;
         width: 50px;
         position: fixed;
@@ -32,23 +32,22 @@
         display: "";
     }
 
-    .siderbar-foldbtn {
+    .side-foldbtn {
         border: none;
-        width: 20px;
         margin-left: 210px;
     }
-    .siderbar-foldbtn:hover{
+
+    .side-foldbtn:hover {
         color: #f1f1f1;
         background-color: #444;
     }
 
-    .siderbar-fold-navbtn {
-        width: 20px;
+    .side-fold-navbtn {
         margin-left: 10px;
         border: #f1f1f1;
     }
 
-    .siderbar-unfold {
+    .side-unfold {
         height: 100%;
         width: 250px;
         position: fixed;
@@ -62,49 +61,101 @@
         display: "none";
     }
 
-    .siderbar-unfoldbtn {
+    .side-unfoldbtn {
         border: none;
-        width: 20px;
-        left: 0;
-        margin-left: 10px;
+        padding: 16px 10px;
     }
-    .siderbar-unfoldbtn:hover{
+
+    .side-unfoldbtn:hover {
         color: #f1f1f1;
         background-color: #444;
     }
-    .siderbar-iconfont{
+
+    .side-iconfont {
         border: none;
-        width: 20px;
-        margin-left: 10px;
+        padding: 16px 10px;
     }
 
-    .siderbar-operation, .siderbar-wkd, .siderbar-time, .siderbar-route, .siderbar-speed, .siderbar-info {
+    .side-first {
         width: 200px;
         text-align: left;
         color: #000;
         border: none;
         padding: 16px 32px;
-        text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
         -webkit-transition-duration: 0.4s;
-        /* Safari */
         transition-duration: 0.4s;
         cursor: pointer;
+        text-decoration: none;
     }
 
-    .siderbar-operation:hover, .siderbar-wkd:hover, .siderbar-time:hover, .siderbar-route:hover, .siderbar-speed:hover, .siderbar-info:hover {
-        color: #f1f1f1;
+    .side-first:hover {
+        background-color: #dbdbdb;
+    }
+
+    .side-second,
+    .side-wkd-item {
+        display: none;
+        max-height: 200px;
+        /*设置菜单高度为200px*/
+        overflow-y: auto;
+        /*设置滚动条*/
+    }
+
+    .side-second::-webkit-scrollbar ,side-third{
+        width: 6px;
+        /*滚动条宽度*/
+    }
+
+    .side-second::-webkit-scrollbar-thumb ,side-third{
+        background-color: #c1c1c1;
+        /*滚动条颜色*/
+        border-radius: 5px;
+        /*滚动条边角弧度*/
+    }
+
+    .side-second-item {
+        border: none;
+        padding: 12px 32px;
+        font-size: 14px;
+        background-color: #dbdbdb;
+    }
+
+    .side-second-item:hover {
         background-color: #444;
     }
 
-    .siderbar-btn-dropdown {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    .side-third {
+        padding: 12px 32px;
+        font-size: 14px;
+        display: flex;
+        width: auto;
+    }
+
+    .side-third:hover {
+        background-color: white;
+    }
+
+    .side-third-num{
+        height: 50px;
+        width: 80px;
+    }
+    .side-third-route{
+        height: 50px;
+        width: 100%;
+    }
+    .side-third-item {
+        height: 25px;
+    }
+
+    .side-third-item:hover {
+        background-color: green;
+    }
+
+    .speed-else {
+        width: 150px;
     }
 
     .headline {
@@ -166,67 +217,118 @@
 </style>
 
 <body>
-    <div class="siderbar-fold" id="siderbar-fold">
-        <div class="siderbar-unfoldbtn" id="siderbar-unfoldbtn" onclick="unfoldsiderbar()"><i
-                class="iconfont">&#xe61f;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe6f9;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe638;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe651;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe72a;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe69a;</i></div>
-        <div class="siderbar-iconfont"><i class="iconfont">&#xe6bf;</i></div>
+    <div class="side-fold" id="side-fold">
+        <button class="side-unfoldbtn" id="side-unfoldbtn" onclick="unfoldsiderbar()"><i
+            class="iconfont">&#xe61f;</i></button>
+        <div class="side-iconfont"><i class="iconfont">&#xe6f9;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe638;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe651;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe72a;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe69a;</i></div>
+        <div class="side-iconfont"><i class="iconfont">&#xe6bf;</i></div>
     </div>
-    <div class="siderbar-unfold" id="siderbar-unfold">
-        <button class="siderbar-foldbtn" id="siderbar-foldbtn" onclick="foldsiderbar()"><i
+    <div class="side-unfold" id="side-unfold">
+        <button class="side-foldbtn" id="side-foldbtn" onclick="foldsiderbar()"><i
                 class="iconfont">&#xe61f;</i></button>
-        <div class="siderbar-operation"><i class="iconfont">&#xe6f9;</i>开始运行</div>
-        <div class="siderbar-wkd"><i class="iconfont">&#xe638;</i>工作日/休息日</div>
-        <div class="siderbar-time">
-            <span><i class="iconfont">&#xe651;</i>设置时间</span>
-            <div class="siderbar-btn-dropdown">
-                <form>
-                    <label for="startTime">开始时间：</label>
-                    <input id="startTime" type="time" name="startTime" step="2" />
-                </form>
-                <form>
-                    <label for="endtTime">结束时间：</label>
-                    <input id="endTime" type="time" name="endTime" step="2" />
-                </form>
+
+        <div class="side-first" id="side-operation" onclick="foldsiderbar()"><i class="iconfont">&#xe6f9;</i>开始运行</div>
+
+        <div id="side-wkd" onmouseover="dropdown('side-wkd-item','block')"
+            onmouseout="dropdown('side-wkd-item','none')">
+            <div href="#" class="side-first"><i class="iconfont">&#xe638;</i>工作日/休息日</div>
+            <div class="side-second" id="side-wkd-item">
+                <div class="side-second-item">工作日</div>
+                <div class="side-second-item">休息日</div>
             </div>
         </div>
-        <div class="siderbar-route"><i class="iconfont">&#xe72a;</i>选择线路</div>
-        <div class="siderbar-speed"><i class="iconfont">&#xe69a;</i>倍速</div>
-        <div class="siderbar-btn-dropdown">
-            <form>
-                <label for="speed1">1</label>
-            </form>
-            <form>
-                <label for="speed2">2</label>
-            </form>
-            <form>
-                <label for="speed4">4</label>
-            </form>
-            <form>
-                <label for="speed8">8</label>
-            </form>
-            <form>
-                <label for="speed15">15</label>
-            </form>
-            <form>
-                <label for="speed30">30</label>
-            </form>
-            <form>
-                <label for="speed60">60</label>
-            </form>
-            <form>
-                <label for="speed120">120</label>
-            </form>
-            <form>
-                <input type="text" class="form-control" placeholder="其他" aria-label="speed-else"
-                    aria-describedby="speed-else">
-            </form>
+
+        <div id="side-time" onmouseover="dropdown('side-time-item','block')"
+            onmouseout="dropdown('side-time-item','none')">
+            <div href="#" class="side-first"><i class="iconfont">&#xe651;</i>设置时间</div>
+            <div class="side-second" id="side-time-item">
+                <div class="side-second-item">
+                    <form>
+                        <label for="startTime">开始时间：</label>
+                        <input id="startTime" type="time" name="startTime" step="2" />
+                    </form>
+                </div>
+                <div class="side-second-item">
+                    <form>
+                        <label for="endtTime">结束时间：</label>
+                        <input id="endTime" type="time" name="endTime" step="2" />
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="siderbar-info"><i class="iconfont">&#xe6bf;</i>关于</div>
+
+
+        <div id="side-route" onmouseover="dropdown('side-route-item','block')"
+            onmouseout="dropdown('side-route-item','none')">
+            <div class="side-first"><i class="iconfont">&#xe72a;</i>选择线路</div>
+            <div class="side-second" id="side-route-item">
+                <!-- <div class="side-second-item"> -->
+                <div class="side-third">
+                    <div class="side-third-num">线路1</div>
+                    <div class="side-third-route">
+                        <div class="side-third-item">古城</div>
+                        <div class="side-third-item">环球</div>
+                    </div>
+                </div>
+                <div class="side-third">
+                    <div class="side-third-num">线路2</div>
+                    <div class="side-third-route">
+                        <div class="side-third-item">顺</div>
+                        <div class="side-third-item">逆</div>
+                    </div>
+                </div>
+                <div class="side-third">
+                    <div class="side-third-num">线路3</div>
+                    <div class="side-third-route">
+                        <div class="side-third-item">顺</div>
+                        <div class="side-third-item">逆</div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+
+        <div id="side-speed" onmouseover="dropdown('side-speed-item','block')"
+            onmouseout="dropdown('side-speed-item','none')">
+            <div class="side-first"><i class="iconfont">&#xe69a;</i>倍速</div>
+            <div class="side-second" id="side-speed-item" size=3>
+                <div class="side-second-item">
+                    <label for="speed1">1</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed2">2</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed4">4</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed8">8</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed15">15</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed30">30</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed60">60</label>
+                </div>
+                <div class="side-second-item">
+                    <label for="speed120">120</label>
+                </div>
+                <div class="side-second-item">
+                    <form>
+                        <input type="text" class="speed-else" placeholder="其他" aria-label="speed-else"
+                            aria-describedby="speed-else">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="side-first" id="side-route"><i class="iconfont">&#xe6bf;</i>关于</div>
     </div>
 
 
@@ -237,7 +339,7 @@
         </div>
         <!-- <div class="content" id="content"><svg id="svg" width="2000" height="2000"
                 xmlns="http://www.w3.org/2000/svg"></svg></div> -->
-        <div class="footer" id="footer">北京地铁轨道交通运行图</div>
+        <div class="footer" id="footer">版权信息</div>
     </div>
 
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
@@ -250,20 +352,24 @@
     <script type="text/javascript">
         //侧边栏展开与关闭
         function unfoldsiderbar() {
-            document.getElementById("siderbar-fold").style.display = "none";
-            document.getElementById("siderbar-unfold").style.display = "";
+            document.getElementById("side-fold").style.display = "none";
+            document.getElementById("side-unfold").style.display = "";
             document.getElementById("container").style.marginLeft = "250px";
         }
         function foldsiderbar() {
-            document.getElementById("siderbar-fold").style.display = "";
-            document.getElementById("siderbar-unfold").style.display = "none";
+            document.getElementById("side-fold").style.display = "";
+            document.getElementById("side-unfold").style.display = "none";
             document.getElementById("container").style.marginLeft = "50px";
         }
         //时间函数
 
         //routine函数，路线图运行时间
 
-        //
+        //菜单下拉函数
+        function dropdown(myid, mode) {
+            document.getElementById(myid).style.display = mode;
+        }
+
 
     </script>
 </body>
