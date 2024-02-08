@@ -159,7 +159,7 @@ function set_time(begin_minute, start_minute, speed){
     time_p.innerText = time;
 }
 // 画车动画
-function draw_trains(begin_minute, end_minute, speed, day, ) {
+function draw_trains(begin_minute, end_minute, speed, day) {
     transparency_second = 0.5;
     xml_polygons = new Array();
 
@@ -170,7 +170,7 @@ function draw_trains(begin_minute, end_minute, speed, day, ) {
         sche = sche_we;
     }
     else {
-        alert('draw_trains函数day参数错误');
+        sche = sche_wd;
     }
 
     for (line_name in sche) {
@@ -226,6 +226,8 @@ function draw_trains(begin_minute, end_minute, speed, day, ) {
                     else {
                         end = parseInt((end_minute - begin_minute) * 60 / speed * 1000) + 'ms';
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
+                        /*
+                        // 别费劲了，polygon没有xy属性，就算有也算不出来角度，放弃吧
                         t = path.split(' ');
                         t = path.split(' ')[t.length - 1].split(',');
                         x = t[0];
@@ -234,8 +236,9 @@ function draw_trains(begin_minute, end_minute, speed, day, ) {
                         }
                         x = parseInt(x);
                         y = parseInt(t[1]);
-                        //xml_animates.push(`<set begin="${end}" attributeName="x" to="${x}"/>`);
-                        //xml_animates.push(`<set begin="${end}" attributeName="y" to="${y}"/>`);
+                        xml_animates.push(`<set begin="${end}" attributeName="x" to="${x}"/>`);
+                        xml_animates.push(`<set begin="${end}" attributeName="y" to="${y}"/>`);
+                        */
                         break;
                     }
 
@@ -262,7 +265,7 @@ function draw_trains(begin_minute, end_minute, speed, day, ) {
 
 }
 //draw_trains(get_now_minute(), 4320, 30, 'we');
-draw_trains(1300, 1310, 600, 'we');
+//draw_trains(1300, 1310, 600, 'we');
 /*
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));

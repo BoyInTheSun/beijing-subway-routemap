@@ -76,6 +76,7 @@
         padding: 16px 10px;
     }
 
+    /*
     .side-first {
         width: 200px;
         text-align: right;
@@ -93,6 +94,58 @@
 
     .side-first:hover {
         background-color: #dbdbdb;
+    }
+    */
+    .side-l {
+        width: 250px;
+        text-align: right;
+        color: #000;
+        border: none;
+        padding: 12px 0px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 24px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .side-l:hover {
+        background-color: #dbdbdb;
+    }
+
+    .side-l i {
+        padding-left: 24px;
+        padding-right: 16px;
+    }
+
+    .side-1l {
+        height: 36px;
+    }
+
+    .side-2l {
+        height: 72px;
+    }
+
+    .side-2l1 {}
+
+    .side-2l2 {
+        margin-right: 64px;
+        font-size: 18px;
+        padding: 8px 0;
+    }
+
+    .btn {
+        font-size: 20px;
+        padding: 4px;
+    }
+    .btn-selected {
+        background-color: #4e4e4e;
+        color: #f1f1f1;
+    }
+    .btn-unselected {
+        color: #000000;
     }
 
     .side-wkd-btn {
@@ -253,42 +306,48 @@
         <div class="side-iconfont"><i class="iconfont">&#xe6bf;</i></div>
     </div>
     <div class="side-unfold" id="side-unfold">
-        <button class="side-foldbtn" id="side-foldbtn" onclick="foldsiderbar()"><i
-                class="iconfont">&#xe61f;</i></button>
 
-        <div class="side-first" id="side-operation" onclick="foldsiderbar()">开始运行 <i class="iconfont">&#xe6f9;</i></div>
+        <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar()">
+            <div>隐藏侧边栏<i class="iconfont">&#xe61f;</i></div>
 
-        <div class="side-first" id="side-operation" onclick="refresh()">重置参数 <i class="iconfont">&#xe702;</i></div>
+        </div>
+        <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar();start();">
+            <div>开始运行<i class="iconfont">&#xe6f9;</i></div>
+        </div>
 
-        <div id="side-wkd">
-            <div href="#" class="side-first">选择运行图 <i class="iconfont">&#xe638;</i></div>
-            <div class="side-first">
-                <button class="side-wkd-btn" type="radio" name="wkd" value="wkd">工作日</button>
-                <button class="side-wkd-btn" type="radio" name="tdo" value="tdo">休息日</button>
+        <div class="side-l side-1l" id="side-operation" onclick="refresh()">
+            <div>重置参数<i class="iconfont">&#xe702;</i></div>
+        </div>
+
+        <div href="#" class="side-l side-2l">
+            <div class="">选择运行图<i class="iconfont">&#xe638;</i></div>
+            <div class="side-2l2">
+                <a class="btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</a>
+                <a class="btn" id="btn_we" onclick="set_wkd('we');">双休日</a>
             </div>
         </div>
 
-
-        <div id="side-time">
-            <div href="#" class="side-first">
-                <form>
-                    <label for="startTime">开始时间：</label>
-                    <input id="startTime" type="time" name="startTime" step="2" />
-                </form>
+        <div id="side-time" class="side-l side-2l">
+            <div href="#" class="side-2l1">开始时间<i class="iconfont"></i></div>
+            <div class="side-2l2">
+                <input id="startTime" type="time" name="startTime" step="2" />
             </div>
+        </div>
 
-            <div href="#" class="side-first">
-                <form>
-                    <label for="endtTime">结束时间：</label>
-                    <input id="endTime" type="time" name="endTime" step="2" />
-                </form>
+        <div id="side-time" class="side-l side-2l">
+            <div href="#" class="side-2l1">结束时间<i class="iconfont"></i></div>
+            <div class="side-2l2">
+                <input id="endTime" type="time" name="endTime" step="2" />
             </div>
         </div>
 
 
         <div id="side-route" onmouseover="dropdown('side-route-item','block')"
             onmouseout="dropdown('side-route-item','none')">
-            <div class="side-first">选择线路 <i class="iconfont">&#xe72a;</i></div>
+            <div class="side-l side-2l">
+                <div>选择线路<i class="iconfont">&#xe72a;</i></div>
+                <div class="side-2l2">已选<a>x</a>线路 <a>x</a>方向</div>
+            </div>
             <div class="side-second" id="side-route-item">
                 <!-- <div class="side-second-item"> -->
                 <div class="side-third">
@@ -318,7 +377,11 @@
 
         <div id="side-speed" onmouseover="dropdown('side-speed-item','block')"
             onmouseout="dropdown('side-speed-item','none')">
-            <div class="side-first">倍速 <i class="iconfont">&#xe69a;</i></div>
+            <div class="side-l side-2l">
+                <div>倍速<i class="iconfont">&#xe69a;</i></div>
+                <div class="side-2l2">当前速率 <a>x1</a></div>
+            </div>
+
             <div class="side-second" id="side-speed-item" size=3>
                 <div class="side-second-item">
                     <label for="speed1">x 1</label>
@@ -352,7 +415,7 @@
                 </div>
             </div>
         </div>
-        <div class="side-first" id="side-route">关于 <i class="iconfont">&#xe6bf;</i></div>
+        <div class="side-l side-1l" id="side-route">关于 <i class="iconfont">&#xe6bf;</i></div>
     </div>
 
 
@@ -361,8 +424,8 @@
         <div>
             <div class="routine" id="time"></div>
         </div>
-        <!-- <div class="content" id="content"><svg id="svg" width="2000" height="2000"
-                xmlns="http://www.w3.org/2000/svg"></svg></div> -->
+        <div class="content" id="content"><svg id="svg" width="2000" height="2000"
+                xmlns="http://www.w3.org/2000/svg"></svg></div>
         <div class="footer" id="footer">版权信息</div>
     </div>
 
@@ -457,7 +520,34 @@
             document.getElementById(myid).style.display = mode;
         }
 
-
+        wkd = 'wd';
+        function set_wkd(wkd) {
+            if (wkd === 'wd') {
+                window.wkd = 'wd';
+                document.getElementById('btn_wd').className = 'btn btn-selected';
+                document.getElementById('btn_we').className = 'btn btn-unselected';
+            }
+            else if (wkd === 'we') {
+                window.wkd = 'we';
+                document.getElementById('btn_we').className = 'btn btn-selected';
+                document.getElementById('btn_wd').className = 'btn btn-unselected';
+            }
+        }
+        function start() {
+            console.log(startTime.value);
+            var start_hour = parseInt(startTime.value.slice(0, 2));
+            var start_minute = parseInt(startTime.value.slice(3, 5));
+            var start_seconds = parseInt(startTime.value.slice(6, 8));
+            var end_hour = parseInt(endTime.value.slice(0, 2));
+            var end_minute = parseInt(endTime.value.slice(3, 5));
+            var end_seconds = parseInt(endTime.value.slice(6, 8));
+            draw_trains(
+                start_hour * 60 + start_minute + start_seconds / 60,
+                end_hour * 60 + end_minute + end_seconds / 60,
+                60, //speed
+                window.wkd,
+            );
+        }
     </script>
 </body>
 
