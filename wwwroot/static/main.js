@@ -145,19 +145,42 @@ function get_now_minute(){
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
-function start_set_time(begin_minute, show_minute, speed){
-    window.setInterval(`set_time(${begin_minute}, ${show_minute}, ${speed})`, 50);
+intervalId = NaN;
+function start_set_time(begin_minute, end_minute, show_minute, speed){
+    clearInterval(window.intervalId);
+    window.intervalId = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${show_minute}, ${speed})`, 50);
 }
-
-function set_time(begin_minute, start_minute, speed){
+function init_time() {
+    time_p = document.getElementById('time');
+    time_p.innerText = '--:--:--';
+}
+function set_time(begin_minute, end_minute, start_minute, speed){
     time_now = get_now_minute();
     time_offset = time_now - start_minute;
     show_minute_now = begin_minute + time_offset * speed;
+    if (show_minute_now > end_minute) {
+        init_time();
+        clearInterval(window.intervalId);
+        return;
+    }
     window.now_minute = show_minute_now;
     time = time2hms(show_minute_now);
     time_p = document.getElementById('time');
     time_p.innerText = time;
 }
+
+// 画地图，无车
+function draw_map() {
+    div_svg = d3.select('#div_svg');
+    div_svg.html('');
+    svg = div_svg.append('svg')
+        .attr('width', 2000)
+        .attr('height', 2000)
+        .attr('xmlns', 'http://www.w3.org/2000/svg');
+    svg.html(xml_paths.join(''));
+}
+
+
 // 画车动画
 function draw_trains(begin_minute, end_minute, speed, day) {
     transparency_second = 0.5;
@@ -258,10 +281,14 @@ function draw_trains(begin_minute, end_minute, speed, day) {
     //svg = document.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'svg');
     //svg.innerHTML = xml_paths.join('') + xml_polygons.join('');
 
-    svg = d3.selectAll("#svg");
+    div_svg = d3.select('#div_svg');
+    div_svg.html('');
+    svg = div_svg.append('svg')
+        .attr('width', 2000)
+        .attr('height', 2000)
+        .attr('xmlns', 'http://www.w3.org/2000/svg');
     svg.html(xml_paths.join('') + xml_polygons.join(''));
-
-    start_set_time(begin_minute, get_now_minute(), speed);
+    start_set_time(begin_minute, end_minute, get_now_minute(), speed);
 
 }
 //draw_trains(get_now_minute(), 4320, 30, 'we');

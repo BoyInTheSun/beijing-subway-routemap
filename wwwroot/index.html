@@ -49,7 +49,7 @@
 
     .side-unfold {
         height: 100%;
-        width: 250px;
+        width: 270px;
         position: fixed;
         z-index: 1;
         top: 0;
@@ -57,7 +57,7 @@
         background-color: #f1f1f1;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 30px;
+        /*padding-top: 30px;*/
         display: "none";
     }
 
@@ -97,14 +97,13 @@
     }
     */
     .side-l {
-        width: 250px;
+        width: 270px;
         text-align: right;
         color: #000;
         border: none;
         padding: 12px 0px;
         text-decoration: none;
         display: inline-block;
-        font-size: 24px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
         cursor: pointer;
@@ -116,28 +115,38 @@
     }
 
     .side-l i {
-        padding-left: 24px;
+        padding-left: 20px;
         padding-right: 16px;
     }
 
     .side-1l {
-        height: 36px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 20px;
     }
 
     .side-2l {
-        height: 72px;
+        height: 48px;
     }
 
-    .side-2l1 {}
+    .side-2l1 {
+        height: 24px;
+        line-height: 24px;
+        font-size: 20px;
+    }
 
     .side-2l2 {
-        margin-right: 64px;
-        font-size: 18px;
-        padding: 8px 0;
+        margin-right: 56px;
+        font-size: 14px;
+        padding-top: 8px;
+        height: 16px;
+        line-height: 16px;
+    }
+    .side-2l2-text{
+        background-color: #d3d3d3;
     }
 
     .btn {
-        font-size: 20px;
         padding: 4px;
     }
     .btn-selected {
@@ -145,6 +154,7 @@
         color: #f1f1f1;
     }
     .btn-unselected {
+        background-color: #d3d3d3;
         color: #000000;
     }
 
@@ -306,24 +316,23 @@
         <div class="side-iconfont"><i class="iconfont">&#xe6bf;</i></div>
     </div>
     <div class="side-unfold" id="side-unfold">
-
         <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar()">
             <div>隐藏侧边栏<i class="iconfont">&#xe61f;</i></div>
-
         </div>
         <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar();start();">
             <div>开始运行<i class="iconfont">&#xe6f9;</i></div>
         </div>
-
-        <div class="side-l side-1l" id="side-operation" onclick="refresh()">
+        <div class="side-l side-1l" id="side-operation" onclick="draw_map();">
+            <div>停止运行<i class="iconfont">&#xe6f9;</i></div>
+        </div>
+        <div class="side-l side-1l" id="side-operation" onclick="refresh();">
             <div>重置参数<i class="iconfont">&#xe702;</i></div>
         </div>
-
         <div href="#" class="side-l side-2l">
-            <div class="">选择运行图<i class="iconfont">&#xe638;</i></div>
+            <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
                 <a class="btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</a>
-                <a class="btn" id="btn_we" onclick="set_wkd('we');">双休日</a>
+                <a class="btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</a>
             </div>
         </div>
 
@@ -345,8 +354,10 @@
         <div id="side-route" onmouseover="dropdown('side-route-item','block')"
             onmouseout="dropdown('side-route-item','none')">
             <div class="side-l side-2l">
-                <div>选择线路<i class="iconfont">&#xe72a;</i></div>
-                <div class="side-2l2">已选<a>x</a>线路 <a>x</a>方向</div>
+                <div class="side-2l1">选择线路<i class="iconfont">&#xe72a;</i></div>
+                <div class="side-2l2">
+                    <div>已选<a>x</a>线路 <a>x</a>方向</div>
+                </div>
             </div>
             <div class="side-second" id="side-route-item">
                 <!-- <div class="side-second-item"> -->
@@ -378,8 +389,10 @@
         <div id="side-speed" onmouseover="dropdown('side-speed-item','block')"
             onmouseout="dropdown('side-speed-item','none')">
             <div class="side-l side-2l">
-                <div>倍速<i class="iconfont">&#xe69a;</i></div>
-                <div class="side-2l2">当前速率 <a>x1</a></div>
+                <div class="side-2l1">倍速播放<i class="iconfont">&#xe69a;</i></div>
+                <div class="side-2l2">
+                    <a class="side-2l2-text">当前速率 x1</a>
+                </div>
             </div>
 
             <div class="side-second" id="side-speed-item" size=3>
@@ -422,10 +435,9 @@
     <div id="container" class="container">
         <div class="headline" id="headline">北京地铁轨道交通运行图</div>
         <div>
-            <div class="routine" id="time"></div>
+            <div class="routine" id="time">--:--:--</div>
         </div>
-        <div class="content" id="content"><svg id="svg" width="2000" height="2000"
-                xmlns="http://www.w3.org/2000/svg"></svg></div>
+        <div class="content" id="div_svg"></div>
         <div class="footer" id="footer">版权信息</div>
     </div>
 
@@ -437,6 +449,8 @@
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
+        draw_map();
+
         //侧边栏展开与关闭
         function unfoldsiderbar() {
             document.getElementById("side-fold").style.display = "none";
