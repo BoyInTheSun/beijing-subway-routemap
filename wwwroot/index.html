@@ -8,6 +8,12 @@
 </head>
 </head>
 <style>
+    body {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+    }
+
     .container {
         transition: margin-left .5s;
         display: -webkit-flex;
@@ -22,7 +28,7 @@
         height: 100%;
         width: 50px;
         position: fixed;
-        z-index: 1;
+        z-index: 9;
         top: 0;
         left: 0;
         background-color: #f1f1f1;
@@ -51,7 +57,7 @@
         height: 100%;
         width: 270px;
         position: fixed;
-        z-index: 1;
+        z-index: 10;
         top: 0;
         left: 0;
         background-color: #f1f1f1;
@@ -139,43 +145,58 @@
         margin-right: 56px;
         font-size: 14px;
         padding-top: 8px;
-        height: 16px;
-        line-height: 16px;
+        line-height: 14px;
     }
-    .side-2l2-text{
+
+    .side-2l2-text {
         background-color: #d3d3d3;
+        padding: 3px;
+        border: 1px #4e4e4e dashed;
+    }
+
+    .side-2l2-time {
+        display: flex;
+        float: right;
+        width: 88px;
+        background-color: #d3d3d3;
+        padding: 3px;
+        border: 1px #4e4e4e dashed;
+    }
+
+    .side-2l2-digits {
+        float: left;
+        width: 24px;
+        text-align: center;
+    }
+
+    .side-2l2-colon {
+        float: left;
+        width: 8px;
+        text-align: center;
     }
 
     .btn {
-        padding: 4px;
+        padding: 3px;
+        height: 14px;
+        line-height: 14px;
+        font-size: 12px;
     }
+
+
     .btn-selected {
         background-color: #4e4e4e;
         color: #f1f1f1;
+        border: 2px #4e4e4e solid;
     }
+
     .btn-unselected {
         background-color: #d3d3d3;
         color: #000000;
+        border: 2px #4e4e4e dashed;
     }
 
-    .side-wkd-btn {
-        background-color: #dbdbdb;
-        display: inline-block;
-        color: #000;
-        padding: 5px 10px;
-        text-align: center;
-        margin: 0 2px;
-        cursor: pointer;
-        font-size: 16px;
-        display: inline;
-    }
-
-    .side-wkd-btn:focus {
-        background-color: green;
-    }
-
-    .side-wkd-btn:hover {
-        background-color: green;
+    .btn-unselected:hover {
+        border: 2px #4e4e4e solid;
     }
 
     .side-second {
@@ -301,6 +322,135 @@
             font-size: 16px;
         }
     }
+
+    .overlay {
+        position: fixed;
+        /* 覆盖在页面上 */
+        display: ;
+        /* 初始状态不显示 */
+        z-index: 20;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* 设置透明度为0.5的黑色背景 */
+    }
+
+    .popup-content {
+        z-index: 21;
+        user-select: none;
+
+        display: ;
+        /* 初始状态不显示 */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* 居中定位 */
+        width: 260px;
+        height: 280px;
+        background-color: white;
+    }
+
+    .popup-mask-top {
+        position: fixed;
+        z-index: 22;
+        width: 100%;
+        height: 84px;
+        background-color: #c1c1c1;
+    }
+
+    .popup-mask-bottom {
+        position: fixed;
+        z-index: 22;
+        width: 100%;
+        height: 84px;
+        top: 108px;
+        background-color: #c1c1c1;
+    }
+
+    .popup-time {
+        position: fixed;
+        z-index: 25;
+    }
+
+    .popup-digit {
+        float: left;
+        z-index: 24;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 24px;
+        top: 0;
+        padding-top: 84px;
+        padding-bottom: 84px;
+        scroll-margin: 84px;
+        /*scroll-snap-type: y mandatory;*/
+        /*scroll-behavior: smooth;*/
+        /* for firefox */
+        scrollbar-width: none !important;
+    }
+
+    .popup-digit::-webkit-scrollbar {
+        /* for others */
+        display: none !important
+    }
+
+
+    .popup-digit div {
+        scroll-snap-align: center;
+        height: 24px;
+        line-height: 24px;
+        width: 80px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .popup-colon {
+        float: left;
+        z-index: 25;
+        width: 10px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 18px;
+        text-align: center;
+        padding-top: 84px;
+
+    }
+
+    .popup-presets {
+        position: fixed;
+        padding-top: 192px;
+        width: 100%;
+        z-index: 23;
+    }
+
+    .popup-presets .inner {
+        width: 210px;
+        margin: 0 auto;
+    }
+
+    .popup-ok {
+        position: fixed;
+        z-index: 21;
+        margin-top: 238px;
+        width: 256px;
+        text-align: center;
+        font-size: 22px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .popup-btn {
+        float: left;
+        margin: 10px 10px;
+        height: 22px;
+        line-height: 22px;
+        width: 46px;
+        text-align: center;
+        font-size: 16px;
+
+    }
 </style>
 
 <body>
@@ -339,14 +489,20 @@
         <div id="side-time" class="side-l side-2l">
             <div href="#" class="side-2l1">开始时间<i class="iconfont"></i></div>
             <div class="side-2l2">
-                <input id="startTime" type="time" name="startTime" step="2" />
+                <div class="side-2l2-time">
+                    <div class="side-2l2-digits" id="startHour">11</div>
+                    <div class="side-2l2-colon">:</div>
+                    <div class="side-2l2-digits" id="startMinute">11</div>
+                    <div class="side-2l2-colon">:</div>
+                    <div class="side-2l2-digits" id="startSecond">11</div>
+                </div>
             </div>
         </div>
 
         <div id="side-time" class="side-l side-2l">
             <div href="#" class="side-2l1">结束时间<i class="iconfont"></i></div>
             <div class="side-2l2">
-                <input id="endTime" type="time" name="endTime" step="2" />
+                <a id="endTime" class="side-2l2-text">99 : 11 : 00</a>
             </div>
         </div>
 
@@ -441,6 +597,40 @@
         <div class="footer" id="footer">版权信息</div>
     </div>
 
+    <!--弹出框-->
+    <div class="overlay"></div>
+    <div class="popup-content" id="selectStartTime">
+        <div class="popup-mask-top"></div>
+        <div class="popup-mask-bottom"></div>
+        <div class="popup-time">
+            <div class="popup-digit" id="selectStartHour" goingto="0"></div>
+            <div class="popup-colon">:</div>
+            <div class="popup-digit" id="selectStartMinute" goingto="0"></div>
+            <div class="popup-colon">:</div>
+            <div class="popup-digit" id="selectStartSecond" goingto="0"></div>
+        </div>
+        <div class="popup-presets">
+            <div class="inner">
+                <div class="popup-btn btn-unselected" onclick="select_start_time('now');">此刻</div>
+                <div class="popup-btn btn-unselected" onclick="select_start_time('begin');">最早</div>
+                <div class="popup-btn btn-unselected" onclick="select_start_time('rondom');">随机</div>
+            </div>
+        </div>
+        <div class="popup-ok btn-unselected">确定</div>
+    </div>
+
+    <div class="popup-content" id="selectEndTime" style="display: none;">
+        <div class="popup-mask-top"></div>
+        <div class="popup-mask-bottom"></div>
+        <div class="popup-time">
+            <div class="popup-digit" id="selectEndHour" goingto="0"></div>
+            <div class="popup-colon">:</div>
+            <div class="popup-digit" id="selectEndMinute" goingto="0"></div>
+            <div class="popup-colon">:</div>
+            <div class="popup-digit" id="selectEndSecond" goingto="0"></div>
+        </div>
+    </div>
+
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 
     <!--侧边栏图标-->
@@ -462,6 +652,15 @@
             document.getElementById("side-unfold").style.display = "none";
             document.getElementById("container").style.marginLeft = "50px";
         }
+        function set_start_time() {
+            start_hour = document.getElementById("startHour").innerText;
+            start_minute = document.getElementById("startMinute").innerText;
+            start_second = document.getElementById("startHour").innerText;
+            end_hour = document.getElementById("endHour").innerText;
+            end_minute = document.getElementById("endMinute").innerText;
+            end_second = document.getElementById("endHour").innerText;
+        }
+        /*
         //时间函数
         const startTime = document.getElementById("startTime");
         const endTime = document.getElementById("endTime");
@@ -528,7 +727,7 @@
             false,
         );
         //routine函数，路线图运行时间
-
+        */
         //菜单下拉函数
         function dropdown(myid, mode) {
             document.getElementById(myid).style.display = mode;
@@ -547,8 +746,208 @@
                 document.getElementById('btn_wd').className = 'btn btn-unselected';
             }
         }
+
+
+        /* 弹出框相关函数 */
+
+        function init_secelt_time() {
+            for (time_type of ['Start', 'End']) {
+                hour_div = document.getElementById('select' + time_type + 'Hour');
+                minute_div = document.getElementById('select' + time_type + 'Minute');
+                second_div = document.getElementById('select' + time_type + 'Second');
+                var temp = '';
+                for (let i = 3; i <= 26; i++) {
+                    let j = (i % 24).toString();
+                    if (j.length === 1) {
+                        j = '0' + j;
+                    }
+                    temp += '<div>' + j + '</div>';
+                }
+                hour_div.innerHTML = temp;
+                set_scroll_opacity_by_div(hour_div);
+                var temp = '';
+                for (let i = 0; i <= 59; i++) {
+                    let j = i.toString();
+                    if (j.length === 1) {
+                        j = '0' + j;
+                    }
+                    temp += '<div>' + j + '</div>';
+                }
+                minute_div.innerHTML = temp;
+                set_scroll_opacity_by_div(minute_div);
+                second_div.innerHTML = temp;
+                set_scroll_opacity_by_div(second_div);
+            }
+        }
+        init_secelt_time();
+        function ban_event(event) {
+            event.preventDefault();
+        }
+
+        function scroll_to_y(y, scroll_div) {
+            if (y < 0) { y = 0; }
+            /*if (y > scroll_div.scrollTopMax) y = scroll_div.scrollTopMax;*/
+            else if (y > scroll_div.scrollHeight - 192) { y = scroll_div.scrollHeight - 192; }
+            scroll_div.setAttribute("goingto", y);
+            const step = () => {
+                const c = scroll_div.scrollTop;
+                //console.log(y, c, scroll_div.scrollHeight - 192, c + (y - c) / 8, up_or_down * (y - c));
+                if (up_or_down * (y - c) > 8) {
+                    window.requestAnimationFrame(step);
+                    scroll_div.scrollTo(0, c + (y - c) / 8);
+                }
+                else if (up_or_down * (y - c) > 1) {
+                    window.requestAnimationFrame(step);
+                    scroll_div.scrollTo(0, c + up_or_down);
+                }
+                else {
+                    scroll_div.scrollTo(0, y);
+                }
+            }
+            up_or_down = 1; //up
+            if (scroll_div.scrollTop > y) {
+                up_or_down = -1; //down
+            }
+            step();
+        }
+        function set_scroll_y_on_wheel(event) {
+            var scroll_div = event.target;
+            if (scroll_div.children.length === 0) scroll_div = scroll_div.parentElement;
+            scroll_to_y(parseInt(scroll_div.getAttribute('goingto')) - event.wheelDeltaY / 5 * 3, scroll_div);
+        }
+        function set_scroll_y_on_down(event) {
+            /*down*/
+            var mouse_y_now;
+            var mouse_y_step = 0;
+            if (event.changedTouches && event.changedTouches[0]) {
+                mouse_y_now = event.changedTouches[0].clientY;
+            }
+            else {
+                mouse_y_now = event.clientY;
+            }
+            var scroll_div = event.target.parentElement;
+            const mouse_y_start = mouse_y_now;
+            const scroll_y_start = scroll_div.scrollTop;
+            function move(event) {
+                /*move*/
+                if (event.changedTouches && event.changedTouches[0]) {
+                    mouse_y_temp = event.changedTouches[0].clientY;
+                }
+                else {
+                    mouse_y_temp = event.clientY;
+                }
+                mouse_y_step = mouse_y_temp - mouse_y_now;
+                mouse_y_now = mouse_y_temp;
+                scroll_div.scrollTop = scroll_y_start - mouse_y_now + mouse_y_start;
+            }
+            function stop(event) {
+                /*up*/
+                if (event.changedTouches && event.changedTouches[0]) {
+                    mouse_y_now = event.changedTouches[0].clientY;
+                }
+                else {
+                    mouse_y_now = event.clientY;
+                }
+                if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
+                    /*仅点击，跳转*/
+                    var y_parent = scroll_div.getBoundingClientRect().top;
+                    //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
+                    scroll_to_y(Math.round((scroll_div.scrollTop / 24) - Math.ceil((y_parent - mouse_y_start + 84) / 24)) * 24, scroll_div);
+                }
+                else {
+                    /*拖拽滚动*/
+                    if (mouse_y_step) {
+                        /*惯性滑动*/
+                        scroll_to_y(Math.round((scroll_div.scrollTop - mouse_y_step * 8) / 24) * 24, scroll_div);
+                    }
+                    else {
+                        /*吸附，似乎这里并不会被执行*/
+                        scroll_to_y(Math.round(scroll_div.scrollTop / 24) * 24, scroll_div);
+                    }
+                }
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('touchmove', move);
+                document.removeEventListener('mouseup', stop);
+                document.removeEventListener('touchend', stop);
+            }
+            document.addEventListener('mousemove', move);
+            document.addEventListener('touchmove', move);
+            document.addEventListener('mouseup', stop);
+            document.addEventListener('touchend', stop);
+        }
+        function set_scroll_opacity_by_div(scroll_div) {
+            var scroll_items = scroll_div.getElementsByTagName('div');
+            var y_parent = scroll_div.getBoundingClientRect().top;
+            for (scroll_item of scroll_items) {
+                var y = scroll_item.getBoundingClientRect().top - y_parent;
+                if (y <= -12) {
+                    scroll_item.style.opacity = 0;
+                }
+                else if (y < 72) {
+                    scroll_item.style.opacity = (y + 12) / 96;
+                }
+                else if (y < 96) {
+                    scroll_item.style.opacity = 1;
+                }
+                else if (y < 180) {
+                    scroll_item.style.opacity = 1 - (y - 96) / 96;
+                }
+                else {
+                    scroll_item.style.opacity = 0;
+                }
+            }
+
+        }
+        function set_scroll_opacity_by_event(event) {
+            var scroll_div = event.target;
+            set_scroll_opacity_by_div(scroll_div);
+
+        }
+
+        var scroll_divs = document.getElementsByClassName("popup-digit");
+        for (scroll_div of scroll_divs) {
+            scroll_div.addEventListener('wheel', ban_event);
+            scroll_div.addEventListener('wheel', set_scroll_y_on_wheel);
+            var scroll_items = scroll_div.getElementsByTagName('div');
+            for (scroll_item of scroll_items) {
+                scroll_item.addEventListener('wheel', ban_event);
+                scroll_item.addEventListener('mousedown', set_scroll_y_on_down);
+                scroll_item.addEventListener('touchstart', set_scroll_y_on_down);
+                scroll_item.addEventListener('touchstart', ban_event);
+                scroll_item.addEventListener('touchmove', ban_event);
+                scroll_item.addEventListener('touchend', ban_event);
+            }
+            scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
+        }
+        function select_time(div_hour, div_minute, div_second, action) {
+            var target_hour = 0;
+            var target_minute = 0;
+            var target_second = 0;
+            if (action === 'now') {
+                var time_now = new Date();
+                target_hour = time_now.getHours();
+                target_minute = time_now.getMinutes();
+                target_second = time_now.getSeconds();
+            }
+            else if (action === 'rondom') {
+                target_hour = Math.floor(Math.random() * 24);
+                target_minute = Math.floor(Math.random() * 60);
+                target_second = Math.floor(Math.random() * 60);
+            }
+            console.log(target_hour, target_minute, target_second);
+            scroll_to_y((target_hour - 3) % 24 * 24, div_hour);
+            scroll_to_y(target_minute * 24, div_minute);
+            scroll_to_y(target_second * 24, div_second);
+        }
+        function select_start_time(action) {
+            div_hour = document.getElementById('selectStartHour');
+            div_Minute = document.getElementById('selectStartMinute');
+            div_Second = document.getElementById('selectStartSecond');
+            select_time(div_hour, div_Minute, div_Second, action);
+        }
+
         function start() {
-            console.log(startTime.value);
+            //console.log(startTime.value);
             var start_hour = parseInt(startTime.value.slice(0, 2));
             var start_minute = parseInt(startTime.value.slice(3, 5));
             var start_seconds = parseInt(startTime.value.slice(6, 8));
