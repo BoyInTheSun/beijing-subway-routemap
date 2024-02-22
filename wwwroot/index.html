@@ -144,23 +144,27 @@
     .side-2l2 {
         margin-right: 56px;
         font-size: 14px;
-        padding-top: 8px;
+        padding-top: 2px;
         line-height: 14px;
     }
 
     .side-2l2-text {
-        background-color: #d3d3d3;
-        padding: 3px;
-        border: 1px #4e4e4e dashed;
-    }
-
-    .side-2l2-time {
         display: flex;
         float: right;
         width: 88px;
         background-color: #d3d3d3;
         padding: 3px;
-        border: 1px #4e4e4e dashed;
+        border: 2px #4e4e4e dashed;
+    }
+
+    .side-2l:hover .side-2l2-text {
+        border: 2px #4e4e4e solid;
+    }
+
+    .side-2l:active .side-2l2-text {
+        background-color: #4e4e4e;
+        color: #f1f1f1;
+        border: 2px #4e4e4e solid;
     }
 
     .side-2l2-digits {
@@ -175,7 +179,8 @@
         text-align: center;
     }
 
-    .btn {
+    
+    .side-2l2-btn {
         padding: 3px;
         height: 14px;
         line-height: 14px;
@@ -196,6 +201,22 @@
     }
 
     .btn-unselected:hover {
+        border: 2px #4e4e4e solid;
+    }
+
+    .btn-ok {
+        background-color: #d3d3d3;
+        color: #000000;
+        border: 2px #d3d3d3 dashed;
+    }
+
+    .btn-ok:hover {
+        border: 2px #4e4e4e solid;
+    }
+
+    .btn-ok:active {
+        background-color: #4e4e4e;
+        color: #f1f1f1;
         border: 2px #4e4e4e solid;
     }
 
@@ -325,29 +346,21 @@
 
     .overlay {
         position: fixed;
-        /* 覆盖在页面上 */
-        display: ;
-        /* 初始状态不显示 */
         z-index: 20;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        /* 设置透明度为0.5的黑色背景 */
     }
 
     .popup-content {
         z-index: 21;
         user-select: none;
-
-        display: ;
-        /* 初始状态不显示 */
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        /* 居中定位 */
         width: 260px;
         height: 280px;
         background-color: white;
@@ -387,12 +400,12 @@
         scroll-margin: 84px;
         /*scroll-snap-type: y mandatory;*/
         /*scroll-behavior: smooth;*/
-        /* for firefox */
+        /*隐藏滚动条 for firefox*/
         scrollbar-width: none !important;
     }
 
     .popup-digit::-webkit-scrollbar {
-        /* for others */
+        /*隐藏滚动条 for others*/
         display: none !important
     }
 
@@ -481,31 +494,36 @@
         <div href="#" class="side-l side-2l">
             <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
-                <a class="btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</a>
-                <a class="btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</a>
+                <a class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</a>
+                <a class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</a>
             </div>
         </div>
 
-        <div id="side-time" class="side-l side-2l">
+        <div class="side-l side-2l" onclick="init_secelt_time('Start');">
             <div href="#" class="side-2l1">开始时间<i class="iconfont"></i></div>
             <div class="side-2l2">
-                <div class="side-2l2-time">
-                    <div class="side-2l2-digits" id="startHour">11</div>
+                <div class="side-2l2-text">
+                    <div class="side-2l2-digits" id="startHour">03</div>
                     <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="startMinute">11</div>
+                    <div class="side-2l2-digits" id="startMinute">00</div>
                     <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="startSecond">11</div>
+                    <div class="side-2l2-digits" id="startSecond">00</div>
                 </div>
             </div>
         </div>
 
-        <div id="side-time" class="side-l side-2l">
+        <div class="side-l side-2l" onclick="init_secelt_time('End');">
             <div href="#" class="side-2l1">结束时间<i class="iconfont"></i></div>
             <div class="side-2l2">
-                <a id="endTime" class="side-2l2-text">99 : 11 : 00</a>
+                <div class="side-2l2-text">
+                    <div class="side-2l2-digits" id="endHour">02</div>
+                    <div class="side-2l2-colon">:</div>
+                    <div class="side-2l2-digits" id="endMinute">59</div>
+                    <div class="side-2l2-colon">:</div>
+                    <div class="side-2l2-digits" id="endSecond">59</div>
+                </div>
             </div>
         </div>
-
 
         <div id="side-route" onmouseover="dropdown('side-route-item','block')"
             onmouseout="dropdown('side-route-item','none')">
@@ -598,36 +616,49 @@
     </div>
 
     <!--弹出框-->
-    <div class="overlay"></div>
-    <div class="popup-content" id="selectStartTime">
-        <div class="popup-mask-top"></div>
-        <div class="popup-mask-bottom"></div>
-        <div class="popup-time">
-            <div class="popup-digit" id="selectStartHour" goingto="0"></div>
-            <div class="popup-colon">:</div>
-            <div class="popup-digit" id="selectStartMinute" goingto="0"></div>
-            <div class="popup-colon">:</div>
-            <div class="popup-digit" id="selectStartSecond" goingto="0"></div>
-        </div>
-        <div class="popup-presets">
-            <div class="inner">
-                <div class="popup-btn btn-unselected" onclick="select_start_time('now');">此刻</div>
-                <div class="popup-btn btn-unselected" onclick="select_start_time('begin');">最早</div>
-                <div class="popup-btn btn-unselected" onclick="select_start_time('rondom');">随机</div>
+    <div id="selectStartTime" style="display: none;">
+        <div class="overlay"></div>
+        <div class="popup-content">
+            <div class="popup-mask-top"></div>
+            <div class="popup-mask-bottom"></div>
+            <div class="popup-time">
+                <div class="popup-digit" id="selectStartHour" goingto="0"></div>
+                <div class="popup-colon">:</div>
+                <div class="popup-digit" id="selectStartMinute" goingto="0"></div>
+                <div class="popup-colon">:</div>
+                <div class="popup-digit" id="selectStartSecond" goingto="0"></div>
             </div>
+            <div class="popup-presets">
+                <div class="inner">
+                    <div class="popup-btn btn-unselected" onclick="select_start_time(this, 'begin');">最早</div>
+                    <div class="popup-btn btn-unselected" onclick="select_start_time(this, 'now');">此刻</div>
+                    <div class="popup-btn btn-unselected" onclick="select_start_time(this, 'rondom');">随机</div>
+                </div>
+            </div>
+            <div class="popup-ok btn-ok" onclick="select_start_time(this, 'ok');">确定</div>
         </div>
-        <div class="popup-ok btn-unselected">确定</div>
     </div>
 
-    <div class="popup-content" id="selectEndTime" style="display: none;">
-        <div class="popup-mask-top"></div>
-        <div class="popup-mask-bottom"></div>
-        <div class="popup-time">
-            <div class="popup-digit" id="selectEndHour" goingto="0"></div>
-            <div class="popup-colon">:</div>
-            <div class="popup-digit" id="selectEndMinute" goingto="0"></div>
-            <div class="popup-colon">:</div>
-            <div class="popup-digit" id="selectEndSecond" goingto="0"></div>
+    <div id="selectEndTime" style="display: none;">
+        <div class="overlay"></div>
+        <div class="popup-content">
+            <div class="popup-mask-top"></div>
+            <div class="popup-mask-bottom"></div>
+            <div class="popup-time">
+                <div class="popup-digit" id="selectEndHour" goingto="0"></div>
+                <div class="popup-colon">:</div>
+                <div class="popup-digit" id="selectEndMinute" goingto="0"></div>
+                <div class="popup-colon">:</div>
+                <div class="popup-digit" id="selectEndSecond" goingto="0"></div>
+            </div>
+            <div class="popup-presets">
+                <div class="inner">
+                    <div class="popup-btn btn-unselected" onclick="select_end_time(this, 'end');">最晚</div>
+                    <div class="popup-btn btn-unselected" onclick="select_end_time(this, 'now');">此刻</div>
+                    <div class="popup-btn btn-unselected" onclick="select_end_time(this, 'after');">顺延</div>
+                </div>
+            </div>
+            <div class="popup-ok btn-ok" onclick="select_end_time(this, 'ok');">确定</div>
         </div>
     </div>
 
@@ -639,7 +670,11 @@
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
+        write_secelt_time('Start');
+        write_secelt_time('End');
         draw_map();
+
+
 
         //侧边栏展开与关闭
         function unfoldsiderbar() {
@@ -737,76 +772,100 @@
         function set_wkd(wkd) {
             if (wkd === 'wd') {
                 window.wkd = 'wd';
-                document.getElementById('btn_wd').className = 'btn btn-selected';
-                document.getElementById('btn_we').className = 'btn btn-unselected';
+                document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
             }
             else if (wkd === 'we') {
                 window.wkd = 'we';
-                document.getElementById('btn_we').className = 'btn btn-selected';
-                document.getElementById('btn_wd').className = 'btn btn-unselected';
+                document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
             }
         }
-
+        function to02d(i) {
+            s = i.toString();
+            if (s.length === 1) {
+                s = '0' + s;
+            }
+            return s;
+        }
 
         /* 弹出框相关函数 */
-
-        function init_secelt_time() {
-            for (time_type of ['Start', 'End']) {
-                hour_div = document.getElementById('select' + time_type + 'Hour');
-                minute_div = document.getElementById('select' + time_type + 'Minute');
-                second_div = document.getElementById('select' + time_type + 'Second');
-                var temp = '';
-                for (let i = 3; i <= 26; i++) {
-                    let j = (i % 24).toString();
-                    if (j.length === 1) {
-                        j = '0' + j;
-                    }
-                    temp += '<div>' + j + '</div>';
-                }
-                hour_div.innerHTML = temp;
-                set_scroll_opacity_by_div(hour_div);
-                var temp = '';
-                for (let i = 0; i <= 59; i++) {
-                    let j = i.toString();
-                    if (j.length === 1) {
-                        j = '0' + j;
-                    }
-                    temp += '<div>' + j + '</div>';
-                }
-                minute_div.innerHTML = temp;
-                set_scroll_opacity_by_div(minute_div);
-                second_div.innerHTML = temp;
-                set_scroll_opacity_by_div(second_div);
+        function write_secelt_time(time_type) {
+            div_hour = document.getElementById('select' + time_type + 'Hour');
+            div_minute = document.getElementById('select' + time_type + 'Minute');
+            div_second = document.getElementById('select' + time_type + 'Second');
+            var temp = '';
+            for (let i = 3; i <= 26; i++) {
+                let j = to02d(i % 24);
+                temp += '<div>' + j + '</div>';
             }
+            div_hour.innerHTML = temp;
+            var temp = '';
+            for (let i = 0; i <= 59; i++) {
+                let j = to02d(i);
+                if (j.length === 1) {
+                    j = '0' + j;
+                }
+                temp += '<div>' + j + '</div>';
+            }
+            div_minute.innerHTML = temp;
+            div_second.innerHTML = temp;
         }
-        init_secelt_time();
+        function init_secelt_time(time_type) {
+            document.getElementById('select' + time_type + 'Time').style.display = '';
+            div_hour = document.getElementById('select' + time_type + 'Hour');
+            div_minute = document.getElementById('select' + time_type + 'Minute');
+            div_second = document.getElementById('select' + time_type + 'Second');
+            
+            set_scroll_opacity_by_div(div_hour);
+            target_hour = parseInt(document.getElementById(time_type.toLowerCase() + 'Hour').innerText);
+            scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
+
+            set_scroll_opacity_by_div(div_minute);
+            target_minute = parseInt(document.getElementById(time_type.toLowerCase() + 'Minute').innerText);
+            scroll_to_y(target_minute * 24, div_minute);
+
+            set_scroll_opacity_by_div(div_second);
+            target_second = parseInt(document.getElementById(time_type.toLowerCase() + 'Second').innerText);
+            scroll_to_y(target_second * 24, div_second);
+        }
         function ban_event(event) {
             event.preventDefault();
         }
 
         function scroll_to_y(y, scroll_div) {
+            /*按钮重置*/
+            btns = document.getElementsByClassName('popup-btn');
+            for (btn of btns) {
+                btn.className = 'popup-btn btn-unselected';
+            }
+
+            /*y合法化*/
             if (y < 0) { y = 0; }
             /*if (y > scroll_div.scrollTopMax) y = scroll_div.scrollTopMax;*/
             else if (y > scroll_div.scrollHeight - 192) { y = scroll_div.scrollHeight - 192; }
-            scroll_div.setAttribute("goingto", y);
+            scroll_div.setAttribute('goingto', y);
+
+            var up_or_down = 1; //up
+            if (scroll_div.scrollTop > y) {
+                up_or_down = -1; //down
+            }
             const step = () => {
                 const c = scroll_div.scrollTop;
                 //console.log(y, c, scroll_div.scrollHeight - 192, c + (y - c) / 8, up_or_down * (y - c));
-                if (up_or_down * (y - c) > 8) {
-                    window.requestAnimationFrame(step);
-                    scroll_div.scrollTo(0, c + (y - c) / 8);
+                if (y == parseInt(scroll_div.getAttribute('goingto'))) {
+                    if (up_or_down * (y - c) > 8) {
+                        window.requestAnimationFrame(step);
+                        scroll_div.scrollTo(0, c + (y - c) / 8);
+                    }
+                    else if (up_or_down * (y - c) > 1) {
+                        window.requestAnimationFrame(step);
+                        scroll_div.scrollTo(0, c + up_or_down);
+                    }
+                    else {
+                        scroll_div.scrollTo(0, y);
+                    }
                 }
-                else if (up_or_down * (y - c) > 1) {
-                    window.requestAnimationFrame(step);
-                    scroll_div.scrollTo(0, c + up_or_down);
-                }
-                else {
-                    scroll_div.scrollTo(0, y);
-                }
-            }
-            up_or_down = 1; //up
-            if (scroll_div.scrollTop > y) {
-                up_or_down = -1; //down
             }
             step();
         }
@@ -919,7 +978,7 @@
             }
             scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
         }
-        function select_time(div_hour, div_minute, div_second, action) {
+        function select_time(this_btn, div_hour, div_minute, div_second, action) {
             var target_hour = 0;
             var target_minute = 0;
             var target_second = 0;
@@ -934,26 +993,83 @@
                 target_minute = Math.floor(Math.random() * 60);
                 target_second = Math.floor(Math.random() * 60);
             }
-            console.log(target_hour, target_minute, target_second);
-            scroll_to_y((target_hour - 3) % 24 * 24, div_hour);
+            else if (action === 'after') {
+                target_hour = (parseInt(document.getElementById('startHour').innerText) + 1) % 24;
+                target_minute = parseInt(document.getElementById('startMinute').innerText);
+                target_second = parseInt(document.getElementById('startSecond').innerText);
+            }
+            else if (action === 'begin') {
+                target_hour = 3;
+                //TODO
+            }
+            else if (action === 'end') {
+                target_hour = 2;
+                target_minute = 59;
+                target_second = 59;
+                //TODO
+            }
+
+            scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
             scroll_to_y(target_minute * 24, div_minute);
             scroll_to_y(target_second * 24, div_second);
+
+            this_btn.className = 'popup-btn btn-selected';
         }
-        function select_start_time(action) {
-            div_hour = document.getElementById('selectStartHour');
-            div_Minute = document.getElementById('selectStartMinute');
-            div_Second = document.getElementById('selectStartSecond');
-            select_time(div_hour, div_Minute, div_Second, action);
+        function select_start_time(this_btn, action) {
+            var div_hour = document.getElementById('selectStartHour');
+            var div_minute = document.getElementById('selectStartMinute');
+            var div_second = document.getElementById('selectStartSecond');
+            if (action === 'ok') {
+                /*
+                var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
+                var selected_minute = Math.round(div_minute.scrollTop / 24);
+                var selected_second = Math.round(div_second.scrollTop / 24);
+                */
+                var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
+                var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
+                var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
+                document.getElementById('startHour').innerText = to02d(selected_hour);
+                document.getElementById('startMinute').innerText = to02d(selected_minute);
+                document.getElementById('startSecond').innerText = to02d(selected_second);
+                document.getElementById('selectStartTime').style.display = 'none';
+            }
+            else {
+                select_time(this_btn, div_hour, div_minute, div_second, action);
+            }
         }
+        function select_end_time(this_btn, action) {
+            var div_hour = document.getElementById('selectEndHour');
+            var div_minute = document.getElementById('selectEndMinute');
+            var div_second = document.getElementById('selectEndSecond');
+            if (action === 'ok') {
+                /*
+                var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
+                var selected_minute = Math.round(div_minute.scrollTop / 24);
+                var selected_second = Math.round(div_second.scrollTop / 24);
+                */
+                var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
+                var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
+                var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
+                document.getElementById('endHour').innerText = to02d(selected_hour);
+                document.getElementById('endMinute').innerText = to02d(selected_minute);
+                document.getElementById('endSecond').innerText = to02d(selected_second);
+                document.getElementById('selectEndTime').style.display = 'none';
+            }
+            else {
+                select_time(this_btn, div_hour, div_minute, div_second, action);
+            }
+        }
+
+
 
         function start() {
             //console.log(startTime.value);
-            var start_hour = parseInt(startTime.value.slice(0, 2));
-            var start_minute = parseInt(startTime.value.slice(3, 5));
-            var start_seconds = parseInt(startTime.value.slice(6, 8));
-            var end_hour = parseInt(endTime.value.slice(0, 2));
-            var end_minute = parseInt(endTime.value.slice(3, 5));
-            var end_seconds = parseInt(endTime.value.slice(6, 8));
+            var start_hour = parseInt(document.getElementById('startHour').innerText);
+            var start_minute = parseInt(document.getElementById('startMinute').innerText);
+            var start_seconds = parseInt(document.getElementById('startSecond').innerText);
+            var end_hour = parseInt(document.getElementById('endSecond').innerText);
+            var end_minute = parseInt(document.getElementById('endSecond').innerText);
+            var end_seconds = parseInt(document.getElementById('endSecond').innerText);
             draw_trains(
                 start_hour * 60 + start_minute + start_seconds / 60,
                 end_hour * 60 + end_minute + end_seconds / 60,
