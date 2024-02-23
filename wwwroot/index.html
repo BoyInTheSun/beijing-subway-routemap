@@ -65,6 +65,7 @@
         transition: 0.5s;
         /*padding-top: 30px;*/
         display: "none";
+        user-select: none;
     }
 
     .side-unfoldbtn {
@@ -146,12 +147,12 @@
         font-size: 14px;
         padding-top: 2px;
         line-height: 14px;
+        height: 14px;
     }
 
     .side-2l2-text {
         display: flex;
         float: right;
-        width: 88px;
         background-color: #d3d3d3;
         padding: 3px;
         border: 2px #4e4e4e dashed;
@@ -179,12 +180,13 @@
         text-align: center;
     }
 
-    
+
     .side-2l2-btn {
+        display: flex;
+        float: right;
         padding: 3px;
-        height: 14px;
-        line-height: 14px;
-        font-size: 12px;
+        margin-left: 5px;
+        font-size: 14px;
     }
 
 
@@ -431,6 +433,63 @@
 
     }
 
+    .popup-speed-text {
+        position: fixed;
+        z-index: 25;
+        top: 84px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 18px;
+        width: 160px;
+        text-align: center;
+    }
+
+    .popup-speed {
+        position: fixed;
+        float: left;
+        z-index: 25;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 24px;
+        top: 0;
+        padding-top: 84px;
+        padding-bottom: 84px;
+        scroll-margin: 84px;
+        /*scroll-snap-type: y mandatory;*/
+        /*scroll-behavior: smooth;*/
+        /*隐藏滚动条 for firefox*/
+        scrollbar-width: none !important;
+    }
+
+    .popup-speed::-webkit-scrollbar {
+        /*隐藏滚动条 for others*/
+        display: none !important
+    }
+
+
+    .popup-speed div {
+        scroll-snap-align: center;
+        height: 24px;
+        line-height: 24px;
+        padding-left: 160px;
+        width: 100px;
+        font-size: 18px;
+    }
+    .popup-speed input {
+        height: 20px;
+        width: 96px;
+        line-height: 24px;
+        font-size: 18px;
+        padding: 0;
+        background-color: #ffffff00;
+        color: #000000;
+        border: 2px #d3d3d3 dotted;
+    }
+    .popup-speed input:focus {
+        border: 2px #d3d3d3 solid;
+
+    }
+
     .popup-presets {
         position: fixed;
         padding-top: 192px;
@@ -494,12 +553,12 @@
         <div href="#" class="side-l side-2l">
             <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
-                <a class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</a>
-                <a class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</a>
+                <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</div>
             </div>
         </div>
 
-        <div class="side-l side-2l" onclick="init_secelt_time('Start');">
+        <div class="side-l side-2l" onclick="show_popup_time('Start');">
             <div href="#" class="side-2l1">开始时间<i class="iconfont"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
@@ -512,7 +571,7 @@
             </div>
         </div>
 
-        <div class="side-l side-2l" onclick="init_secelt_time('End');">
+        <div class="side-l side-2l" onclick="show_popup_time('End');">
             <div href="#" class="side-2l1">结束时间<i class="iconfont"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
@@ -560,47 +619,15 @@
             </div>
         </div>
 
-        <div id="side-speed" onmouseover="dropdown('side-speed-item','block')"
-            onmouseout="dropdown('side-speed-item','none')">
-            <div class="side-l side-2l">
+        <div id="side-speed">
+            <div class="side-l side-2l" onclick="show_popup_speed();">
                 <div class="side-2l1">倍速播放<i class="iconfont">&#xe69a;</i></div>
                 <div class="side-2l2">
-                    <a class="side-2l2-text">当前速率 x1</a>
+                    <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
                 </div>
             </div>
 
-            <div class="side-second" id="side-speed-item" size=3>
-                <div class="side-second-item">
-                    <label for="speed1">x 1</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed2">x 2</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed4">x 4</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed8">x 8</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed15">x 15</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed30">x 30</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed60">x 60</label>
-                </div>
-                <div class="side-second-item">
-                    <label for="speed120">x 120</label>
-                </div>
-                <div class="side-second-item">
-                    <form>
-                        <input type="text" class="speed-else" placeholder="其他" aria-label="speed-else"
-                            aria-describedby="speed-else">
-                    </form>
-                </div>
-            </div>
+
         </div>
         <div class="side-l side-1l" id="side-route">关于 <i class="iconfont">&#xe6bf;</i></div>
     </div>
@@ -662,422 +689,513 @@
         </div>
     </div>
 
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <div id="selectSpeedContent" style="display: none;">
+        <div class="overlay"></div>
+        <div class="popup-content">
+            <div class="popup-mask-top"></div>
+            <div class="popup-mask-bottom"></div>
+            <div class="popup-speed-text">播放速率&nbsp;&nbsp;&nbsp;&nbsp;x</div>
+            <div class="popup-speed" id="selectSpeed" goingto="0"></div>
+            <div class="popup-presets">
+                <div class="inner">
+                    <div class="popup-btn btn-unselected" onclick="select_speed(this, '1');">现实</div>
+                    <div class="popup-btn btn-unselected" onclick="select_speed(this, '60');">快速</div>
+                    <div class="popup-btn btn-unselected" onclick="select_speed(this, 'other');">其他</div>
+                </div>
+            </div>
+            <div class="popup-ok btn-ok" onclick="select_speed(this, 'ok');">确定</div>
+        </div>
 
-    <!--侧边栏图标-->
-    <script src="template/font_o05anmyduc/iconfont.js"></script>
-    <!--地铁运行图-->
-    <script src="static/d3.v7.min.js"></script>
-    <script src="static/main.js"></script>
-    <script type="text/javascript">
-        write_secelt_time('Start');
-        write_secelt_time('End');
-        draw_map();
+
+
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+        <!--侧边栏图标-->
+        <script src="template/font_o05anmyduc/iconfont.js"></script>
+        <!--地铁运行图-->
+        <script src="static/d3.v7.min.js"></script>
+        <script src="static/main.js"></script>
+        <script type="text/javascript">
+            write_secelt_time('Start');
+            write_secelt_time('End');
+            var speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240];
+            write_secelt_speed();
+            draw_map();
 
 
 
-        //侧边栏展开与关闭
-        function unfoldsiderbar() {
-            document.getElementById("side-fold").style.display = "none";
-            document.getElementById("side-unfold").style.display = "";
-            document.getElementById("container").style.marginLeft = "250px";
-        }
-        function foldsiderbar() {
-            document.getElementById("side-fold").style.display = "";
-            document.getElementById("side-unfold").style.display = "none";
-            document.getElementById("container").style.marginLeft = "50px";
-        }
-        function set_start_time() {
-            start_hour = document.getElementById("startHour").innerText;
-            start_minute = document.getElementById("startMinute").innerText;
-            start_second = document.getElementById("startHour").innerText;
-            end_hour = document.getElementById("endHour").innerText;
-            end_minute = document.getElementById("endMinute").innerText;
-            end_second = document.getElementById("endHour").innerText;
-        }
-        /*
-        //时间函数
-        const startTime = document.getElementById("startTime");
-        const endTime = document.getElementById("endTime");
-
-        startTime.addEventListener(
-            "input",
-            () => {
-                if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
-                    if (startTime.value >= endTime.value) {
-                        if (endTime.value == "") {
-                            if (startTime.value <= "03:00:00") {
-                                var time_now = new Date();
-                                var hour = time_now.getHours();////获取当前时间的时
-                                var minute = time_now.getMinutes(); ///获取当前时间的分
-                                var seconds = time_now.getSeconds(); ///获取当前时间的分
-                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute + ((seconds < 10) ? ":0" : ":") + seconds;
-                                startTime.value = time_now;
-                            }
-                        }
-                        else {
-                            if (startTime.value <= "03:00:00" || startTime.value >= endTime.value) {
-                                var end_hour = endTime.value.slice(0, 2);
-                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
-                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
-                                var end_seconds = Number(endTime.value.slice(6, 8));
-                                if (end_minute == -1) {
-                                    end_minute = 59;
-                                    end_hour = Number(end_hour) - 1;
+            //侧边栏展开与关闭
+            function unfoldsiderbar() {
+                document.getElementById("side-fold").style.display = "none";
+                document.getElementById("side-unfold").style.display = "";
+                document.getElementById("container").style.marginLeft = "250px";
+            }
+            function foldsiderbar() {
+                document.getElementById("side-fold").style.display = "";
+                document.getElementById("side-unfold").style.display = "none";
+                document.getElementById("container").style.marginLeft = "50px";
+            }
+            function set_start_time() {
+                start_hour = document.getElementById("startHour").innerText;
+                start_minute = document.getElementById("startMinute").innerText;
+                start_second = document.getElementById("startHour").innerText;
+                end_hour = document.getElementById("endHour").innerText;
+                end_minute = document.getElementById("endMinute").innerText;
+                end_second = document.getElementById("endHour").innerText;
+            }
+            /*
+            //时间函数
+            const startTime = document.getElementById("startTime");
+            const endTime = document.getElementById("endTime");
+    
+            startTime.addEventListener(
+                "input",
+                () => {
+                    if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
+                        if (startTime.value >= endTime.value) {
+                            if (endTime.value == "") {
+                                if (startTime.value <= "03:00:00") {
+                                    var time_now = new Date();
+                                    var hour = time_now.getHours();////获取当前时间的时
+                                    var minute = time_now.getMinutes(); ///获取当前时间的分
+                                    var seconds = time_now.getSeconds(); ///获取当前时间的分
+                                    time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute + ((seconds < 10) ? ":0" : ":") + seconds;
+                                    startTime.value = time_now;
                                 }
-                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
                             }
                             else {
-                                var time_now = new Date();
-                                var hour = time_now.getHours();////获取当前时间的时
-                                var minute = time_now.getMinutes(); ///获取当前时间的分
-                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
-                                startTime.value = time_now;
-                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute + ((end_seconds < 10) ? ":0" : ":") + end_seconds;
+                                if (startTime.value <= "03:00:00" || startTime.value >= endTime.value) {
+                                    var end_hour = endTime.value.slice(0, 2);
+                                    var end_minute = Number(endTime.value.slice(3, 5)) - 1;
+                                    var end_minute = Number(endTime.value.slice(3, 5)) - 1;
+                                    var end_seconds = Number(endTime.value.slice(6, 8));
+                                    if (end_minute == -1) {
+                                        end_minute = 59;
+                                        end_hour = Number(end_hour) - 1;
+                                    }
+                                    startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
+                                }
+                                else {
+                                    var time_now = new Date();
+                                    var hour = time_now.getHours();////获取当前时间的时
+                                    var minute = time_now.getMinutes(); ///获取当前时间的分
+                                    time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
+                                    startTime.value = time_now;
+                                    startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute + ((end_seconds < 10) ? ":0" : ":") + end_seconds;
+                                }
                             }
                         }
                     }
-                }
-            },
-            false,
-        );
-
-        endTime.addEventListener(
-            "input",
-            () => {
-                if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
-                    if (endTime.value <= "01:00:00" || endTime.value <= startTime.value) {
-                        var start_hour = startTime.value.slice(0, 2);
-                        var start_minute = Number(startTime.value.slice(3, 5)) + 1;
-                        var start_seconds = Number(startTime.value.slice(6, 8));
-                        if (start_minute == 60) {
-                            start_minute = 0;
-                            start_hour = Number(start_hour) + 1;
+                },
+                false,
+            );
+    
+            endTime.addEventListener(
+                "input",
+                () => {
+                    if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
+                        if (endTime.value <= "01:00:00" || endTime.value <= startTime.value) {
+                            var start_hour = startTime.value.slice(0, 2);
+                            var start_minute = Number(startTime.value.slice(3, 5)) + 1;
+                            var start_seconds = Number(startTime.value.slice(6, 8));
+                            if (start_minute == 60) {
+                                start_minute = 0;
+                                start_hour = Number(start_hour) + 1;
+                            }
+                            endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
+                            endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute + ((start_seconds < 10) ? ":0" : ":") + start_seconds;
                         }
-                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
-                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute + ((start_seconds < 10) ? ":0" : ":") + start_seconds;
                     }
+                },
+                false,
+            );
+            //routine函数，路线图运行时间
+            */
+            //菜单下拉函数
+            function dropdown(myid, mode) {
+                document.getElementById(myid).style.display = mode;
+            }
+
+            wkd = 'wd';
+            function set_wkd(wkd) {
+                if (wkd === 'wd') {
+                    window.wkd = 'wd';
+                    document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
+                    document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
                 }
-            },
-            false,
-        );
-        //routine函数，路线图运行时间
-        */
-        //菜单下拉函数
-        function dropdown(myid, mode) {
-            document.getElementById(myid).style.display = mode;
-        }
-
-        wkd = 'wd';
-        function set_wkd(wkd) {
-            if (wkd === 'wd') {
-                window.wkd = 'wd';
-                document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
-                document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
-            }
-            else if (wkd === 'we') {
-                window.wkd = 'we';
-                document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
-                document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
-            }
-        }
-        function to02d(i) {
-            s = i.toString();
-            if (s.length === 1) {
-                s = '0' + s;
-            }
-            return s;
-        }
-
-        /* 弹出框相关函数 */
-        function write_secelt_time(time_type) {
-            div_hour = document.getElementById('select' + time_type + 'Hour');
-            div_minute = document.getElementById('select' + time_type + 'Minute');
-            div_second = document.getElementById('select' + time_type + 'Second');
-            var temp = '';
-            for (let i = 3; i <= 26; i++) {
-                let j = to02d(i % 24);
-                temp += '<div>' + j + '</div>';
-            }
-            div_hour.innerHTML = temp;
-            var temp = '';
-            for (let i = 0; i <= 59; i++) {
-                let j = to02d(i);
-                if (j.length === 1) {
-                    j = '0' + j;
-                }
-                temp += '<div>' + j + '</div>';
-            }
-            div_minute.innerHTML = temp;
-            div_second.innerHTML = temp;
-        }
-        function init_secelt_time(time_type) {
-            document.getElementById('select' + time_type + 'Time').style.display = '';
-            div_hour = document.getElementById('select' + time_type + 'Hour');
-            div_minute = document.getElementById('select' + time_type + 'Minute');
-            div_second = document.getElementById('select' + time_type + 'Second');
-            
-            set_scroll_opacity_by_div(div_hour);
-            target_hour = parseInt(document.getElementById(time_type.toLowerCase() + 'Hour').innerText);
-            scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
-
-            set_scroll_opacity_by_div(div_minute);
-            target_minute = parseInt(document.getElementById(time_type.toLowerCase() + 'Minute').innerText);
-            scroll_to_y(target_minute * 24, div_minute);
-
-            set_scroll_opacity_by_div(div_second);
-            target_second = parseInt(document.getElementById(time_type.toLowerCase() + 'Second').innerText);
-            scroll_to_y(target_second * 24, div_second);
-        }
-        function ban_event(event) {
-            event.preventDefault();
-        }
-
-        function scroll_to_y(y, scroll_div) {
-            /*按钮重置*/
-            btns = document.getElementsByClassName('popup-btn');
-            for (btn of btns) {
-                btn.className = 'popup-btn btn-unselected';
-            }
-
-            /*y合法化*/
-            if (y < 0) { y = 0; }
-            /*if (y > scroll_div.scrollTopMax) y = scroll_div.scrollTopMax;*/
-            else if (y > scroll_div.scrollHeight - 192) { y = scroll_div.scrollHeight - 192; }
-            scroll_div.setAttribute('goingto', y);
-
-            var up_or_down = 1; //up
-            if (scroll_div.scrollTop > y) {
-                up_or_down = -1; //down
-            }
-            const step = () => {
-                const c = scroll_div.scrollTop;
-                //console.log(y, c, scroll_div.scrollHeight - 192, c + (y - c) / 8, up_or_down * (y - c));
-                if (y == parseInt(scroll_div.getAttribute('goingto'))) {
-                    if (up_or_down * (y - c) > 8) {
-                        window.requestAnimationFrame(step);
-                        scroll_div.scrollTo(0, c + (y - c) / 8);
-                    }
-                    else if (up_or_down * (y - c) > 1) {
-                        window.requestAnimationFrame(step);
-                        scroll_div.scrollTo(0, c + up_or_down);
-                    }
-                    else {
-                        scroll_div.scrollTo(0, y);
-                    }
+                else if (wkd === 'we') {
+                    window.wkd = 'we';
+                    document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
+                    document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
                 }
             }
-            step();
-        }
-        function set_scroll_y_on_wheel(event) {
-            var scroll_div = event.target;
-            if (scroll_div.children.length === 0) scroll_div = scroll_div.parentElement;
-            scroll_to_y(parseInt(scroll_div.getAttribute('goingto')) - event.wheelDeltaY / 5 * 3, scroll_div);
-        }
-        function set_scroll_y_on_down(event) {
-            /*down*/
-            var mouse_y_now;
-            var mouse_y_step = 0;
-            if (event.changedTouches && event.changedTouches[0]) {
-                mouse_y_now = event.changedTouches[0].clientY;
+            function to02d(i) {
+                s = i.toString();
+                if (s.length === 1) {
+                    s = '0' + s;
+                }
+                return s;
             }
-            else {
-                mouse_y_now = event.clientY;
+
+            /* 弹出框相关函数 */
+            function write_secelt_time(time_type) {
+                div_hour = document.getElementById('select' + time_type + 'Hour');
+                div_minute = document.getElementById('select' + time_type + 'Minute');
+                div_second = document.getElementById('select' + time_type + 'Second');
+                var temp = '';
+                for (let i = 3; i <= 26; i++) {
+                    let j = to02d(i % 24);
+                    temp += '<div>' + j + '</div>';
+                }
+                div_hour.innerHTML = temp;
+                var temp = '';
+                for (let i = 0; i <= 59; i++) {
+                    let j = to02d(i);
+                    if (j.length === 1) {
+                        j = '0' + j;
+                    }
+                    temp += '<div>' + j + '</div>';
+                }
+                div_minute.innerHTML = temp;
+                div_second.innerHTML = temp;
             }
-            var scroll_div = event.target.parentElement;
-            const mouse_y_start = mouse_y_now;
-            const scroll_y_start = scroll_div.scrollTop;
-            function move(event) {
-                /*move*/
-                if (event.changedTouches && event.changedTouches[0]) {
-                    mouse_y_temp = event.changedTouches[0].clientY;
+            function write_secelt_speed() {
+                var div_speed = document.getElementById('selectSpeed');
+                var temp = '';
+                for (speed of window.speeds) {
+                    temp += '<div>' + speed + '</div>';
+                }
+                temp += '<div><input type="text" placeholder="其他请输入" id="other_speed"></input></div>';
+                div_speed.innerHTML = temp;
+            }
+
+            function show_popup_time(time_type) {
+                document.getElementById('select' + time_type + 'Time').style.display = '';
+                var div_hour = document.getElementById('select' + time_type + 'Hour');
+                var div_minute = document.getElementById('select' + time_type + 'Minute');
+                var div_second = document.getElementById('select' + time_type + 'Second');
+
+                set_scroll_opacity_by_div(div_hour);
+                var target_hour = parseInt(document.getElementById(time_type.toLowerCase() + 'Hour').innerText);
+                scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
+
+                set_scroll_opacity_by_div(div_minute);
+                var target_minute = parseInt(document.getElementById(time_type.toLowerCase() + 'Minute').innerText);
+                scroll_to_y(target_minute * 24, div_minute);
+
+                set_scroll_opacity_by_div(div_second);
+                var target_second = parseInt(document.getElementById(time_type.toLowerCase() + 'Second').innerText);
+                scroll_to_y(target_second * 24, div_second);
+            }
+            function show_popup_speed() {
+                document.getElementById('selectSpeedContent').style.display = '';
+                var div_speed = document.getElementById('selectSpeed');
+                set_scroll_opacity_by_div(div_speed);
+                var target_speed = parseFloat(document.getElementById('speed').innerText);
+                var index = window.speeds.indexOf(target_speed);
+                if (index === -1) {
+                    document.getElementById('other_speed').value = target_speed;
+                    scroll_to_y(window.speeds.length * 24, div_speed);
                 }
                 else {
-                    mouse_y_temp = event.clientY;
+                    document.getElementById('other_speed').value = null;
+                    scroll_to_y(index * 24, div_speed);
                 }
-                mouse_y_step = mouse_y_temp - mouse_y_now;
-                mouse_y_now = mouse_y_temp;
-                scroll_div.scrollTop = scroll_y_start - mouse_y_now + mouse_y_start;
             }
-            function stop(event) {
-                /*up*/
+
+
+
+            function ban_event(event) {
+                event.preventDefault();
+            }
+
+            function scroll_to_y(y, scroll_div) {
+                /*按钮重置*/
+                btns = document.getElementsByClassName('popup-btn');
+                for (btn of btns) {
+                    btn.className = 'popup-btn btn-unselected';
+                }
+
+                /*y合法化*/
+                if (y < 0) { y = 0; }
+                /*if (y > scroll_div.scrollTopMax) y = scroll_div.scrollTopMax;*/
+                else if (y > scroll_div.scrollHeight - 192) { y = scroll_div.scrollHeight - 192; }
+                scroll_div.setAttribute('goingto', y);
+
+                var up_or_down = 1; //up
+                if (scroll_div.scrollTop > y) {
+                    up_or_down = -1; //down
+                }
+                const step = () => {
+                    const c = scroll_div.scrollTop;
+                    //console.log(y, c, scroll_div.scrollHeight - 192, c + (y - c) / 8, up_or_down * (y - c));
+                    if (y == parseInt(scroll_div.getAttribute('goingto'))) {
+                        if (up_or_down * (y - c) > 8) {
+                            window.requestAnimationFrame(step);
+                            scroll_div.scrollTo(0, c + (y - c) / 8);
+                        }
+                        else if (up_or_down * (y - c) > 1) {
+                            window.requestAnimationFrame(step);
+                            scroll_div.scrollTo(0, c + up_or_down);
+                        }
+                        else {
+                            scroll_div.scrollTo(0, y);
+                        }
+                    }
+                }
+                step();
+            }
+            function set_scroll_y_on_wheel(event) {
+                var scroll_div = event.target;
+                while (scroll_div.children.length <= 1) scroll_div = scroll_div.parentElement;
+                scroll_to_y(parseInt(scroll_div.getAttribute('goingto')) - event.wheelDeltaY / 5 * 3, scroll_div);
+            }
+            function set_scroll_y_on_down(event) {
+                /*down*/
+                var mouse_y_now;
+                var mouse_y_step = 0;
                 if (event.changedTouches && event.changedTouches[0]) {
                     mouse_y_now = event.changedTouches[0].clientY;
                 }
                 else {
                     mouse_y_now = event.clientY;
                 }
-                if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
-                    /*仅点击，跳转*/
-                    var y_parent = scroll_div.getBoundingClientRect().top;
-                    //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
-                    scroll_to_y(Math.round((scroll_div.scrollTop / 24) - Math.ceil((y_parent - mouse_y_start + 84) / 24)) * 24, scroll_div);
+                var scroll_div = event.target.parentElement;
+                while (scroll_div.children.length <= 1) {
+                    scroll_div = scroll_div.parentElement;
                 }
-                else {
-                    /*拖拽滚动*/
-                    if (mouse_y_step) {
-                        /*惯性滑动*/
-                        scroll_to_y(Math.round((scroll_div.scrollTop - mouse_y_step * 8) / 24) * 24, scroll_div);
+                console.log(scroll_div, scroll_div.length);
+                const mouse_y_start = mouse_y_now;
+                const scroll_y_start = scroll_div.scrollTop;
+                function move(event) {
+                    /*move*/
+                    if (event.changedTouches && event.changedTouches[0]) {
+                        mouse_y_temp = event.changedTouches[0].clientY;
                     }
                     else {
-                        /*吸附，似乎这里并不会被执行*/
-                        scroll_to_y(Math.round(scroll_div.scrollTop / 24) * 24, scroll_div);
+                        mouse_y_temp = event.clientY;
+                    }
+                    mouse_y_step = mouse_y_temp - mouse_y_now;
+                    mouse_y_now = mouse_y_temp;
+                    scroll_div.scrollTop = scroll_y_start - mouse_y_now + mouse_y_start;
+                }
+                function stop(event) {
+                    /*up*/
+                    if (event.changedTouches && event.changedTouches[0]) {
+                        mouse_y_now = event.changedTouches[0].clientY;
+                    }
+                    else {
+                        mouse_y_now = event.clientY;
+                    }
+                    if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
+                        /*仅点击，跳转*/
+                        var y_parent = scroll_div.getBoundingClientRect().top;
+                        //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
+                        scroll_to_y(Math.round((scroll_div.scrollTop / 24) - Math.ceil((y_parent - mouse_y_start + 84) / 24)) * 24, scroll_div);
+                    }
+                    else {
+                        /*拖拽滚动*/
+                        if (mouse_y_step) {
+                            /*惯性滑动*/
+                            scroll_to_y(Math.round((scroll_div.scrollTop - mouse_y_step * 8) / 24) * 24, scroll_div);
+                        }
+                        else {
+                            /*吸附，似乎这里并不会被执行*/
+                            scroll_to_y(Math.round(scroll_div.scrollTop / 24) * 24, scroll_div);
+                        }
+                    }
+                    document.removeEventListener('mousemove', move);
+                    document.removeEventListener('touchmove', move);
+                    document.removeEventListener('mouseup', stop);
+                    document.removeEventListener('touchend', stop);
+                }
+                document.addEventListener('mousemove', move);
+                document.addEventListener('touchmove', move);
+                document.addEventListener('mouseup', stop);
+                document.addEventListener('touchend', stop);
+            }
+            function set_scroll_opacity_by_div(scroll_div) {
+                var scroll_items = scroll_div.getElementsByTagName('div');
+                var y_parent = scroll_div.getBoundingClientRect().top;
+                for (scroll_item of scroll_items) {
+                    var y = scroll_item.getBoundingClientRect().top - y_parent;
+                    if (y <= -12) {
+                        scroll_item.style.opacity = 0;
+                    }
+                    else if (y < 72) {
+                        scroll_item.style.opacity = (y + 12) / 96;
+                    }
+                    else if (y < 96) {
+                        scroll_item.style.opacity = 1;
+                    }
+                    else if (y < 180) {
+                        scroll_item.style.opacity = 1 - (y - 96) / 96;
+                    }
+                    else {
+                        scroll_item.style.opacity = 0;
                     }
                 }
-                document.removeEventListener('mousemove', move);
-                document.removeEventListener('touchmove', move);
-                document.removeEventListener('mouseup', stop);
-                document.removeEventListener('touchend', stop);
+
             }
-            document.addEventListener('mousemove', move);
-            document.addEventListener('touchmove', move);
-            document.addEventListener('mouseup', stop);
-            document.addEventListener('touchend', stop);
-        }
-        function set_scroll_opacity_by_div(scroll_div) {
-            var scroll_items = scroll_div.getElementsByTagName('div');
-            var y_parent = scroll_div.getBoundingClientRect().top;
-            for (scroll_item of scroll_items) {
-                var y = scroll_item.getBoundingClientRect().top - y_parent;
-                if (y <= -12) {
-                    scroll_item.style.opacity = 0;
+            function set_scroll_opacity_by_event(event) {
+                var scroll_div = event.target;
+                set_scroll_opacity_by_div(scroll_div);
+
+            }
+            var scroll_divs = Array();
+            for (each of document.getElementsByClassName("popup-digit")) {
+                scroll_divs.push(each);
+            }
+            for (each of document.getElementsByClassName("popup-speed")) {
+                scroll_divs.push(each);
+            }
+
+            for (scroll_div of scroll_divs) {
+                console.log(scroll_div, typeof (scroll_div))
+
+                scroll_div.addEventListener('wheel', ban_event);
+                scroll_div.addEventListener('wheel', set_scroll_y_on_wheel);
+                var scroll_items = scroll_div.getElementsByTagName('div');
+                for (scroll_item of scroll_items) {
+                    scroll_item.addEventListener('wheel', ban_event);
+                    scroll_item.addEventListener('mousedown', set_scroll_y_on_down);
+                    scroll_item.addEventListener('touchstart', set_scroll_y_on_down);
+                    scroll_item.addEventListener('touchstart', ban_event);
+                    scroll_item.addEventListener('touchmove', ban_event);
+                    scroll_item.addEventListener('touchend', ban_event);
                 }
-                else if (y < 72) {
-                    scroll_item.style.opacity = (y + 12) / 96;
+                scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
+            }
+            function select_time(this_btn, div_hour, div_minute, div_second, action) {
+                var target_hour = 0;
+                var target_minute = 0;
+                var target_second = 0;
+                if (action === 'now') {
+                    var time_now = new Date();
+                    target_hour = time_now.getHours();
+                    target_minute = time_now.getMinutes();
+                    target_second = time_now.getSeconds();
                 }
-                else if (y < 96) {
-                    scroll_item.style.opacity = 1;
+                else if (action === 'rondom') {
+                    target_hour = Math.floor(Math.random() * 24);
+                    target_minute = Math.floor(Math.random() * 60);
+                    target_second = Math.floor(Math.random() * 60);
                 }
-                else if (y < 180) {
-                    scroll_item.style.opacity = 1 - (y - 96) / 96;
+                else if (action === 'after') {
+                    target_hour = (parseInt(document.getElementById('startHour').innerText) + 1) % 24;
+                    target_minute = parseInt(document.getElementById('startMinute').innerText);
+                    target_second = parseInt(document.getElementById('startSecond').innerText);
+                }
+                else if (action === 'begin') {
+                    target_hour = 3;
+                    target_minute = 0;
+                    target_second = 0;
+                    //TODO
+                }
+                else if (action === 'end') {
+                    target_hour = 2;
+                    target_minute = 59;
+                    target_second = 59;
+                    //TODO
+                }
+
+                scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
+                scroll_to_y(target_minute * 24, div_minute);
+                scroll_to_y(target_second * 24, div_second);
+
+                this_btn.className = 'popup-btn btn-selected';
+            }
+            function select_start_time(this_btn, action) {
+                var div_hour = document.getElementById('selectStartHour');
+                var div_minute = document.getElementById('selectStartMinute');
+                var div_second = document.getElementById('selectStartSecond');
+                if (action === 'ok') {
+                    /*
+                    var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
+                    var selected_minute = Math.round(div_minute.scrollTop / 24);
+                    var selected_second = Math.round(div_second.scrollTop / 24);
+                    */
+                    var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
+                    var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
+                    var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
+                    document.getElementById('startHour').innerText = to02d(selected_hour);
+                    document.getElementById('startMinute').innerText = to02d(selected_minute);
+                    document.getElementById('startSecond').innerText = to02d(selected_second);
+                    document.getElementById('selectStartTime').style.display = 'none';
                 }
                 else {
-                    scroll_item.style.opacity = 0;
+                    select_time(this_btn, div_hour, div_minute, div_second, action);
+                }
+            }
+            function select_end_time(this_btn, action) {
+                var div_hour = document.getElementById('selectEndHour');
+                var div_minute = document.getElementById('selectEndMinute');
+                var div_second = document.getElementById('selectEndSecond');
+                if (action === 'ok') {
+                    /*
+                    var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
+                    var selected_minute = Math.round(div_minute.scrollTop / 24);
+                    var selected_second = Math.round(div_second.scrollTop / 24);
+                    */
+                    var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
+                    var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
+                    var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
+                    document.getElementById('endHour').innerText = to02d(selected_hour);
+                    document.getElementById('endMinute').innerText = to02d(selected_minute);
+                    document.getElementById('endSecond').innerText = to02d(selected_second);
+                    document.getElementById('selectEndTime').style.display = 'none';
+                }
+                else {
+                    select_time(this_btn, div_hour, div_minute, div_second, action);
+                }
+            }
+            function select_speed(this_btn, action) {
+                var div_speed = document.getElementById('selectSpeed');
+                if (action === 'ok') {
+                    var index_speed = Math.round(div_speed.getAttribute('goingto') / 24);
+                    if (index_speed < window.speeds.length) {
+                        document.getElementById('speed').innerText = window.speeds[index_speed];
+                    }
+                    else if (!isNaN(parseFloat(document.getElementById('other_speed').value))) {
+                        document.getElementById('speed').innerText = parseFloat(document.getElementById('other_speed').value);
+                    }
+                    else {
+                        document.getElementById('speed').innerText = '1';
+                    }
+                    document.getElementById('selectSpeedContent').style.display = 'none';
+                }
+                else {
+                    console.log(1);
+                    if (action === 'other') {
+                        scroll_to_y(window.speeds.length * 24, div_speed);
+                    }
+                    else {
+                        var speed = parseInt(action);
+                        var index_speed = window.speeds.indexOf(speed);
+                        scroll_to_y(index_speed * 24, div_speed);
+                    }
+                    this_btn.className = 'popup-btn btn-selected';
                 }
             }
 
-        }
-        function set_scroll_opacity_by_event(event) {
-            var scroll_div = event.target;
-            set_scroll_opacity_by_div(scroll_div);
-
-        }
-
-        var scroll_divs = document.getElementsByClassName("popup-digit");
-        for (scroll_div of scroll_divs) {
-            scroll_div.addEventListener('wheel', ban_event);
-            scroll_div.addEventListener('wheel', set_scroll_y_on_wheel);
-            var scroll_items = scroll_div.getElementsByTagName('div');
-            for (scroll_item of scroll_items) {
-                scroll_item.addEventListener('wheel', ban_event);
-                scroll_item.addEventListener('mousedown', set_scroll_y_on_down);
-                scroll_item.addEventListener('touchstart', set_scroll_y_on_down);
-                scroll_item.addEventListener('touchstart', ban_event);
-                scroll_item.addEventListener('touchmove', ban_event);
-                scroll_item.addEventListener('touchend', ban_event);
-            }
-            scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
-        }
-        function select_time(this_btn, div_hour, div_minute, div_second, action) {
-            var target_hour = 0;
-            var target_minute = 0;
-            var target_second = 0;
-            if (action === 'now') {
-                var time_now = new Date();
-                target_hour = time_now.getHours();
-                target_minute = time_now.getMinutes();
-                target_second = time_now.getSeconds();
-            }
-            else if (action === 'rondom') {
-                target_hour = Math.floor(Math.random() * 24);
-                target_minute = Math.floor(Math.random() * 60);
-                target_second = Math.floor(Math.random() * 60);
-            }
-            else if (action === 'after') {
-                target_hour = (parseInt(document.getElementById('startHour').innerText) + 1) % 24;
-                target_minute = parseInt(document.getElementById('startMinute').innerText);
-                target_second = parseInt(document.getElementById('startSecond').innerText);
-            }
-            else if (action === 'begin') {
-                target_hour = 3;
-                //TODO
-            }
-            else if (action === 'end') {
-                target_hour = 2;
-                target_minute = 59;
-                target_second = 59;
-                //TODO
-            }
-
-            scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
-            scroll_to_y(target_minute * 24, div_minute);
-            scroll_to_y(target_second * 24, div_second);
-
-            this_btn.className = 'popup-btn btn-selected';
-        }
-        function select_start_time(this_btn, action) {
-            var div_hour = document.getElementById('selectStartHour');
-            var div_minute = document.getElementById('selectStartMinute');
-            var div_second = document.getElementById('selectStartSecond');
-            if (action === 'ok') {
-                /*
-                var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
-                var selected_minute = Math.round(div_minute.scrollTop / 24);
-                var selected_second = Math.round(div_second.scrollTop / 24);
-                */
-                var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
-                var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
-                var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
-                document.getElementById('startHour').innerText = to02d(selected_hour);
-                document.getElementById('startMinute').innerText = to02d(selected_minute);
-                document.getElementById('startSecond').innerText = to02d(selected_second);
-                document.getElementById('selectStartTime').style.display = 'none';
-            }
-            else {
-                select_time(this_btn, div_hour, div_minute, div_second, action);
-            }
-        }
-        function select_end_time(this_btn, action) {
-            var div_hour = document.getElementById('selectEndHour');
-            var div_minute = document.getElementById('selectEndMinute');
-            var div_second = document.getElementById('selectEndSecond');
-            if (action === 'ok') {
-                /*
-                var selected_hour = (Math.round(div_hour.scrollTop / 24) + 3) % 24;
-                var selected_minute = Math.round(div_minute.scrollTop / 24);
-                var selected_second = Math.round(div_second.scrollTop / 24);
-                */
-                var selected_hour = (Math.round(div_hour.getAttribute('goingto') / 24) + 3) % 24;
-                var selected_minute = Math.round(div_minute.getAttribute('goingto') / 24);
-                var selected_second = Math.round(div_second.getAttribute('goingto') / 24);
-                document.getElementById('endHour').innerText = to02d(selected_hour);
-                document.getElementById('endMinute').innerText = to02d(selected_minute);
-                document.getElementById('endSecond').innerText = to02d(selected_second);
-                document.getElementById('selectEndTime').style.display = 'none';
-            }
-            else {
-                select_time(this_btn, div_hour, div_minute, div_second, action);
-            }
-        }
 
 
-
-        function start() {
-            //console.log(startTime.value);
-            var start_hour = parseInt(document.getElementById('startHour').innerText);
-            var start_minute = parseInt(document.getElementById('startMinute').innerText);
-            var start_seconds = parseInt(document.getElementById('startSecond').innerText);
-            var end_hour = parseInt(document.getElementById('endSecond').innerText);
-            var end_minute = parseInt(document.getElementById('endSecond').innerText);
-            var end_seconds = parseInt(document.getElementById('endSecond').innerText);
-            draw_trains(
-                start_hour * 60 + start_minute + start_seconds / 60,
-                end_hour * 60 + end_minute + end_seconds / 60,
-                60, //speed
-                window.wkd,
-            );
-        }
-    </script>
+            function start() {
+                //console.log(startTime.value);
+                var start_hour = parseInt(document.getElementById('startHour').innerText);
+                var start_minute = parseInt(document.getElementById('startMinute').innerText);
+                var start_seconds = parseInt(document.getElementById('startSecond').innerText);
+                var end_hour = parseInt(document.getElementById('endSecond').innerText);
+                var end_minute = parseInt(document.getElementById('endSecond').innerText);
+                var end_seconds = parseInt(document.getElementById('endSecond').innerText);
+                draw_trains(
+                    start_hour * 60 + start_minute + start_seconds / 60,
+                    end_hour * 60 + end_minute + end_seconds / 60,
+                    60, //speed
+                    window.wkd,
+                );
+            }
+        </script>
 </body>
 
 </html>
