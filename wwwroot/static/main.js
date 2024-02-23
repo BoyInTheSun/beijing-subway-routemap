@@ -33,14 +33,14 @@ var xhr_map = new XMLHttpRequest();
 xhr_map.open("GET", "static/map.xml", false);
 xhr_map.send();
 root = xhr_map.responseXML.getElementsByTagName("sw")[0];  // 根节点
-
+var line_colors = new Object();
 xml_paths = new Array();
 for (var i = 0; i < root.childElementCount; i++) {
     line = root.children[i];
     line_id = line.getAttribute("i")
     line_name = line.getAttribute("lb");
     line_color = "#" + line.getAttribute("lc").slice(2);  // 线路颜色
-
+    line_colors[line_name] = line_color;
     // 画路径，存paths，stations
     // 环线
     if (line.getAttribute("loop") === "true") {
@@ -145,12 +145,13 @@ function get_now_minute(){
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
-intervalId = NaN;
+time_interval_id = NaN;
 function start_set_time(begin_minute, end_minute, show_minute, speed){
-    clearInterval(window.intervalId);
-    window.intervalId = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${show_minute}, ${speed})`, 50);
+    clearInterval(window.time_interval_id);
+    window.time_interval_id = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${show_minute}, ${speed})`, 50);
 }
 function init_time() {
+    if (window.time_interval_id) clearInterval(window.time_interval_id);
     time_p = document.getElementById('time');
     time_p.innerText = '--:--:--';
 }
