@@ -522,11 +522,11 @@
         z-index: 25;
         overflow-x: hidden;
         overflow-y: scroll;
-        height: 24px;
+        height: 144px;
         width: 100%;
         top: 0;
-        padding-top: 84px;
-        padding-bottom: 84px;
+        padding-top: 24px;
+        padding-bottom: 24px;
         scroll-margin: 84px;
         /*scroll-snap-type: y mandatory;*/
         /*scroll-behavior: smooth;*/
@@ -610,7 +610,17 @@
         width: 46px;
         text-align: center;
         font-size: 16px;
+    }
 
+    .popup-info {
+        position: fixed;
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+        top: -24px;
+        width: 100%;
+        background-color: #c1c1c1;
+        text-align: center;
     }
 </style>
 
@@ -676,7 +686,8 @@
         <div class="side-l side-2l" onclick="show_popup_lines();">
             <div class="side-2l1">选择线路<i class="iconfont">&#xe72a;</i></div>
             <div class="side-2l2">
-                <div class="side-2l2-text">已选&nbsp;<a id="countLines">x</a>&nbsp;线路&nbsp;<a id="countDirect">x</a>&nbsp;方向</div>
+                <div class="side-2l2-text">已选&nbsp;<a id="countLines">?</a>&nbsp;线路&nbsp;<a
+                        id="countDirect">?</a>&nbsp;方向</div>
             </div>
         </div>
 
@@ -750,6 +761,7 @@
     <div id="selectLinesContent" style="display: none;">
         <div class="overlay"></div>
         <div class="popup-content">
+            <div class="popup-info">更多线路正在整理，敬请期待</div>
             <div class="popup-grad-top"></div>
             <div class="popup-grad-bottom"></div>
             <div class="popup-lines" id="selectLines" goingto="0"></div>
@@ -1275,6 +1287,161 @@
                 this_btn.className = 'popup-btn btn-selected';
             }
         }
+
+
+        function scroll_lines_to_y(y) {
+            var scroll_lines_div = document.getElementById('selectLines');
+            /*y合法化*/
+            if (y < 0) { y = 0; }
+            else if (y > scroll_lines_div.scrollHeight - 192) { y = scroll_lines_div.scrollHeight - 192; }
+            scroll_lines_div.setAttribute('goingto', y);
+
+            var up_or_down = 1; //up
+            if (scroll_lines_div.scrollTop > y) {
+                up_or_down = -1; //down
+            }
+            const step = () => {
+                const c = scroll_lines_div.scrollTop;
+                //console.log(y, c, scroll_lines_div.scrollHeight - 192, c + (y - c) / 8, up_or_down * (y - c));
+                if (y == parseInt(scroll_lines_div.getAttribute('goingto'))) {
+                    if (up_or_down * (y - c) > 8) {
+                        window.requestAnimationFrame(step);
+                        scroll_lines_div.scrollTo(0, c + (y - c) / 8);
+                    }
+                    else if (up_or_down * (y - c) > 1) {
+                        window.requestAnimationFrame(step);
+                        scroll_lines_div.scrollTo(0, c + up_or_down);
+                    }
+                    else {
+                        scroll_lines_div.scrollTo(0, y);
+                    }
+                }
+            }
+            step();
+        }
+        function set_scroll_lines_y_on_wheel(event) {
+            var scroll_lines_div = document.getElementById('selectLines');
+            scroll_lines_to_y(parseInt(scroll_lines_div.getAttribute('goingto')) - event.wheelDeltaY / 5 * 3);
+        }
+        function set_scroll_lines_y_on_down(event) {
+            /*down*/
+            var mouse_y_now;
+            var mouse_y_step = 0;
+            if (event.changedTouches && event.changedTouches[0]) {
+                mouse_y_now = event.changedTouches[0].clientY;
+            }
+            else {
+                mouse_y_now = event.clientY;
+            }
+            var scroll_lines_div = document.getElementById('selectLines');
+            while (scroll_lines_div.children.length <= 1) {
+                scroll_lines_div = scroll_lines_div.parentElement;
+            }
+            const mouse_y_start = mouse_y_now;
+            const scroll_lines_y_start = scroll_lines_div.scrollTop;
+            //console.log(event.target, mouse_y_now, scroll_lines_y_start);
+
+            function move(event) {
+                /*move*/
+                if (event.changedTouches && event.changedTouches[0]) {
+                    mouse_y_temp = event.changedTouches[0].clientY;
+                }
+                else {
+                    mouse_y_temp = event.clientY;
+                }
+                mouse_y_step = mouse_y_temp - mouse_y_now;
+                mouse_y_now = mouse_y_temp;
+                scroll_lines_div.scrollTop = scroll_lines_y_start - mouse_y_now + mouse_y_start;
+            }
+            function stop(event) {
+                /*up*/
+                if (event.changedTouches && event.changedTouches[0]) {
+                    mouse_y_now = event.changedTouches[0].clientY;
+                }
+                else {
+                    mouse_y_now = event.clientY;
+                }
+
+                if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
+                    /*仅点击*/
+                    var y_parent = scroll_lines_div.getBoundingClientRect().top;
+                    console.log(scroll_lines_div,y_parent - mouse_y_start, y_parent - mouse_y_start + 192)
+                    if (y_parent - mouse_y_start > -24){
+                        scroll_lines_to_y(scroll_lines_div.scrollTop - 96);
+                    }
+                    //console.log(scroll_lines_div,y_parent - mouse_y_start  + 192)
+                    if (y_parent - mouse_y_start + 192 < 24){
+                        scroll_lines_to_y(scroll_lines_div.scrollTop + 96);
+                    }
+                    //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
+                }
+                else {
+                    /*拖拽滚动*/
+                    if (mouse_y_step) {
+                        /*惯性滑动*/
+                        scroll_lines_to_y(Math.round((scroll_lines_div.scrollTop - mouse_y_step * 8) / 24) * 24);
+                    }
+                    else {
+                        /*吸附，似乎这里并不会被执行*/
+                        scroll_lines_to_y(Math.round(scroll_lines_div.scrollTop / 24) * 24);
+                    }
+                }
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('touchmove', move);
+                document.removeEventListener('mouseup', stop);
+                document.removeEventListener('touchend', stop);
+            }
+            document.addEventListener('mousemove', move);
+            document.addEventListener('touchmove', move);
+            document.addEventListener('mouseup', stop);
+            document.addEventListener('touchend', stop);
+        }
+        function set_scroll_lines_opacity_by_div(scroll_lines_div) {
+            var y_parent = scroll_lines_div.getBoundingClientRect().top;
+            for (scroll_lines_items of scroll_lines_div.getElementsByClassName('popup-line')) {
+                for (scroll_lines_item of scroll_lines_items.childNodes) {
+                    var y = scroll_lines_item.getBoundingClientRect().top - y_parent;
+                    if (y <= -12) {
+                        scroll_lines_item.style.opacity = 0;
+                    }
+                    else if (y < 12) {
+                        scroll_lines_item.style.opacity = (y + 12) / 24;
+                    }
+                    else if (y < 156) {
+                        scroll_lines_item.style.opacity = 1;
+                    }
+                    else if (y < 180) {
+                        scroll_lines_item.style.opacity = 1 - (y - 156) / 24;
+                    }
+                    else {
+                        scroll_lines_item.style.opacity = 0;
+                    }
+                }
+            }
+
+        }
+        function set_scroll_lines_opacity_by_event(event) {
+            var scroll_lines_div = event.target;
+            set_scroll_lines_opacity_by_div(scroll_lines_div);
+        }
+
+        var scroll_lines_div = document.getElementById('selectLines');
+        scroll_lines_div.addEventListener('wheel', ban_event);
+        scroll_lines_div.addEventListener('wheel', set_scroll_lines_y_on_wheel);
+        scroll_lines_div.addEventListener('mousedown', set_scroll_lines_y_on_down);
+        scroll_lines_div.addEventListener('touchstart', set_scroll_lines_y_on_down);
+        scroll_lines_div.addEventListener('touchmove', ban_event);
+        scroll_lines_div.addEventListener('scroll', set_scroll_lines_opacity_by_event);
+        var scroll_lines_items = scroll_lines_div.getElementsByClassName('popup-line');
+        for (scroll_lines_item of scroll_lines_items) {
+            scroll_lines_item.addEventListener('wheel', ban_event);
+            //scroll_lines_item.addEventListener('mousedown', set_scroll_lines_y_on_down);
+            //scroll_lines_item.addEventListener('touchstart', set_scroll_lines_y_on_down);
+            //scroll_lines_item.addEventListener('touchstart', ban_event);
+            scroll_lines_item.addEventListener('touchmove', ban_event);
+            //scroll_lines_item.addEventListener('touchend', ban_event);
+        }
+
         function count_lines() {
             var num_lines = 0;
             var num_direct = 0;
@@ -1307,17 +1474,22 @@
                     var direct = Object.keys(window.is_lines[line_name])[j];
                     if (window.is_lines[line_name][direct]) {
                         t = true;
-                        div_lines.childNodes[i].childNodes[j + 1].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
+                        //div_lines.childNodes[i].childNodes[j + 1].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
+                        div_lines.childNodes[i].childNodes[j + 1].style['background-color'] = line_colors[line_name];
+                        div_lines.childNodes[i].childNodes[j + 1].style['color'] = '#ffffff';
                     }
                     else {
-                        div_lines.childNodes[i].childNodes[j + 1].style = null;
+                        div_lines.childNodes[i].childNodes[j + 1].style['background-color'] = null;
+                        div_lines.childNodes[i].childNodes[j + 1].style['color'] = null;
                     }
                 }
                 if (t) {
-                    div_lines.childNodes[i].childNodes[0].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
+                    div_lines.childNodes[i].childNodes[0].style['background-color'] = line_colors[line_name];
+                    div_lines.childNodes[i].childNodes[0].style['color'] = '#ffffff';
                 }
                 else {
-                    div_lines.childNodes[i].childNodes[0].style = null;
+                    div_lines.childNodes[i].childNodes[0].style['background-color'] = null;
+                    div_lines.childNodes[i].childNodes[0].style['color'] = null;
                 }
             }
 
@@ -1365,8 +1537,6 @@
             }
             refresh_lines();
             this_btn.className = 'popup-btn btn-selected';
-
-
         }
 
 
@@ -1375,13 +1545,14 @@
             var start_hour = parseInt(document.getElementById('startHour').innerText);
             var start_minute = parseInt(document.getElementById('startMinute').innerText);
             var start_seconds = parseInt(document.getElementById('startSecond').innerText);
-            var end_hour = parseInt(document.getElementById('endSecond').innerText);
-            var end_minute = parseInt(document.getElementById('endSecond').innerText);
+            var end_hour = parseInt(document.getElementById('endHour').innerText);
+            var end_minute = parseInt(document.getElementById('endMinute').innerText);
             var end_seconds = parseInt(document.getElementById('endSecond').innerText);
+            var speed = parseFloat(document.getElementById('speed').innerText);
             draw_trains(
                 start_hour * 60 + start_minute + start_seconds / 60,
                 end_hour * 60 + end_minute + end_seconds / 60,
-                60, //speed
+                speed,
                 window.wkd,
             );
         }
