@@ -646,14 +646,14 @@
         <div class="side-l side-1l" id="side-operation" onclick="init_time();draw_map();">
             <div>停止运行<i class="iconfont">&#xe6f9;</i></div>
         </div>
-        <div class="side-l side-1l" id="side-operation" onclick="refresh();">
+        <div class="side-l side-1l" id="side-operation" onclick="reset();">
             <div>重置参数<i class="iconfont">&#xe702;</i></div>
         </div>
         <div href="#" class="side-l side-2l">
             <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
-                <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wkd('wd');">工作日</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wkd('we');">双休日</div>
+                <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wde('wd');">工作日</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wde('we');">双休日</div>
             </div>
         </div>
 
@@ -804,7 +804,8 @@
     <script src="static/d3.v7.min.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
-        var wkd = 'wd';
+        var wde = 'wd';
+        set_time_now();
         write_secelt_time('Start');
         write_secelt_time('End');
         var speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240];
@@ -909,24 +910,73 @@
             document.getElementById(myid).style.display = mode;
         }
 
-        function set_wkd(wkd) {
-            if (wkd === 'wd') {
-                window.wkd = 'wd';
-                document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
-                document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
-            }
-            else if (wkd === 'we') {
-                window.wkd = 'we';
-                document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
-                document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
-            }
-        }
         function to02d(i) {
             s = i.toString();
             if (s.length === 1) {
                 s = '0' + s;
             }
             return s;
+        }
+
+        function set_wde(wde) {
+            if (wde === 'wd') {
+                window.wde = 'wd';
+                document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
+            }
+            else if (wde === 'we') {
+                window.wde = 'we';
+                document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
+            }
+        }
+
+        function get_lines_most(most) {
+            /*most is 'earliest' or 'latest'*/
+            var line_most_wde = window.lines_most[most][window.wde];
+            var most_time;
+            for (line_name in window.is_lines) {
+                for (direct in window.is_lines[line_name]) {
+                    if (!window.is_lines[line_name][direct]) continue;
+                    let temp = line_most_wde[line_name][direct];
+                    if (!most_time || (most === 'earliest' && most_time > temp) || (most === 'latest' && most_time < temp)) most_time = temp;
+                }
+            }
+            if (!most_time) {
+                if (most === 'earliest') most_time = 3 * 60;
+                else if (most === 'latest') most_time = 2 * 60 + 59 + 59 / 60;
+            }
+            return most_time;
+        }
+        function set_time_most() {
+            /*已废弃*/
+            let [start_hour, start_minute, start_second] = time2h_m_s(get_lines_most('earliest'));
+            document.getElementById('startHour').innerText = to02d(start_hour);
+            document.getElementById('startMinute').innerText = to02d(start_minute);
+            document.getElementById('startSecond').innerText = to02d(start_second);
+            let [end_hour, end_minute, end_second] = time2h_m_s(get_lines_most('latest'));
+            document.getElementById('endHour').innerText = to02d(end_hour);
+            document.getElementById('endMinute').innerText = to02d(end_minute);
+            document.getElementById('endSecond').innerText = to02d(end_second);
+        }
+        function set_time_now() {
+            var time_now = new Date();
+            document.getElementById('startHour').innerText = to02d(time_now.getHours());
+            document.getElementById('startMinute').innerText = to02d(time_now.getMinutes());
+            document.getElementById('startSecond').innerText = to02d(time_now.getSeconds());
+            document.getElementById('endHour').innerText = to02d((time_now.getHours() + 1) % 24);
+            document.getElementById('endMinute').innerText = to02d(time_now.getMinutes());
+            document.getElementById('endSecond').innerText = to02d(time_now.getSeconds());
+        }
+        function reset() {
+            set_wde('wd');
+            set_time_now();
+            for (line_name in window.is_lines) {
+                for (direct in window.is_lines[line_name]) {
+                    window.is_lines[line_name][direct] = true;
+                }
+            }
+            count_lines();
         }
 
         /* 弹出框相关函数 */
@@ -963,7 +1013,7 @@
         function write_secelt_lines() {
             window.is_lines = new Object;
             var sche;
-            if (window.wkd === 'wk') sche = window.sche_wk;
+            if (window.wde === 'wk') sche = window.sche_wk;
             else sche = window.sche_wd;
             var temp = '';
             for (line_name in sche) {
@@ -1017,6 +1067,7 @@
 
         function show_popup_lines() {
             document.getElementById('selectLinesContent').style.display = null;
+            refresh_lines();
         }
 
         function ban_event(event) {
@@ -1200,16 +1251,10 @@
                 target_second = parseInt(document.getElementById('startSecond').innerText);
             }
             else if (action === 'begin') {
-                target_hour = 3;
-                target_minute = 0;
-                target_second = 0;
-                //TODO
+                [target_hour, target_minute, target_second] = time2h_m_s(get_lines_most('earliest'));
             }
             else if (action === 'end') {
-                target_hour = 2;
-                target_minute = 59;
-                target_second = 59;
-                //TODO
+                [target_hour, target_minute, target_second] = time2h_m_s(get_lines_most('latest'));
             }
 
             scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
@@ -1367,10 +1412,10 @@
                 if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
                     /*仅点击*/
                     var y_parent = scroll_lines_div.getBoundingClientRect().top;
-                    if (y_parent - mouse_y_start > -24){
+                    if (y_parent - mouse_y_start > -24) {
                         scroll_lines_to_y(scroll_lines_div.scrollTop - 96);
                     }
-                    if (y_parent - mouse_y_start + 192 < 24){
+                    if (y_parent - mouse_y_start + 192 < 24) {
                         scroll_lines_to_y(scroll_lines_div.scrollTop + 96);
                     }
                 }
@@ -1466,6 +1511,7 @@
                 btn.className = 'popup-btn btn-unselected';
             }
             var div_lines = document.getElementById('selectLines');
+            set_scroll_lines_opacity_by_div(div_lines);
             for (let i = 0; i < Object.keys(window.is_lines).length; i++) {
                 var line_name = Object.keys(window.is_lines)[i];
                 var t = false;
@@ -1491,8 +1537,6 @@
                     div_lines.childNodes[i].childNodes[0].style['color'] = null;
                 }
             }
-
-
         }
         function invert_line(line_name, direct) {
             if (direct) {
@@ -1535,7 +1579,7 @@
                 }
             }
             refresh_lines();
-            this_btn.className = 'popup-btn btn-selected';
+            if (this_btn) this_btn.className = 'popup-btn btn-selected';
         }
 
 
@@ -1552,7 +1596,7 @@
                 start_hour * 60 + start_minute + start_seconds / 60,
                 end_hour * 60 + end_minute + end_seconds / 60,
                 speed,
-                window.wkd,
+                window.wde,
             );
         }
     </script>

@@ -16,23 +16,26 @@ function time2hm(time) {
     hm = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
     return hm;
 }
-
-function time2hms(time) {
+function time2h_m_s(time){
     s = Math.round((time % 1) * 60);
     m = parseInt(time % 60);
     h = parseInt(time / 60 % 24);
+    return [h, m, s];
+}
+function time2hms(time) {
+    [h, m, s] = time2h_m_s(time);
     hms = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
     return hms;
 }
 
-paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
-stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
+var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
+var stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
 
 
 var xhr_map = new XMLHttpRequest();
 xhr_map.open("GET", "static/map.xml", false);
 xhr_map.send();
-root = xhr_map.responseXML.getElementsByTagName("sw")[0];  // 根节点
+var root = xhr_map.responseXML.getElementsByTagName("sw")[0];  // 根节点
 var line_colors = new Object();
 xml_paths = new Array();
 for (var i = 0; i < root.childElementCount; i++) {
@@ -121,10 +124,9 @@ for (var i = 0; i < root.childElementCount; i++) {
 
 }
 
-console.log(stations);
-console.log(paths);
+//console.log(stations);
+//console.log(paths);
 
-// 算小车位置
 
 var xhr_sche_wd = new XMLHttpRequest();
 xhr_sche_wd.open("GET", "static/schedule_weekday.json", false);
@@ -136,17 +138,44 @@ xhr_sche_we.open("GET", "static/schedule_weekend.json", false);
 xhr_sche_we.send();
 sche_we = JSON.parse(xhr_sche_we.responseText);
 
-now_minute = 0;
+var now_minute;
 
-console.log(sche_wd);
+//console.log(sche_wd);
 
-function get_now_minute(){
+//算最早最晚时间
+var lines_most = new Object();
+lines_most['earliest'] = new Object();
+lines_most['latest'] = new Object();
+for (let wde of ['wd', 'we']) {
+    lines_most['earliest'][wde] = new Object();
+    lines_most['latest'][wde] = new Object();
+    let sche;
+    if (wde == 'wd') sche = sche_wd;
+    else sche = sche_we;
+    for (let line in sche) {
+        lines_most['earliest'][wde][line] = new Object();
+        lines_most['latest'][wde][line] = new Object();
+        for (let direct in sche[line]) {
+            let earliest = hm2time('02:59'); //TODO 这里有个小问题，注意分和秒的精度区别，应该无伤大雅；
+            let latest = hm2time('03:00');
+            for (let train_num in sche[line][direct]) {
+
+                if (hm2time(sche[line][direct][train_num][0][1]) < earliest) earliest = hm2time(sche[line][direct][train_num][0][1]);
+                if (hm2time(sche[line][direct][train_num][sche[line][direct][train_num].length - 1][1]) > latest) latest = hm2time(sche[line][direct][train_num][sche[line][direct][train_num].length - 1][1]);
+            }
+            lines_most['earliest'][wde][line][direct] = earliest;
+            lines_most['latest'][wde][line][direct] = latest;
+        }
+    }
+}
+
+function get_now_minute() {
     now = new Date()
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
 time_interval_id = NaN;
-function start_set_time(begin_minute, end_minute, show_minute, speed){
+function start_set_time(begin_minute, end_minute, show_minute, speed) {
     clearInterval(window.time_interval_id);
     window.time_interval_id = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${show_minute}, ${speed})`, 50);
 }
@@ -155,7 +184,7 @@ function init_time() {
     time_p = document.getElementById('time');
     time_p.innerText = '--:--:--';
 }
-function set_time(begin_minute, end_minute, start_minute, speed){
+function set_time(begin_minute, end_minute, start_minute, speed) {
     time_now = get_now_minute();
     time_offset = time_now - start_minute;
     show_minute_now = begin_minute + time_offset * speed;
@@ -187,7 +216,7 @@ function draw_trains(begin_minute, end_minute, speed, day) {
     transparency_second = 0.5;
     xml_polygons = new Array();
 
-    if (day === 'wd'){
+    if (day === 'wd') {
         sche = sche_wd;
     }
     else if (day === 'we') {
