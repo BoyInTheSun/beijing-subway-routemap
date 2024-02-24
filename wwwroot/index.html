@@ -575,7 +575,7 @@
         height: 20px;
     }
 
-    .popup-line div:hover {
+    .popup-line div:active {
         border: 2px #4e4e4e solid;
     }
 
@@ -1073,7 +1073,7 @@
             else {
                 mouse_y_now = event.clientY;
             }
-            var scroll_div = event.target.parentElement;
+            var scroll_div = event.target;
             while (scroll_div.children.length <= 1) {
                 scroll_div = scroll_div.parentElement;
             }
@@ -1165,16 +1165,18 @@
         for (scroll_div of scroll_divs) {
             scroll_div.addEventListener('wheel', ban_event);
             scroll_div.addEventListener('wheel', set_scroll_y_on_wheel);
+            scroll_div.addEventListener('mousedown', set_scroll_y_on_down);
+            scroll_div.addEventListener('touchstart', set_scroll_y_on_down);
+            scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
             var scroll_items = scroll_div.getElementsByTagName('div');
             for (scroll_item of scroll_items) {
                 scroll_item.addEventListener('wheel', ban_event);
-                scroll_item.addEventListener('mousedown', set_scroll_y_on_down);
-                scroll_item.addEventListener('touchstart', set_scroll_y_on_down);
+                //scroll_item.addEventListener('mousedown', set_scroll_y_on_down);
+                //scroll_item.addEventListener('touchstart', set_scroll_y_on_down);
                 //scroll_item.addEventListener('touchstart', ban_event);
                 scroll_item.addEventListener('touchmove', ban_event);
                 //scroll_item.addEventListener('touchend', ban_event);
             }
-            scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
         }
 
         function select_time(this_btn, div_hour, div_minute, div_second, action) {
@@ -1365,15 +1367,12 @@
                 if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
                     /*仅点击*/
                     var y_parent = scroll_lines_div.getBoundingClientRect().top;
-                    console.log(scroll_lines_div,y_parent - mouse_y_start, y_parent - mouse_y_start + 192)
                     if (y_parent - mouse_y_start > -24){
                         scroll_lines_to_y(scroll_lines_div.scrollTop - 96);
                     }
-                    //console.log(scroll_lines_div,y_parent - mouse_y_start  + 192)
                     if (y_parent - mouse_y_start + 192 < 24){
                         scroll_lines_to_y(scroll_lines_div.scrollTop + 96);
                     }
-                    //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
                 }
                 else {
                     /*拖拽滚动*/
