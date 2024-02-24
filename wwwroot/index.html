@@ -557,12 +557,14 @@
         width: 146px;
         margin-top: 2px;
     }
+
     .popup-direct-2 {
         position: absolute;
         left: 110px;
         width: 146px;
         margin-top: 26px;
     }
+
     .popup-line div {
         box-sizing: border-box;
         background-color: #d3d3d3;
@@ -572,9 +574,11 @@
         line-height: 16px;
         height: 20px;
     }
+
     .popup-line div:hover {
         border: 2px #4e4e4e solid;
     }
+
     .popup-presets {
         position: fixed;
         padding-top: 192px;
@@ -672,7 +676,7 @@
         <div class="side-l side-2l" onclick="show_popup_lines();">
             <div class="side-2l1">选择线路<i class="iconfont">&#xe72a;</i></div>
             <div class="side-2l2">
-                <div class="side-2l2-text">已选<a>x</a>线路 <a>x</a>方向</div>
+                <div class="side-2l2-text">已选&nbsp;<a id="countLines">x</a>&nbsp;线路&nbsp;<a id="countDirect">x</a>&nbsp;方向</div>
             </div>
         </div>
 
@@ -743,7 +747,7 @@
         </div>
     </div>
 
-    <div id="selectLinesContent" style="display: ;">
+    <div id="selectLinesContent" style="display: none;">
         <div class="overlay"></div>
         <div class="popup-content">
             <div class="popup-grad-top"></div>
@@ -795,6 +799,8 @@
         write_secelt_speed();
         var is_lines;
         write_secelt_lines();
+        count_lines();
+
         draw_map();
 
 
@@ -998,7 +1004,7 @@
 
 
         function show_popup_lines() {
-            document.getElementById('selectLinesContent').style.display = '';
+            document.getElementById('selectLinesContent').style.display = null;
         }
 
         function ban_event(event) {
@@ -1011,7 +1017,6 @@
             for (btn of btns) {
                 btn.className = 'popup-btn btn-unselected';
             }
-
             /*y合法化*/
             if (y < 0) { y = 0; }
             /*if (y > scroll_div.scrollTopMax) y = scroll_div.scrollTopMax;*/
@@ -1135,8 +1140,8 @@
         function set_scroll_opacity_by_event(event) {
             var scroll_div = event.target;
             set_scroll_opacity_by_div(scroll_div);
-
         }
+
         var scroll_divs = Array();
         for (each of document.getElementsByClassName("popup-digit")) {
             scroll_divs.push(each);
@@ -1159,6 +1164,7 @@
             }
             scroll_div.addEventListener('scroll', set_scroll_opacity_by_event);
         }
+
         function select_time(this_btn, div_hour, div_minute, div_second, action) {
             var target_hour = 0;
             var target_minute = 0;
@@ -1269,8 +1275,53 @@
                 this_btn.className = 'popup-btn btn-selected';
             }
         }
-        function refresh_line() {
-            
+        function count_lines() {
+            var num_lines = 0;
+            var num_direct = 0;
+            for (line_name in window.is_lines) {
+                let t = false;
+                for (direct in window.is_lines[line_name]) {
+                    if (window.is_lines[line_name][direct]) {
+                        num_direct++;
+                        t = true;
+                    }
+                }
+                if (t) {
+                    num_lines++;
+                }
+            }
+            document.getElementById('countDirect').innerText = num_direct;
+            document.getElementById('countLines').innerText = num_lines;
+        }
+        function refresh_lines() {
+            /*按钮重置*/
+            btns = document.getElementsByClassName('popup-btn');
+            for (btn of btns) {
+                btn.className = 'popup-btn btn-unselected';
+            }
+            var div_lines = document.getElementById('selectLines');
+            for (let i = 0; i < Object.keys(window.is_lines).length; i++) {
+                var line_name = Object.keys(window.is_lines)[i];
+                var t = false;
+                for (let j = 0; j < Object.keys(window.is_lines[line_name]).length; j++) {
+                    var direct = Object.keys(window.is_lines[line_name])[j];
+                    if (window.is_lines[line_name][direct]) {
+                        t = true;
+                        div_lines.childNodes[i].childNodes[j + 1].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
+                    }
+                    else {
+                        div_lines.childNodes[i].childNodes[j + 1].style = null;
+                    }
+                }
+                if (t) {
+                    div_lines.childNodes[i].childNodes[0].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
+                }
+                else {
+                    div_lines.childNodes[i].childNodes[0].style = null;
+                }
+            }
+
+
         }
         function invert_line(line_name, direct) {
             if (direct) {
@@ -1278,13 +1329,45 @@
             }
             else {
                 let ts = Object.values(window.is_lines[line_name]);
-                let t = t[0] || t[1];
-                window.is_lines[line_name][0] = !t;
-                window.is_lines[line_name][1] = !t;
+                let t = ts[0] || ts[1];
+                for (each_direct in window.is_lines[line_name]) {
+                    window.is_lines[line_name][each_direct] = !t;
+                }
             }
-            refresh_line();
+            refresh_lines();
         }
+        function select_lines(this_btn, action) {
+            if (action === 'ok') {
+                document.getElementById('selectLinesContent').style = 'display: none;';
+                count_lines();
+                return;
+            }
+            else if (action === 'all') {
+                for (line_name in window.is_lines) {
+                    for (direct in window.is_lines[line_name]) {
+                        window.is_lines[line_name][direct] = true;
+                    }
+                }
+            }
+            else if (action === 'invert') {
+                for (line_name in window.is_lines) {
+                    for (direct in window.is_lines[line_name]) {
+                        window.is_lines[line_name][direct] = !window.is_lines[line_name][direct];
+                    }
+                }
+            }
+            else if (action === 'none') {
+                for (line_name in window.is_lines) {
+                    for (direct in window.is_lines[line_name]) {
+                        window.is_lines[line_name][direct] = false;
+                    }
+                }
+            }
+            refresh_lines();
+            this_btn.className = 'popup-btn btn-selected';
 
+
+        }
 
 
         function start() {
