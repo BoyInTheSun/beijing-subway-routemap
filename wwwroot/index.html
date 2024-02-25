@@ -108,7 +108,7 @@
         text-align: right;
         color: #000;
         border: none;
-        padding: 12px 0px;
+        padding: 8px 0px;
         text-decoration: none;
         display: inline-block;
         -webkit-transition-duration: 0.4s;
@@ -226,72 +226,6 @@
         background-color: #4e4e4e;
         color: #f1f1f1;
         border: 2px #4e4e4e solid;
-    }
-
-    .side-second {
-        display: none;
-        max-height: 200px;
-        /*设置菜单高度为200px*/
-        overflow-y: auto;
-        /*设置滚动条*/
-    }
-
-    .side-second::-webkit-scrollbar,
-    side-third {
-        width: 6px;
-        /*滚动条宽度*/
-    }
-
-    .side-second::-webkit-scrollbar-thumb,
-    side-third {
-        background-color: #c1c1c1;
-        /*滚动条颜色*/
-        border-radius: 5px;
-        /*滚动条边角弧度*/
-    }
-
-    .side-second-item {
-        border: none;
-        padding: 12px 32px;
-        font-size: 14px;
-        background-color: #dbdbdb;
-    }
-
-    .side-second-item:hover {
-        background-color: #444;
-    }
-
-    .side-third {
-        padding: 12px 32px;
-        font-size: 14px;
-        display: flex;
-        width: auto;
-    }
-
-    .side-third:hover {
-        background-color: white;
-    }
-
-    .side-third-num {
-        height: 50px;
-        width: 80px;
-    }
-
-    .side-third-route {
-        height: 50px;
-        width: 100%;
-    }
-
-    .side-third-item {
-        height: 25px;
-    }
-
-    .side-third-item:hover {
-        background-color: green;
-    }
-
-    .speed-else {
-        width: 150px;
     }
 
     .headline {
@@ -506,9 +440,13 @@
         line-height: 24px;
         font-size: 18px;
         padding: 0;
+        margin: 0;
         background-color: #ffffff00;
         color: #000000;
         border: 2px #d3d3d3 dotted;
+        padding-block: 0px;
+        padding-inline: 0px;
+        display: block;
     }
 
     .popup-speed input:focus {
@@ -546,23 +484,26 @@
 
     .popup-linename {
         position: absolute;
-        width: 100px;
-        left: 4px;
+        width: 90px;
+        left: 20px;
         margin-top: 2px;
+        text-align: center;
     }
 
     .popup-direct-1 {
         position: absolute;
-        left: 110px;
-        width: 146px;
+        left: 120px;
+        width: 120px;
         margin-top: 2px;
+        padding-left: 5px;
     }
 
     .popup-direct-2 {
         position: absolute;
-        left: 110px;
-        width: 146px;
+        left: 120px;
+        width: 120px;
         margin-top: 26px;
+        padding-left: 5px;
     }
 
     .popup-line div {
@@ -637,28 +578,27 @@
         <div class="side-iconfont"><i class="iconfont">&#xe6bf;</i></div>
     </div>
     <div class="side-unfold" id="side-unfold">
-        <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar()">
+        <div class="side-l side-1l" onclick="foldsiderbar()">
             <div>隐藏侧边栏<i class="iconfont">&#xe61f;</i></div>
         </div>
-        <div class="side-l side-1l" id="side-operation" onclick="foldsiderbar();start();">
+        <div class="side-l side-1l" onclick="foldsiderbar();start();">
             <div>开始运行<i class="iconfont">&#xe6f9;</i></div>
         </div>
-        <div class="side-l side-1l" id="side-operation" onclick="init_time();draw_map();">
+        <div class="side-l side-1l" onclick="init_time();draw_map();">
             <div>停止运行<i class="iconfont">&#xe6f9;</i></div>
         </div>
-        <div class="side-l side-1l" id="side-operation" onclick="reset();">
+        <div class="side-l side-1l" onclick="reset();">
             <div>重置参数<i class="iconfont">&#xe702;</i></div>
         </div>
-        <div href="#" class="side-l side-2l">
+        <div class="side-l side-2l">
             <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wde('wd');">工作日</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wde('we');">双休日</div>
             </div>
         </div>
-
         <div class="side-l side-2l" onclick="show_popup_time('Start');">
-            <div href="#" class="side-2l1">开始时间<i class="iconfont"></i></div>
+            <div class="side-2l1">开始时间<i class="iconfont"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
                     <div class="side-2l2-digits" id="startHour">03</div>
@@ -669,9 +609,8 @@
                 </div>
             </div>
         </div>
-
         <div class="side-l side-2l" onclick="show_popup_time('End');">
-            <div href="#" class="side-2l1">结束时间<i class="iconfont"></i></div>
+            <div class="side-2l1">结束时间<i class="iconfont"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
                     <div class="side-2l2-digits" id="endHour">02</div>
@@ -682,7 +621,12 @@
                 </div>
             </div>
         </div>
-
+        <div class="side-l side-2l" onclick="show_popup_speed();">
+            <div class="side-2l1">倍速播放<i class="iconfont">&#xe69a;</i></div>
+            <div class="side-2l2">
+                <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
+            </div>
+        </div>
         <div class="side-l side-2l" onclick="show_popup_lines();">
             <div class="side-2l1">选择线路<i class="iconfont">&#xe72a;</i></div>
             <div class="side-2l2">
@@ -690,15 +634,25 @@
                         id="countDirect">?</a>&nbsp;方向</div>
             </div>
         </div>
-
-        <div class="side-l side-2l" onclick="show_popup_speed();">
-            <div class="side-2l1">倍速播放<i class="iconfont">&#xe69a;</i></div>
+        <div class="side-l side-2l">
+            <div class="side-2l1">列车大小<i class="iconfont">&#xe638;</i></div>
             <div class="side-2l2">
-                <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
+                <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
+                <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_size_s" onclick="set_size('s');">小</div>
             </div>
         </div>
-
-        <div class="side-l side-1l" id="side-route">关于 <i class="iconfont">&#xe6bf;</i></div>
+        <div class="side-l side-2l">
+            <div class="side-2l1">隐藏图注<i class="iconfont">&#xe638;</i></div>
+            <div class="side-2l2">
+                <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="reverse_show_linename();">线名</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="reverse_show_stationname();">站名
+                </div>
+                <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="reverse_show_station();">站点</div>
+            </div>
+        </div>
+        <div class="side-l side-1l" id="side-route" onclick="window.location.href = '/about.html';">关于 <i
+                class="iconfont">&#xe6bf;</i></div>
     </div>
 
 
@@ -813,8 +767,13 @@
         var is_lines;
         write_secelt_lines();
         count_lines();
+        var train_size;
+        set_size('m');
+        var is_hide_linename = false;
+        var is_hide_stationname = false;
+        var is_hide_station = false;
 
-        draw_map();
+        draw_map(is_hide_station, is_hide_linename, is_hide_stationname);
 
 
 
@@ -837,74 +796,7 @@
             end_minute = document.getElementById("endMinute").innerText;
             end_second = document.getElementById("endHour").innerText;
         }
-        /*
-        //时间函数
-        const startTime = document.getElementById("startTime");
-        const endTime = document.getElementById("endTime");
- 
-        startTime.addEventListener(
-            "input",
-            () => {
-                if (startTime.value <= "03:00" || startTime.value >= endTime.value) {
-                    if (startTime.value >= endTime.value) {
-                        if (endTime.value == "") {
-                            if (startTime.value <= "03:00:00") {
-                                var time_now = new Date();
-                                var hour = time_now.getHours();////获取当前时间的时
-                                var minute = time_now.getMinutes(); ///获取当前时间的分
-                                var seconds = time_now.getSeconds(); ///获取当前时间的分
-                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute + ((seconds < 10) ? ":0" : ":") + seconds;
-                                startTime.value = time_now;
-                            }
-                        }
-                        else {
-                            if (startTime.value <= "03:00:00" || startTime.value >= endTime.value) {
-                                var end_hour = endTime.value.slice(0, 2);
-                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
-                                var end_minute = Number(endTime.value.slice(3, 5)) - 1;
-                                var end_seconds = Number(endTime.value.slice(6, 8));
-                                if (end_minute == -1) {
-                                    end_minute = 59;
-                                    end_hour = Number(end_hour) - 1;
-                                }
-                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute;
-                            }
-                            else {
-                                var time_now = new Date();
-                                var hour = time_now.getHours();////获取当前时间的时
-                                var minute = time_now.getMinutes(); ///获取当前时间的分
-                                time_now = ((hour < 10) ? "0" : "") + hour + ((minute < 10) ? ":0" : ":") + minute;
-                                startTime.value = time_now;
-                                startTime.value = ((end_hour < 10) ? "0" : "") + end_hour + ((end_minute < 10) ? ":0" : ":") + end_minute + ((end_seconds < 10) ? ":0" : ":") + end_seconds;
-                            }
-                        }
-                    }
-                }
-            },
-            false,
-        );
- 
-        endTime.addEventListener(
-            "input",
-            () => {
-                if (endTime.value <= "01:00" || endTime.value <= startTime.value) {
-                    if (endTime.value <= "01:00:00" || endTime.value <= startTime.value) {
-                        var start_hour = startTime.value.slice(0, 2);
-                        var start_minute = Number(startTime.value.slice(3, 5)) + 1;
-                        var start_seconds = Number(startTime.value.slice(6, 8));
-                        if (start_minute == 60) {
-                            start_minute = 0;
-                            start_hour = Number(start_hour) + 1;
-                        }
-                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute;
-                        endTime.value = ((start_hour < 10) ? "0" : "") + start_hour + ((start_minute < 10) ? ":0" : ":") + start_minute + ((start_seconds < 10) ? ":0" : ":") + start_seconds;
-                    }
-                }
-            },
-            false,
-        );
-        //routine函数，路线图运行时间
-        */
+
         //菜单下拉函数
         function dropdown(myid, mode) {
             document.getElementById(myid).style.display = mode;
@@ -929,6 +821,47 @@
                 document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
                 document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
             }
+        }
+        function set_size(size) {
+            if (size === 'l') {
+                window.train_size = 5;
+                document.getElementById('btn_size_l').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
+            }
+            else if (size === 'm') {
+                window.train_size = 3;
+                document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_m').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
+            }
+            else if (size === 's') {
+                window.train_size = 2;
+                document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
+            }
+        }
+        function reverse_show_linename() {
+            window.is_hide_linename = !window.is_hide_linename;
+            if (window.is_hide_linename)
+                document.getElementById('btn_linename').className = 'side-2l2-btn btn-selected';
+            else
+                document.getElementById('btn_linename').className = 'side-2l2-btn btn-unselected';
+        }
+        function reverse_show_stationname() {
+            window.is_hide_stationname = !window.is_hide_stationname;
+            if (window.is_hide_stationname)
+                document.getElementById('btn_stationname').className = 'side-2l2-btn btn-selected';
+            else
+                document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
+        }
+        function reverse_show_station() {
+            window.is_hide_station = !window.is_hide_station;
+            if (window.is_hide_station)
+                document.getElementById('btn_station').className = 'side-2l2-btn btn-selected';
+            else
+                document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
         }
 
         function get_lines_most(most) {
@@ -977,6 +910,13 @@
                 }
             }
             count_lines();
+            set_size('m');
+            is_hide_linename = false;
+            is_hide_stationname = false;
+            is_hide_station = false;
+            document.getElementById('btn_linename').className = 'side-2l2-btn btn-unselected';
+            document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
+            document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
         }
 
         /* 弹出框相关函数 */
@@ -1038,15 +978,15 @@
 
             set_scroll_opacity_by_div(div_hour);
             var target_hour = parseInt(document.getElementById(time_type.toLowerCase() + 'Hour').innerText);
-            scroll_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
+            scroll_jump_to_y((target_hour - 3 + 24) % 24 * 24, div_hour);
 
             set_scroll_opacity_by_div(div_minute);
             var target_minute = parseInt(document.getElementById(time_type.toLowerCase() + 'Minute').innerText);
-            scroll_to_y(target_minute * 24, div_minute);
+            scroll_jump_to_y(target_minute * 24, div_minute);
 
             set_scroll_opacity_by_div(div_second);
             var target_second = parseInt(document.getElementById(time_type.toLowerCase() + 'Second').innerText);
-            scroll_to_y(target_second * 24, div_second);
+            scroll_jump_to_y(target_second * 24, div_second);
         }
         function show_popup_speed() {
             document.getElementById('selectSpeedContent').style.display = '';
@@ -1056,11 +996,11 @@
             var index = window.speeds.indexOf(target_speed);
             if (index === -1) {
                 document.getElementById('other_speed').value = target_speed;
-                scroll_to_y(window.speeds.length * 24, div_speed);
+                scroll_jump_to_y(window.speeds.length * 24, div_speed);
             }
             else {
                 document.getElementById('other_speed').value = null;
-                scroll_to_y(index * 24, div_speed);
+                scroll_jump_to_y(index * 24, div_speed);
             }
         }
 
@@ -1072,6 +1012,10 @@
 
         function ban_event(event) {
             event.preventDefault();
+        }
+        function scroll_jump_to_y(y, scroll_div) {
+            scroll_div.setAttribute('goingto', y);
+            scroll_div.scrollTop = y;
         }
 
         function scroll_to_y(y, scroll_div) {
@@ -1153,7 +1097,6 @@
                 if (Math.abs(mouse_y_now - mouse_y_start) <= 12) {
                     /*仅点击，跳转*/
                     var y_parent = scroll_div.getBoundingClientRect().top;
-                    //scroll_div.scrollTop = scroll_div.scrollTop - Math.ceil((y_parent - mouse_y_start + 84) / 24) * 24;
                     scroll_to_y(Math.round((scroll_div.scrollTop / 24) - Math.ceil((y_parent - mouse_y_start + 84) / 24)) * 24, scroll_div);
                 }
                 else {
@@ -1597,6 +1540,11 @@
                 end_hour * 60 + end_minute + end_seconds / 60,
                 speed,
                 window.wde,
+                window.is_lines,
+                window.train_size,
+                window.is_hide_linename,
+                window.is_hide_stationname,
+                window.is_hide_station
             );
         }
     </script>
