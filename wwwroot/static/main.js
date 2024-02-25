@@ -32,7 +32,11 @@ function add(a, b) {
 }
 
 var svg_style = `<style>
+    text {
+        pointer-events: none;
+    }
     path.line {
+        pointer-events: none;
         fill: none;
         stroke-linejoin: bevel;
         stroke-linecap: round;
@@ -102,6 +106,7 @@ for (var i = 0; i < root.childElementCount; i++) {
 
     // 算linename
     for (let lps of line.getAttribute("lp").split(';')) {
+        if (!lps) continue;
         let lp = lps.split(',');
         xml_linenames.push(
             `<rect width="${lp[2]}" height="${lp[3]}" fill="${line_color}" x="${lp[0]}" y="${lp[1]}" />` +
@@ -309,7 +314,7 @@ function draw_map(is_hide_station, is_hide_linename, is_hide_stationname) {
     div_svg.html('');
     svg = div_svg.append('svg')
         .attr('width', 2000)
-        .attr('height', 2000)
+        .attr('height', 1600)
         .attr('xmlns', 'http://www.w3.org/2000/svg');
     var svg_html = '';
     svg_html += svg_style;
@@ -426,7 +431,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
     div_svg.html('');
     svg = div_svg.append('svg')
         .attr('width', 2000)
-        .attr('height', 2000)
+        .attr('height', 1600)
         .attr('xmlns', 'http://www.w3.org/2000/svg');
 
     var svg_html = '';
@@ -439,7 +444,6 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
 
     svg.html(svg_html);
     start_set_time(begin_minute, end_minute, get_now_minute(), speed);
-
 }
 //draw_trains(get_now_minute(), 4320, 30, 'we');
 //draw_trains(1300, 1310, 600, 'we');

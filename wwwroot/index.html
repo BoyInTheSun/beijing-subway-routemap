@@ -4,7 +4,7 @@
     <meta name='viewport'
         content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=scale=1.0,user-scalable=no'>
     <title>index</title>
-    <link rel="stylesheet" type="text/css" href="template/font_o05anmyduc/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="static/font_in45mhonvqe/iconfont.css">
 </head>
 </head>
 <style>
@@ -14,14 +14,12 @@
         width: 100%;
     }
 
-    .container {
-        transition: margin-left .5s;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        background-color: #dbdbdb;
-        margin-left: 50px;
+    svg text {
+        user-select: none;
+    }
+
+    .inner {
+        margin: 0 auto;
     }
 
     .side-fold {
@@ -53,29 +51,26 @@
         border: #f1f1f1;
     }
 
-    .side-unfold {
+    .sider-bar {
         height: 100%;
-        width: 270px;
+        width: 220px;
         position: fixed;
         z-index: 10;
         top: 0;
         left: 0;
         background-color: #f1f1f1;
         overflow-x: hidden;
-        transition: 0.5s;
+        transition: 0.2s;
         /*padding-top: 30px;*/
         display: "none";
         user-select: none;
+        /*隐藏滚动条 for firefox*/
+        scrollbar-width: none !important;
     }
 
-    .side-unfoldbtn {
-        border: none;
-        padding: 16px 10px;
-    }
-
-    .side-unfoldbtn:hover {
-        color: #f1f1f1;
-        background-color: #444;
+    .sider-bar::-webkit-scrollbar {
+        /*隐藏滚动条 for others*/
+        display: none !important
     }
 
     .side-iconfont {
@@ -104,7 +99,7 @@
     }
     */
     .side-l {
-        width: 270px;
+        width: 100%;
         text-align: right;
         color: #000;
         border: none;
@@ -128,8 +123,9 @@
     }
 
     .side-l i {
-        padding-left: 20px;
+        padding-left: 16px;
         padding-right: 16px;
+        width: 20px;
     }
 
     .side-1l {
@@ -149,7 +145,7 @@
     }
 
     .side-2l2 {
-        margin-right: 56px;
+        margin-right: 52px;
         font-size: 14px;
         padding-top: 2px;
         line-height: 14px;
@@ -226,64 +222,6 @@
         background-color: #4e4e4e;
         color: #f1f1f1;
         border: 2px #4e4e4e solid;
-    }
-
-    .headline {
-        background-color: white;
-        text-align: center;
-    }
-
-    .content {
-        background-color: white;
-        height: 2000px;
-    }
-
-    .footer {
-        background-color: white;
-        text-align: center;
-    }
-
-    .routine {
-        position: relative;
-        overflow: hidden;
-        height: 30px;
-        text-align: center;
-    }
-
-    @media screen and (max-width: 768px) {
-        .headline {
-            font-size: 14px;
-            height: 30px;
-        }
-
-        .footer {
-            height: 30px;
-            font-size: 12px;
-        }
-    }
-
-    @media screen and (min-width: 769px) and (max-width: 1024px) {
-        .headline {
-            font-size: 16px;
-            height: 20px;
-        }
-
-        .footer {
-            height: 20px;
-            font-size: 14px;
-        }
-    }
-
-    @media screen and (min-width: 1025px) {
-        .headline {
-            font-size: 18px;
-            height: 30px;
-        }
-
-        .footer {
-            height: 30px;
-            font-size: 16px;
-        }
     }
 
     .overlay {
@@ -529,7 +467,6 @@
 
     .popup-presets .inner {
         width: 210px;
-        margin: 0 auto;
     }
 
     .popup-ok {
@@ -563,42 +500,124 @@
         background-color: #c1c1c1;
         text-align: center;
     }
+
+
+
+    #div_svg {
+        position: absolute;
+        background-color: white;
+        transform-origin: top left;
+    }
+
+    #div_svg_parent {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    #header {
+        user-select: none;
+        position: fixed;
+        top: 0;
+        z-index: 5;
+        height: 120px;
+        width: calc(100% - 52px);
+        left: 52px;
+    }
+
+    #title {
+        height: 80px;
+        width: 100%;
+        background-color: #075990;
+    }
+
+    #title h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 80px;
+    }
+
+    #subtitle {
+        position: fixed;
+        top: 80px;
+        width: calc(100% - 52px);
+        height: 40px;
+        background-color: #d3d3d3;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .subtitle-div {
+        height: 40px;
+        line-height: 40px;
+        width: 160px;
+        text-align: center;
+
+    }
+
+    #header h1 {
+        text-align: center;
+        color: #fff;
+    }
+
+    #footer {
+        position: fixed;
+        bottom: 0;
+        z-index: 5;
+        height: 70px;
+        width: calc(100% - 52px);
+        left: 52px;
+        background-color: #d3d3d3;
+        padding-top: 5px;
+    }
+
+    #footer div {
+        text-align: center;
+        font-size: 12px;
+        height: 15px;
+    }
+
+    #footer a {
+        text-decoration: underline;
+        color: inherit;
+        color: #001261;
+    }
+
+    #time {
+        position: relative;
+        overflow: hidden;
+        height: 30px;
+        text-align: center;
+    }
 </style>
 
 <body>
-    <div class="side-fold" id="side-fold">
-        <button class="side-unfoldbtn" id="side-unfoldbtn" onclick="unfoldsiderbar()"><i
-                class="iconfont">&#xe61f;</i></button>
-        <div class="side-iconfont"><i class="iconfont">&#xe6f9;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe702;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe638;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe651;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe72a;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe69a;</i></div>
-        <div class="side-iconfont"><i class="iconfont">&#xe6bf;</i></div>
-    </div>
-    <div class="side-unfold" id="side-unfold">
-        <div class="side-l side-1l" onclick="foldsiderbar()">
-            <div>隐藏侧边栏<i class="iconfont">&#xe61f;</i></div>
+    <div class="sider-bar" id="sider-bar" style="left: -168px;">
+        <div class="side-l side-1l" onclick="invert_siderbar()">
+            <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="foldsiderbar();start();">
-            <div>开始运行<i class="iconfont">&#xe6f9;</i></div>
+        <div class="side-l side-1l" onclick="close_siderbar();start();">
+            <div>开始运行<i class="iconfont icon-play"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="init_time();draw_map();">
-            <div>停止运行<i class="iconfont">&#xe6f9;</i></div>
+        <div class="side-l side-1l"
+            onclick="init_time();close_siderbar();draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);">
+            <div>停止运行<i class="iconfont icon-stop"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="reset();">
-            <div>重置参数<i class="iconfont">&#xe702;</i></div>
+        <div class="side-l side-1l" onclick="reset();open_siderbar();">
+            <div>重置参数<i class="iconfont icon-cached"></i></div>
         </div>
-        <div class="side-l side-2l">
-            <div class="side-2l1">选择运行图<i class="iconfont">&#xe638;</i></div>
+        <div class="side-l side-2l" onclick="open_siderbar();">
+            <div class="side-2l1">选择运行图<i class="iconfont icon-calendar-range"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wde('wd');">工作日</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wde('we');">双休日</div>
             </div>
         </div>
         <div class="side-l side-2l" onclick="show_popup_time('Start');">
-            <div class="side-2l1">开始时间<i class="iconfont"></i></div>
+            <div class="side-2l1">开始时间<i class="iconfont icon-clock-start"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
                     <div class="side-2l2-digits" id="startHour">03</div>
@@ -610,7 +629,7 @@
             </div>
         </div>
         <div class="side-l side-2l" onclick="show_popup_time('End');">
-            <div class="side-2l1">结束时间<i class="iconfont"></i></div>
+            <div class="side-2l1">结束时间<i class="iconfont icon-clock-end"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">
                     <div class="side-2l2-digits" id="endHour">02</div>
@@ -622,20 +641,20 @@
             </div>
         </div>
         <div class="side-l side-2l" onclick="show_popup_speed();">
-            <div class="side-2l1">倍速播放<i class="iconfont">&#xe69a;</i></div>
+            <div class="side-2l1">倍速播放<i class="iconfont icon-fast-forward"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
             </div>
         </div>
         <div class="side-l side-2l" onclick="show_popup_lines();">
-            <div class="side-2l1">选择线路<i class="iconfont">&#xe72a;</i></div>
+            <div class="side-2l1">选择线路<i class="iconfont icon-subway-variant"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-text">已选&nbsp;<a id="countLines">?</a>&nbsp;线路&nbsp;<a
                         id="countDirect">?</a>&nbsp;方向</div>
             </div>
         </div>
         <div class="side-l side-2l">
-            <div class="side-2l1">列车大小<i class="iconfont">&#xe638;</i></div>
+            <div class="side-2l1" onclick="open_siderbar();">列车大小<i class="iconfont icon-format-size"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
                 <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
@@ -643,7 +662,7 @@
             </div>
         </div>
         <div class="side-l side-2l">
-            <div class="side-2l1">隐藏图注<i class="iconfont">&#xe638;</i></div>
+            <div class="side-2l1" onclick="open_siderbar();">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="reverse_show_linename();">线名</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="reverse_show_stationname();">站名
@@ -651,18 +670,29 @@
                 <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="reverse_show_station();">站点</div>
             </div>
         </div>
-        <div class="side-l side-1l" id="side-route" onclick="window.location.href = '/about.html';">关于 <i
-                class="iconfont">&#xe6bf;</i></div>
+        <div class="side-l side-1l" onclick="window.location.href = '/about.html';">关于 <i class="iconfont icon-information-variant"></i></div>
     </div>
 
 
-    <div id="container" class="container">
-        <div class="headline" id="headline">北京地铁轨道交通运行图</div>
-        <div>
-            <div class="routine" id="time">--:--:--</div>
+    <div id="div_svg_parent">
+        <div id="div_svg" style="left: 0px; top: 0px; transform: scale(1)"></div>
+    </div>
+
+    <div id="header">
+        <div id="title">
+            <h1>北京市轨道交通运行图</h1>
         </div>
-        <div class="content" id="div_svg"></div>
-        <div class="footer" id="footer">版权信息</div>
+        <div id="subtitle">
+            <div class="subtitle-div">运行时间：<a id="time">--:--:--</a></div>
+            <div class="subtitle-div">运行列车数：<a id="count_train">?</a></div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div><a href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a></div>
+        <div>遵循<a href="https://www.gnu.org/licenses/gpl-3.0.zh-cn.html#license-text">GPLv3</a>开源协议</div>
+        <div><a href="https://beian.miit.gov.cn/">京ICP备20006745号</a></div>
+        <div>Copyright 2020-2024 <a target="_blank" href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
     </div>
 
     <!--弹出框-->
@@ -750,12 +780,8 @@
 
 
 
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-
-    <!--侧边栏图标-->
-    <script src="template/font_o05anmyduc/iconfont.js"></script>
-    <!--地铁运行图-->
     <script src="static/d3.v7.min.js"></script>
+    <script src="static/svg.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
         var wde = 'wd';
@@ -773,20 +799,23 @@
         var is_hide_stationname = false;
         var is_hide_station = false;
 
-        draw_map(is_hide_station, is_hide_linename, is_hide_stationname);
+        draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+        svg_init_xy();
 
 
 
         //侧边栏展开与关闭
-        function unfoldsiderbar() {
-            document.getElementById("side-fold").style.display = "none";
-            document.getElementById("side-unfold").style.display = "";
-            document.getElementById("container").style.marginLeft = "250px";
+        function open_siderbar() {
+            document.getElementById("sider-bar").style.left = '0px';
         }
-        function foldsiderbar() {
-            document.getElementById("side-fold").style.display = "";
-            document.getElementById("side-unfold").style.display = "none";
-            document.getElementById("container").style.marginLeft = "50px";
+        function close_siderbar() {
+            document.getElementById("sider-bar").style.left = '-168px';
+        }
+        function invert_siderbar() {
+            if (document.getElementById("sider-bar").style.left === '0px')
+                document.getElementById("sider-bar").style.left = '-168px';
+            else
+                document.getElementById("sider-bar").style.left = '0px';
         }
         function set_start_time() {
             start_hour = document.getElementById("startHour").innerText;
@@ -795,11 +824,6 @@
             end_hour = document.getElementById("endHour").innerText;
             end_minute = document.getElementById("endMinute").innerText;
             end_second = document.getElementById("endHour").innerText;
-        }
-
-        //菜单下拉函数
-        function dropdown(myid, mode) {
-            document.getElementById(myid).style.display = mode;
         }
 
         function to02d(i) {
@@ -909,6 +933,7 @@
                     window.is_lines[line_name][direct] = true;
                 }
             }
+            document.getElementById('speed').innerText = 1;
             count_lines();
             set_size('m');
             is_hide_linename = false;
