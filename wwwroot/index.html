@@ -4,9 +4,9 @@
     <meta name='viewport'
         content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=scale=1.0,user-scalable=no'>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>index</title>
+    <title>北京市地铁动态运行图</title>
     <link rel="stylesheet" type="text/css" href="static/font_in45mhonvqe/iconfont.css">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <style>
     body {
@@ -622,7 +622,7 @@
             </div>
         </div>
         <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="window.location.href = '/about.html';">关于 <i
+        <div class="side-l side-1l" onclick="window.location.href = 'about.html';">关于 <i
                 class="iconfont icon-information-variant"></i></div>
         <div class="side-split"></div>
 
@@ -635,7 +635,7 @@
 
     <div id="header">
         <div id="title">
-            <h1>北京市轨道交通运行图</h1>
+            <h1>北京市地铁动态运行图</h1>
         </div>
         <div id="subtitle">
             <div class="subtitle-div">运行时间：<a id="time">--:--:--</a></div>
@@ -1294,7 +1294,10 @@
                     document.getElementById('speed').innerText = window.speeds[index_speed];
                 }
                 else if (!isNaN(parseFloat(document.getElementById('other_speed').value))) {
-                    document.getElementById('speed').innerText = parseFloat(document.getElementById('other_speed').value);
+                    let speed = parseFloat(document.getElementById('other_speed').value);
+                    if (speed > 3600) speed = 3600;
+                    else if (speed < 0.0001) speed = 0.0001;
+                    document.getElementById('speed').innerText = speed;
                 }
                 else {
                     document.getElementById('speed').innerText = '1';
