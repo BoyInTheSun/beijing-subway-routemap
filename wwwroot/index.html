@@ -3,9 +3,9 @@
 <head>
     <meta name='viewport'
         content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=scale=1.0,user-scalable=no'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="static/font_in45mhonvqe/iconfont.css">
-</head>
 </head>
 <style>
     body {
@@ -20,35 +20,6 @@
 
     .inner {
         margin: 0 auto;
-    }
-
-    .side-fold {
-        height: 100%;
-        width: 50px;
-        position: fixed;
-        z-index: 9;
-        top: 0;
-        left: 0;
-        background-color: #f1f1f1;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 30px;
-        display: "";
-    }
-
-    .side-foldbtn {
-        border: none;
-        margin-left: 210px;
-    }
-
-    .side-foldbtn:hover {
-        color: #f1f1f1;
-        background-color: #444;
-    }
-
-    .side-fold-navbtn {
-        margin-left: 10px;
-        border: #f1f1f1;
     }
 
     .sider-bar {
@@ -78,26 +49,6 @@
         padding: 16px 10px;
     }
 
-    /*
-    .side-first {
-        width: 200px;
-        text-align: right;
-        color: #000;
-        border: none;
-        padding: 16px 32px;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        -webkit-transition-duration: 0.4s;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .side-first:hover {
-        background-color: #dbdbdb;
-    }
-    */
     .side-l {
         width: 100%;
         text-align: right;
@@ -106,8 +57,8 @@
         padding: 8px 0px;
         text-decoration: none;
         display: inline-block;
-        -webkit-transition-duration: 0.4s;
-        transition-duration: 0.4s;
+        -webkit-transition-duration: 0.2s;
+        transition-duration: 0.2s;
         cursor: pointer;
         text-decoration: none;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -135,7 +86,8 @@
     }
 
     .side-2l {
-        height: 48px;
+        /*height: 48px;*/
+        height: 24px;
     }
 
     .side-2l1 {
@@ -182,7 +134,6 @@
         text-align: center;
     }
 
-
     .side-2l2-btn {
         display: flex;
         float: right;
@@ -191,6 +142,11 @@
         font-size: 14px;
     }
 
+    .side-split {
+        width: 100%;
+        height: 4px;
+        background-color: #cccccc;
+    }
 
     .btn-selected {
         background-color: #4e4e4e;
@@ -246,21 +202,13 @@
         background-color: white;
     }
 
-    .popup-mask-top {
+    .popup-mask {
         position: fixed;
         z-index: 22;
         width: 100%;
-        height: 84px;
-        background-color: #c1c1c1;
-    }
-
-    .popup-mask-bottom {
-        position: fixed;
-        z-index: 22;
-        width: 100%;
-        height: 84px;
-        background-color: #c1c1c1;
-        top: 108px;
+        height: 192px;
+        /*background: linear-gradient(to bottom, #c1c1c1 60px, #ffffff 84px, #ffffff 108px, #c1c1c1 132px);*/
+        background: linear-gradient(to bottom, #c1c1c1 84px, #ffffff 84px, #ffffff 108px, #c1c1c1 108px);
     }
 
     .popup-grad-top {
@@ -307,7 +255,6 @@
         display: none !important
     }
 
-
     .popup-digit div {
         height: 24px;
         line-height: 24px;
@@ -325,7 +272,6 @@
         font-size: 18px;
         text-align: center;
         padding-top: 84px;
-
     }
 
     .popup-speed-text {
@@ -360,7 +306,6 @@
         /*隐藏滚动条 for others*/
         display: none !important
     }
-
 
     .popup-speed div {
         height: 24px;
@@ -599,11 +544,11 @@
         <div class="side-l side-1l" onclick="invert_siderbar()">
             <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="close_siderbar();start();">
+        <div class="side-split"></div>
+        <div class="side-l side-1l" onclick="start();">
             <div>开始运行<i class="iconfont icon-play"></i></div>
         </div>
-        <div class="side-l side-1l"
-            onclick="init_time();close_siderbar();draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);">
+        <div class="side-l side-1l" onclick="stop();">
             <div>停止运行<i class="iconfont icon-stop"></i></div>
         </div>
         <div class="side-l side-1l" onclick="reset();open_siderbar();">
@@ -653,16 +598,17 @@
                         id="countDirect">?</a>&nbsp;方向</div>
             </div>
         </div>
-        <div class="side-l side-2l">
-            <div class="side-2l1" onclick="open_siderbar();">列车大小<i class="iconfont icon-format-size"></i></div>
+        <div class="side-split"></div>
+        <div class="side-l side-2l" onclick="open_siderbar();">
+            <div class="side-2l1">列车大小<i class="iconfont icon-format-size"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
                 <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_size_s" onclick="set_size('s');">小</div>
             </div>
         </div>
-        <div class="side-l side-2l">
-            <div class="side-2l1" onclick="open_siderbar();">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
+        <div class="side-l side-2l" onclick="open_siderbar();">
+            <div class="side-2l1">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="reverse_show_linename();">线名</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="reverse_show_stationname();">站名
@@ -670,7 +616,11 @@
                 <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="reverse_show_station();">站点</div>
             </div>
         </div>
-        <div class="side-l side-1l" onclick="window.location.href = '/about.html';">关于 <i class="iconfont icon-information-variant"></i></div>
+        <div class="side-split"></div>
+        <div class="side-l side-1l" onclick="window.location.href = '/about.html';">关于 <i
+                class="iconfont icon-information-variant"></i></div>
+        <div class="side-split"></div>
+
     </div>
 
 
@@ -699,8 +649,7 @@
     <div id="selectStartTime" style="display: none;">
         <div class="overlay"></div>
         <div class="popup-content">
-            <div class="popup-mask-top"></div>
-            <div class="popup-mask-bottom"></div>
+            <div class="popup-mask"></div>
             <div class="popup-time">
                 <div class="popup-digit" id="selectStartHour" goingto="0"></div>
                 <div class="popup-colon">:</div>
@@ -722,8 +671,7 @@
     <div id="selectEndTime" style="display: none;">
         <div class="overlay"></div>
         <div class="popup-content">
-            <div class="popup-mask-top"></div>
-            <div class="popup-mask-bottom"></div>
+            <div class="popup-mask"></div>
             <div class="popup-time">
                 <div class="popup-digit" id="selectEndHour" goingto="0"></div>
                 <div class="popup-colon">:</div>
@@ -763,8 +711,7 @@
     <div id="selectSpeedContent" style="display: none;">
         <div class="overlay"></div>
         <div class="popup-content">
-            <div class="popup-mask-top"></div>
-            <div class="popup-mask-bottom"></div>
+            <div class="popup-mask"></div>
             <div class="popup-speed-text">播放速率&nbsp;&nbsp;&nbsp;&nbsp;x</div>
             <div class="popup-speed" id="selectSpeed" goingto="0"></div>
             <div class="popup-presets">
@@ -799,23 +746,28 @@
         var is_hide_stationname = false;
         var is_hide_station = false;
 
-        draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+        //draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+        start();
         svg_init_xy();
 
 
 
         //侧边栏展开与关闭
         function open_siderbar() {
-            document.getElementById("sider-bar").style.left = '0px';
+            document.getElementById('sider-bar').style.left = '0px';
+            for (let each of document.getElementsByClassName('side-2l'))
+                each.style.height = '48px';
         }
         function close_siderbar() {
-            document.getElementById("sider-bar").style.left = '-168px';
+            document.getElementById('sider-bar').style.left = '-168px';
+            for (let each of document.getElementsByClassName('side-2l'))
+                each.style.height = '24px';
         }
         function invert_siderbar() {
             if (document.getElementById("sider-bar").style.left === '0px')
-                document.getElementById("sider-bar").style.left = '-168px';
+                close_siderbar();
             else
-                document.getElementById("sider-bar").style.left = '0px';
+                open_siderbar();
         }
         function set_start_time() {
             start_hour = document.getElementById("startHour").innerText;
@@ -847,6 +799,7 @@
             }
         }
         function set_size(size) {
+            // TODO: 实时变化，改svg
             if (size === 'l') {
                 window.train_size = 5;
                 document.getElementById('btn_size_l').className = 'side-2l2-btn btn-selected';
@@ -868,24 +821,36 @@
         }
         function reverse_show_linename() {
             window.is_hide_linename = !window.is_hide_linename;
-            if (window.is_hide_linename)
+            if (window.is_hide_linename) {
                 document.getElementById('btn_linename').className = 'side-2l2-btn btn-selected';
-            else
+                d3.select('#g_linenames').attr('display', 'none');
+            }
+            else {
                 document.getElementById('btn_linename').className = 'side-2l2-btn btn-unselected';
+                d3.select('#g_linenames').attr('display', '');
+            }
         }
         function reverse_show_stationname() {
             window.is_hide_stationname = !window.is_hide_stationname;
-            if (window.is_hide_stationname)
+            if (window.is_hide_stationname) {
                 document.getElementById('btn_stationname').className = 'side-2l2-btn btn-selected';
-            else
+                d3.select('#g_stationnames').attr('display', 'none');
+            }
+            else {
                 document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
+                d3.select('#g_stationnames').attr('display', '');
+            }
         }
         function reverse_show_station() {
             window.is_hide_station = !window.is_hide_station;
-            if (window.is_hide_station)
+            if (window.is_hide_station) {
                 document.getElementById('btn_station').className = 'side-2l2-btn btn-selected';
-            else
+                d3.select('#g_stations').attr('display', 'none');
+            }
+            else {
                 document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
+                d3.select('#g_stations').attr('display', '');
+            }
         }
 
         function get_lines_most(most) {
@@ -921,9 +886,36 @@
             document.getElementById('startHour').innerText = to02d(time_now.getHours());
             document.getElementById('startMinute').innerText = to02d(time_now.getMinutes());
             document.getElementById('startSecond').innerText = to02d(time_now.getSeconds());
-            document.getElementById('endHour').innerText = to02d((time_now.getHours() + 1) % 24);
-            document.getElementById('endMinute').innerText = to02d(time_now.getMinutes());
-            document.getElementById('endSecond').innerText = to02d(time_now.getSeconds());
+            if (time_now.getHours() == 2) {
+                document.getElementById('endHour').innerText = '02';
+                document.getElementById('endMinute').innerText = '59';
+                document.getElementById('endSecond').innerText = '59';
+            }
+            else {
+                document.getElementById('endHour').innerText = to02d((time_now.getHours() + 1) % 24);
+                document.getElementById('endMinute').innerText = to02d(time_now.getMinutes());
+                document.getElementById('endSecond').innerText = to02d(time_now.getSeconds());
+            }
+        }
+        function set_time_after_if_before() {
+            var start_hour = parseInt(document.getElementById('startHour').innerText);
+            if (start_hour <= 2) start_hour += 24;
+            var start_minute = parseInt(document.getElementById('startMinute').innerText);
+            var start_second = parseInt(document.getElementById('startSecond').innerText);
+            var end_hour = parseInt(document.getElementById('endHour').innerText);
+            if (end_hour <= 2) end_hour += 24;
+            var end_minute = parseInt(document.getElementById('endMinute').innerText);
+            var end_second = parseInt(document.getElementById('endSecond').innerText);
+            if (start_hour == 2 + 24) {
+                document.getElementById('endHour').innerText = '02';
+                document.getElementById('endMinute').innerText = '59';
+                document.getElementById('endSecond').innerText = '59';
+            }
+            else if (end_hour * 60 * 60 + end_minute * 60 + end_second <= start_hour * 60 * 60 + start_minute * 60 + start_second) {
+                document.getElementById('endHour').innerText = to02d((start_hour + 1) % 24);
+                document.getElementById('endMinute').innerText = to02d(start_minute);
+                document.getElementById('endSecond').innerText = to02d(start_second);
+            }
         }
         function reset() {
             set_wde('wd');
@@ -934,14 +926,22 @@
                 }
             }
             document.getElementById('speed').innerText = 1;
+            for (btn of document.getElementsByClassName('popup-btn')) {
+                btn.className = 'popup-btn btn-unselected';
+            }
             count_lines();
+            /*
             set_size('m');
-            is_hide_linename = false;
-            is_hide_stationname = false;
-            is_hide_station = false;
+            window.is_hide_linename = false;
+            window.is_hide_stationname = false;
+            window.is_hide_station = false;
+            d3.select('#g_stations').attr('display', '');
+            d3.select('#g_linenames').attr('display', '');
+            d3.select('#g_stationnames').attr('display', '');
             document.getElementById('btn_linename').className = 'side-2l2-btn btn-unselected';
             document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
             document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
+            */
         }
 
         /* 弹出框相关函数 */
@@ -976,10 +976,9 @@
             div_speed.innerHTML = temp;
         }
         function write_secelt_lines() {
-            window.is_lines = new Object;
+            window.is_lines = new Object();
             var sche;
-            if (window.wde === 'wk') sche = window.sche_wk;
-            else sche = window.sche_wd;
+            sche = window.sche_wde[window.wde];
             var temp = '';
             for (line_name in sche) {
                 window.is_lines[line_name] = new Object();
@@ -1550,9 +1549,8 @@
             if (this_btn) this_btn.className = 'popup-btn btn-selected';
         }
 
-
         function start() {
-            //console.log(startTime.value);
+            set_time_after_if_before();
             var start_hour = parseInt(document.getElementById('startHour').innerText);
             var start_minute = parseInt(document.getElementById('startMinute').innerText);
             var start_seconds = parseInt(document.getElementById('startSecond').innerText);
@@ -1560,6 +1558,8 @@
             var end_minute = parseInt(document.getElementById('endMinute').innerText);
             var end_seconds = parseInt(document.getElementById('endSecond').innerText);
             var speed = parseFloat(document.getElementById('speed').innerText);
+            if (start_hour <= 2) start_hour += 24;
+            if (end_hour <= 2) end_hour += 24;
             draw_trains(
                 start_hour * 60 + start_minute + start_seconds / 60,
                 end_hour * 60 + end_minute + end_seconds / 60,
@@ -1571,6 +1571,11 @@
                 window.is_hide_stationname,
                 window.is_hide_station
             );
+        }
+        function stop() {
+            stop_set_time();
+            open_siderbar();
+            draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
         }
     </script>
 </body>

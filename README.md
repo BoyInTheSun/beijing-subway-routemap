@@ -7,12 +7,32 @@
 [bjsubway.boyinthesun.cn](https://bjsubway.boyinthesun.cn)
 ***正在开发中***
 
-## 数据来源
+## 时刻表数据
 
-时刻表数据来源于[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)。
+时刻表数据来源于[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)。由于数据来源于公开渠道，且在整理过程之有可能出现错误，故无法保证准确性。
 
-地图数据来源于[北京地铁线路图](https://map.bjsubway.com/)
+该时刻表的精度是分钟，并且忽略在站经停时间。故即便现实中严格按照该时刻表执行，仍会存在一分钟左右的误差。
+
+该时刻表虽然区分了节假日和工作日，但现实中的某些情况也许会执行特殊时刻表，或者因恶劣天气、活动保障、信号故障等原因导致完全与时刻表不符。
+
+出于上述原因，该项目仅作为动画演示，对于任何和现实世界有出入之处不负任何责任。
+
+## 地图数据
+
+地图数据来源于[北京地铁线路图](https://map.bjsubway.com/)。版权归原作者所有。
+
+该地图是变形地图，两站间距离可能不符合实际比例，故动画中某些区间列车的速度突然变快或变慢。
+
+由于地图更新的滞后，对于任何和现实世界有出入之处不负任何责任。
 
 ## 依赖
 
 [D3](https://d3js.org/)
+
+## 如何贡献
+
+如果你对前端设计或代码逻辑等有建议，或发现bug，请提issue。
+
+如果你能对时刻表数据和地图数据提供帮助，请提issue。
+
+请注意，所有提供的数据必须来源于合法的公开渠道，请勿在未授权情况下提供任何内部数据。

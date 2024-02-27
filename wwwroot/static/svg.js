@@ -8,7 +8,6 @@ function ban_event(event) {
 
 function svg_init_xy() {
     var div_svg = document.getElementById('div_svg');
-    console.log(div_svg.style.top)
     div_svg.style.top = ((parseFloat(window.screen.height) - 1600) / 2 + 40) + 'px';
     div_svg.style.left = ((parseFloat(window.screen.width) - 2000) / 2 + 60) + 'px';
 }
@@ -24,7 +23,7 @@ function svg_on_whell(event) {
 
 function svg_on_down(event) {
     var div_svg = document.getElementById('div_svg');
-    console.log('down', event)
+    // down
 
     var div_left_start = parseFloat(div_svg.style.left);
     var div_top_start = parseFloat(div_svg.style.top);
@@ -52,7 +51,6 @@ function svg_on_down(event) {
     function move(event) {
         var mouse_x_now;
         var mouse_y_now;
-        console.log(event.type)
         if (event.type === 'mousemove') {
             // mouse
             mouse_x_now = event.clientX;
@@ -95,7 +93,6 @@ function svg_on_down(event) {
         div_svg.style.transform = `scale(${zoom_start * multiple})`;
         var x0 = (touches_0_x_now + touches_1_x_now) / 2;
         var y0 = (touches_0_y_now + touches_1_y_now) / 2;
-        console.log(multiple, div_svg.style.left, x0, x0 + (parseFloat(div_svg.style.left) - x0) * multiple)
 
         div_svg.style.left = (x0 + (left_start - x0) * multiple) + 'px';
         div_svg.style.top = (y0 + (top_start - y0) * multiple) + 'px';

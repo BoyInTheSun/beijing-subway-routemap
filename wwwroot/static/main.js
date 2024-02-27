@@ -69,7 +69,7 @@ var svg_style = `<style>
 </style>
 <symbol id="station-transfer">
     <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" />
-    <image xlink:href="/static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
+    <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
 </symbol>`
 
 var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
@@ -233,19 +233,86 @@ for (let ex_station in ex_stations_xy) {
     //xml_stations.push(`<circle class="station-transfer" cx="${new_x}" cy="${new_y}"></circle>`);
     xml_stations.push(`<use xlink:href="#station-transfer" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
 }
-//console.log(stations);
-//console.log(paths);
 
+
+var xml_g_paths = '<g id="g_paths">' + xml_paths.join('') + '</g>';
+var xml_g_stationnames = '<g id="g_stationnames">' + xml_stationnames.join('') + '</g>';
+var xml_g_stations = '<g id="g_stations">' + xml_stations.join('') + '</g>';
+var xml_g_linenames = '<g id="g_linenames">' + xml_linenames.join('') + '</g>';
+
+var svg = d3.select('#div_svg').append('svg')
+    .attr('width', 2000)
+    .attr('height', 1600)
+    .attr('xmlns', 'http://www.w3.org/2000/svg');
+var svg_html = '';
+svg_html += svg_style;
+svg_html += xml_g_paths;
+svg_html += xml_g_stationnames;
+svg_html += xml_g_stations;
+svg_html += xml_g_linenames;
+svg_html += '<g id="g_trains"></g>';
+svg.html(svg_html);
+// 请求时刻表
+// TODO: 改并行？
+var sche_wde = new Object();
+var sche_trains_wde = new Object();
 
 var xhr_sche_wd = new XMLHttpRequest();
 xhr_sche_wd.open("GET", "data/schedule_weekday.json", false);
 xhr_sche_wd.send();
-sche_wd = JSON.parse(xhr_sche_wd.responseText);
+sche_wde['wd'] = JSON.parse(xhr_sche_wd.responseText);
+sche_trains_wde['wd'] = new Object();
+var sche_trains_wd = new Object();
+for (let line in sche_wde['wd']) {
+    for (let direct in sche_wde['wd'][line]) {
+        sche_trains_wde['wd'] = Object.assign(sche_trains_wde['wd'], sche_wde['wd'][line][direct]);
+    }
+}
 
 var xhr_sche_we = new XMLHttpRequest();
 xhr_sche_we.open("GET", "data/schedule_weekend.json", false);
 xhr_sche_we.send();
-sche_we = JSON.parse(xhr_sche_we.responseText);
+sche_wde['we'] = JSON.parse(xhr_sche_we.responseText);
+sche_trains_wde['we'] = new Object();
+for (let line in sche_wde['we']) {
+    for (let direct in sche_wde['we'][line]) {
+        sche_trains_wde['we'] = Object.assign(sche_trains_wde['we'], sche_wde['we'][line][direct]);
+    }
+}
+
+// 算开始和结束运营时间
+var start_trains_wde = new Object();
+var end_trains_wde = new Object();
+for (let wde of ['wd', 'we']) {
+    start_trains_wde[wde] = new Object();
+    end_trains_wde[wde] = new Object();
+    for (let h = 0; h <= 23; h++) {
+        start_trains_wde[wde][h] = new Object();
+        end_trains_wde[wde][h] = new Object();
+        for (let m = 0; m <= 59; m++) {
+            start_trains_wde[wde][h][m] = new Array();
+            end_trains_wde[wde][h][m] = new Array();
+        }
+    }
+}
+for (let wde of ['wd', 'we']) {
+    for (let train_num in sche_trains_wde[wde]) {
+        let start_time = sche_trains_wde[wde][train_num][0][1];
+        let end_time = sche_trains_wde[wde][train_num][sche_trains_wde[wde][train_num].length - 1][1];
+        start_time = start_time.replace('(', '').replace('-', '');
+        end_time = end_time.replace('(', '').replace('-', '');
+        let [start_h, start_m] = start_time.split(':');
+        let [end_h, end_m] = end_time.split(':');
+        start_h = parseInt(start_h);
+        start_m = parseInt(start_m);
+        end_h = parseInt(end_h);
+        end_m = parseInt(end_m);
+        start_trains_wde[wde][start_h][start_m].push(train_num);
+        end_trains_wde[wde][end_h][end_m].push(train_num);
+    }
+}
+
+
 
 var now_minute;
 
@@ -258,9 +325,7 @@ lines_most['latest'] = new Object();
 for (let wde of ['wd', 'we']) {
     lines_most['earliest'][wde] = new Object();
     lines_most['latest'][wde] = new Object();
-    let sche;
-    if (wde == 'wd') sche = sche_wd;
-    else sche = sche_we;
+    let sche = sche_wde[wde];
     for (let line in sche) {
         lines_most['earliest'][wde][line] = new Object();
         lines_most['latest'][wde][line] = new Object();
@@ -268,7 +333,6 @@ for (let wde of ['wd', 'we']) {
             let earliest = hm2time('02:59'); //TODO 这里有个小问题，注意分和秒的精度区别，应该无伤大雅；
             let latest = hm2time('03:00');
             for (let train_num in sche[line][direct]) {
-
                 if (hm2time(sche[line][direct][train_num][0][1]) < earliest) earliest = hm2time(sche[line][direct][train_num][0][1]);
                 if (hm2time(sche[line][direct][train_num][sche[line][direct][train_num].length - 1][1]) > latest) latest = hm2time(sche[line][direct][train_num][sche[line][direct][train_num].length - 1][1]);
             }
@@ -283,46 +347,41 @@ function get_now_minute() {
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
-time_interval_id = NaN;
-function start_set_time(begin_minute, end_minute, show_minute, speed) {
-    clearInterval(window.time_interval_id);
-    window.time_interval_id = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${show_minute}, ${speed})`, 50);
+var time_interval_id_set_time;
+function start_set_time(begin_minute, end_minute, reality_minute, speed, wde) {
+    clearInterval(window.time_interval_id_set_time);
+    init_count_trains(Math.floor(begin_minute / 60), Math.floor(begin_minute % 60), wde);
+    window.time_interval_id_set_time = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${reality_minute}, ${speed}, "${wde}")`, 50);
 }
-function init_time() {
-    if (window.time_interval_id) clearInterval(window.time_interval_id);
-    time_p = document.getElementById('time');
-    time_p.innerText = '--:--:--';
+function stop_set_time() {
+    if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
+    document.getElementById('time').innerText = '--:--:--';
+    document.getElementById('count_train').innerText = '?';
 }
-function set_time(begin_minute, end_minute, start_minute, speed) {
-    time_now = get_now_minute();
-    time_offset = time_now - start_minute;
-    show_minute_now = begin_minute + time_offset * speed;
+function set_time(begin_minute, end_minute, reality_minute, speed, wde) {
+    var time_now = get_now_minute();
+    var time_offset = time_now - reality_minute;
+    var show_minute_past = window.now_minute;
+    var show_minute_now = begin_minute + time_offset * speed;
+
     if (show_minute_now > end_minute) {
-        init_time();
-        clearInterval(window.intervalId);
+        stop_set_time();
         return;
     }
     window.now_minute = show_minute_now;
-    time = time2hms(show_minute_now);
-    time_p = document.getElementById('time');
-    time_p.innerText = time;
+    // 更新时间框
+    document.getElementById('time').innerText = time2hms(show_minute_now);
+    // 更新运行列车数量
+    var show_minute_past_floor = Math.floor(show_minute_past);
+    var show_minute_now_floor = Math.floor(show_minute_now);
+    if (show_minute_now_floor > show_minute_past_floor)
+        update_count_trains(show_minute_past_floor, show_minute_now_floor, wde);
+
 }
 
 // 画地图，无车
-function draw_map(is_hide_station, is_hide_linename, is_hide_stationname) {
-    div_svg = d3.select('#div_svg');
-    div_svg.html('');
-    svg = div_svg.append('svg')
-        .attr('width', 2000)
-        .attr('height', 1600)
-        .attr('xmlns', 'http://www.w3.org/2000/svg');
-    var svg_html = '';
-    svg_html += svg_style;
-    svg_html += xml_paths.join('');
-    if (!is_hide_station) svg_html += xml_stations.join('');
-    if (!is_hide_linename) svg_html += xml_linenames.join('');
-    if (!is_hide_stationname) svg_html += xml_stationnames.join('');
-    svg.html(svg_html);
+function draw_map() {
+    d3.select('#g_trains').html('');
 }
 
 
@@ -331,15 +390,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
     transparency_second = 0.5;
     xml_polygons = new Array();
 
-    if (wde === 'wd') {
-        sche = sche_wd;
-    }
-    else if (wde === 'we') {
-        sche = sche_we;
-    }
-    else {
-        sche = sche_wd;
-    }
+    var sche = sche_wde[wde];
 
     for (line_name in sche) {
         direct_index = -1;
@@ -395,6 +446,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
                         /*
                         // 别费劲了，polygon没有xy属性，就算有也算不出来角度，放弃吧
+                        // 也未必，可以用use标签！
                         t = path.split(' ');
                         t = path.split(' ')[t.length - 1].split(',');
                         x = t[0];
@@ -426,25 +478,61 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
 
     //svg = document.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'svg');
     //svg.innerHTML = xml_paths.join('') + xml_polygons.join('');
-
-    div_svg = d3.select('#div_svg');
-    div_svg.html('');
-    svg = div_svg.append('svg')
-        .attr('width', 2000)
-        .attr('height', 1600)
-        .attr('xmlns', 'http://www.w3.org/2000/svg');
-
-    var svg_html = '';
-    svg_html += svg_style;
-    svg_html += xml_paths.join('');
-    if (!is_hide_station) svg_html += xml_stations.join('');
-    if (!is_hide_linename) svg_html += xml_linenames.join('');
-    if (!is_hide_stationname) svg_html += xml_stationnames.join('');
-    svg_html += xml_polygons.join('');
-
-    svg.html(svg_html);
-    start_set_time(begin_minute, end_minute, get_now_minute(), speed);
+    d3.select('#g_trains').html(xml_polygons.join(''));
+    start_set_time(begin_minute, end_minute, get_now_minute(), speed, wde);
 }
+
+
+var count_trains;
+
+function init_count_trains(hour, minute, wde) {
+    window.count_trains = new Object();
+    window.count_trains['wait'] = new Array();
+    window.count_trains['running'] = new Array();
+    window.count_trains['done'] = new Array();
+    var start_trains = start_trains_wde[wde];
+    var end_trains = end_trains_wde[wde];
+    var train_nums = Object.keys(sche_trains_wde[wde]);
+    if (hour <= 2) hour += 24;
+    for (let i = hour; i >= 0; i--) {
+        h = i % 24;
+        for (let m = (i == hour ? minute : 59); m >= 0; m--) {
+            for (let train_num of end_trains[h][m]) {
+                window.count_trains['done'].push(train_num);
+            }
+            for (let train_num of start_trains[h][m]) {
+                if (window.count_trains['done'].indexOf(train_num) == -1) {
+                    window.count_trains['running'].push(train_num);
+                }
+            }
+        }
+    }
+    for (let train_num of train_nums) {
+        if (window.count_trains['done'].indexOf(train_num) == -1 && window.count_trains['running'].indexOf(train_num) == -1) {
+            window.count_trains['wait'].push(train_num);
+        }
+    }
+    document.getElementById('count_train').innerText = window.count_trains['running'].length;
+}
+function update_count_trains(past_minute, now_minute, wde) {
+    var start_trains = start_trains_wde[wde];
+    var end_trains = end_trains_wde[wde];
+    for (let t = past_minute; t <= now_minute; t++) {
+        var hour = Math.floor(t / 60);
+        var minute = Math.floor(t % 60);
+        for (let train_num of end_trains[hour][minute]) {
+            window.count_trains['running'].splice(window.count_trains['running'].indexOf(train_num), 1);
+            window.count_trains['done'].push(train_num);
+        }
+        for (let train_num of start_trains[hour][minute]) {
+            window.count_trains['wait'].splice(window.count_trains['wait'].indexOf(train_num), 1);
+            window.count_trains['running'].push(train_num);
+        }
+    }
+    document.getElementById('count_train').innerText = window.count_trains['running'].length;
+}
+
+
 //draw_trains(get_now_minute(), 4320, 30, 'we');
 //draw_trains(1300, 1310, 600, 'we');
 /*
