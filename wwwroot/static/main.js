@@ -70,7 +70,8 @@ var svg_style = `<style>
 <symbol id="station-transfer">
     <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" />
     <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
-</symbol>`
+</symbol>
+`
 
 var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
 var stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
@@ -235,14 +236,25 @@ for (let ex_station in ex_stations_xy) {
 }
 
 
+// 画车symbol
+var train_size = 3;
+var xml_symbols = new Array();
+for (color of Object.values(line_colors)) {
+    let t = train_size;
+    //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
+    let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
+    xml_symbols.push(`<symbol id="train_${color}" X="-${t * 4}" refX="${t * 4}"><polygon class="train" fill="${color}" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`)
+}
+
 var xml_g_paths = '<g id="g_paths">' + xml_paths.join('') + '</g>';
 var xml_g_stationnames = '<g id="g_stationnames">' + xml_stationnames.join('') + '</g>';
 var xml_g_stations = '<g id="g_stations">' + xml_stations.join('') + '</g>';
 var xml_g_linenames = '<g id="g_linenames">' + xml_linenames.join('') + '</g>';
+var xml_g_symbols = '<g id="g_symbols">' + xml_symbols.join('') + '</g>';
 
 var svg = d3.select('#div_svg').append('svg')
     .attr('width', 2000)
-    .attr('height', 1600)
+    .attr('height', 1500)
     .attr('xmlns', 'http://www.w3.org/2000/svg');
 var svg_html = '';
 svg_html += svg_style;
@@ -250,6 +262,7 @@ svg_html += xml_g_paths;
 svg_html += xml_g_stationnames;
 svg_html += xml_g_stations;
 svg_html += xml_g_linenames;
+svg_html += xml_g_symbols;
 svg_html += '<g id="g_trains"></g>';
 svg.html(svg_html);
 // 请求时刻表
@@ -386,12 +399,13 @@ function draw_map() {
 
 
 // 画车动画
-function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size, is_hide_linename, is_hide_stationname, is_hide_station) {
-    transparency_second = 0.5;
+function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
+    var transparency_second;
+    if (speed > 60) transparency_second = 30 / speed;
+    else transparency_second = 0.5;
+
     xml_polygons = new Array();
-
     var sche = sche_wde[wde];
-
     for (line_name in sche) {
         direct_index = -1;
         for (direct in sche[line_name]) {
@@ -468,9 +482,10 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
                 if (begin_minute <= next_time_minute && end_minute >= next_time_minute) {
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="1;0" repeatCount="1" />`)
                 }
-                var t = train_size;
-                let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
-                xml_polygon = `<polygon id="T_${train_num}" fill="${line_colors[line_name]}" points="${points}" stroke-width="${t / 2}" stroke="#000000">${xml_animates.join('')}</polygon>`;
+                //var t = train_size;
+                //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
+                //xml_polygon = `<polygon id="T_${train_num}" fill="${line_colors[line_name]}" points="${points}" stroke-width="${t / 2}" stroke="#000000">${xml_animates.join('')}</polygon>`;
+                xml_polygon = `<use id="T_${train_num}" xlink:href="#train_${line_colors[line_name]}">${xml_animates.join('')}</use>`;
                 xml_polygons.push(xml_polygon);
             }
         }
@@ -478,6 +493,11 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines, train_size,
 
     //svg = document.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'svg');
     //svg.innerHTML = xml_paths.join('') + xml_polygons.join('');
+    d3.select('#g_trains').html('');
+    // TODO 只能靠这样重载动画
+    var svg_html = d3.select('#div_svg').html();
+    d3.select('#div_svg').html('');
+    d3.select('#div_svg').html(svg_html);
     d3.select('#g_trains').html(xml_polygons.join(''));
     start_set_time(begin_minute, end_minute, get_now_minute(), speed, wde);
 }

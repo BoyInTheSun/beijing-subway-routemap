@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="static/font_in45mhonvqe/iconfont.css">
+    <link rel="icon" href="/favicon.ico">
 </head>
 <style>
     body {
@@ -551,6 +552,7 @@
         <div class="side-l side-1l" onclick="stop();">
             <div>停止运行<i class="iconfont icon-stop"></i></div>
         </div>
+        <div class="side-split"></div>
         <div class="side-l side-1l" onclick="reset();open_siderbar();">
             <div>重置参数<i class="iconfont icon-cached"></i></div>
         </div>
@@ -599,6 +601,9 @@
             </div>
         </div>
         <div class="side-split"></div>
+        <div class="side-l side-1l" onclick="reset_map();">
+            <div>重置地图<i class="iconfont icon-map-marker-radius"></i></div>
+        </div>
         <div class="side-l side-2l" onclick="open_siderbar();">
             <div class="side-2l1">列车大小<i class="iconfont icon-format-size"></i></div>
             <div class="side-2l2">
@@ -740,8 +745,7 @@
         var is_lines;
         write_secelt_lines();
         count_lines();
-        var train_size;
-        set_size('m');
+        //set_size('m');
         var is_hide_linename = false;
         var is_hide_stationname = false;
         var is_hide_station = false;
@@ -818,6 +822,14 @@
                 document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
             }
+            window.xml_symbols = new Array();
+            for (color of Object.values(line_colors)) {
+                let t = train_size;
+                //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
+                let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
+                window.xml_symbols.push(`<symbol id="train_${color}" X="-${t * 4}" refX="${t * 4}"><polygon class="train" fill="${color}" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`)
+            }
+            d3.select('#g_symbols').html(window.xml_symbols.join(''));
         }
         function reverse_show_linename() {
             window.is_hide_linename = !window.is_hide_linename;
@@ -930,7 +942,8 @@
                 btn.className = 'popup-btn btn-unselected';
             }
             count_lines();
-            /*
+        }
+        function reset_map() {
             set_size('m');
             window.is_hide_linename = false;
             window.is_hide_stationname = false;
@@ -941,9 +954,8 @@
             document.getElementById('btn_linename').className = 'side-2l2-btn btn-unselected';
             document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
             document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
-            */
+            svg_init_xy();
         }
-
         /* 弹出框相关函数 */
         function write_secelt_time(time_type) {
             div_hour = document.getElementById('select' + time_type + 'Hour');
@@ -1550,6 +1562,7 @@
         }
 
         function start() {
+            close_siderbar();
             set_time_after_if_before();
             var start_hour = parseInt(document.getElementById('startHour').innerText);
             var start_minute = parseInt(document.getElementById('startMinute').innerText);
@@ -1566,16 +1579,12 @@
                 speed,
                 window.wde,
                 window.is_lines,
-                window.train_size,
-                window.is_hide_linename,
-                window.is_hide_stationname,
-                window.is_hide_station
             );
         }
         function stop() {
             stop_set_time();
             open_siderbar();
-            draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+            draw_map();
         }
     </script>
 </body>
