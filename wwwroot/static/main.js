@@ -238,19 +238,16 @@ for (let ex_station in ex_stations_xy) {
 
 // 画车symbol
 var train_size = 3;
-var xml_symbols = new Array();
-for (color of Object.values(line_colors)) {
-    let t = train_size;
-    //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
-    let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
-    xml_symbols.push(`<symbol id="train_${color}" X="-${t * 4}" refX="${t * 4}"><polygon class="train" fill="${color}" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`)
-}
+var t = train_size;
+//let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
+var points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
+var xml_symbol = `<symbol id="train" X="-${t * 4}" refX="${t * 4}"><polygon class="train" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`;
 
 var xml_g_paths = '<g id="g_paths">' + xml_paths.join('') + '</g>';
 var xml_g_stationnames = '<g id="g_stationnames">' + xml_stationnames.join('') + '</g>';
 var xml_g_stations = '<g id="g_stations">' + xml_stations.join('') + '</g>';
 var xml_g_linenames = '<g id="g_linenames">' + xml_linenames.join('') + '</g>';
-var xml_g_symbols = '<g id="g_symbols">' + xml_symbols.join('') + '</g>';
+var xml_g_symbols = '<g id="g_symbols">' + xml_symbol + '</g>';
 
 var svg = d3.select('#div_svg').append('svg')
     .attr('width', 2000)
@@ -485,7 +482,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                 //var t = train_size;
                 //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
                 //xml_polygon = `<polygon id="T_${train_num}" fill="${line_colors[line_name]}" points="${points}" stroke-width="${t / 2}" stroke="#000000">${xml_animates.join('')}</polygon>`;
-                xml_polygon = `<use id="T_${train_num}" xlink:href="#train_${line_colors[line_name]}">${xml_animates.join('')}</use>`;
+                xml_polygon = `<use id="T_${train_num}" xlink:href="#train" fill="${line_colors[line_name]}">${xml_animates.join('')}</use>`;
                 xml_polygons.push(xml_polygon);
             }
         }
