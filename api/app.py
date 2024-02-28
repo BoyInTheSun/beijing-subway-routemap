@@ -39,21 +39,23 @@ def visit():
         res.set_cookie(key='uuid', value=this_uuid, path='/api', samesite='Strict', max_age=60 * 60 * 24)
     return res
 
-g.uuids = set()
-g.person_time = 0
-g.person_num = 0
-if not os.path.exists('visiters.csv'):
-    with open('visiters.csv', 'w', newline='') as f:
-        w = csv.writer(f)
-        w.writerow(['datetime', 'uuid', 'ip', 'ug'])
-else:
-    with open('visiters.csv', 'r') as f:
-        r = csv.reader(f)
-        h = next(r)
-        for line in r:
-            g.person_time += 1
-            if line[1] not in g.uuids:
-                g.uuids.add(line[1])
-                g.person_num += 1
+@application.before_request
+def handle_before_request():
+    g.uuids = set()
+    g.person_time = 0
+    g.person_num = 0
+    if not os.path.exists('visiters.csv'):
+        with open('visiters.csv', 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(['datetime', 'uuid', 'ip', 'ug'])
+    else:
+        with open('visiters.csv', 'r') as f:
+            r = csv.reader(f)
+            h = next(r)
+            for line in r:
+                g.person_time += 1
+                if line[1] not in g.uuids:
+                    g.uuids.add(line[1])
+                    g.person_num += 1
 
-# application.run(port=5080, host="127.0.0.1")
+application.run(port=5080, host="127.0.0.1")
