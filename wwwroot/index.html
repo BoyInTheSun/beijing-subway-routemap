@@ -736,7 +736,7 @@
     <script src="static/svg.js"></script>
     <script src="static/main.js"></script>
     <script type="text/javascript">
-        var wde = 'wd';
+        var wde = set_wde();
         set_time_now();
         write_secelt_time('Start');
         write_secelt_time('End');
@@ -791,6 +791,11 @@
         }
 
         function set_wde(wde) {
+            if (!wde) {
+                var d = new Date();
+                if (d.getDay() == 0 || d.getDay() == 6) wde = 'we';
+                else wde = 'wd';
+            }
             if (wde === 'wd') {
                 window.wde = 'wd';
                 document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
@@ -801,9 +806,9 @@
                 document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
                 document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
             }
+            return wde;
         }
         function set_size(size) {
-            // TODO: 实时变化，改svg
             if (size === 'l') {
                 window.train_size = 5;
                 document.getElementById('btn_size_l').className = 'side-2l2-btn btn-selected';
@@ -822,11 +827,14 @@
                 document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
             }
-            let t = train_size;
+            let t = window.train_size;
             //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
             let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
-            window.xml_symbol = `<symbol id="train" X="-${t * 4}" refX="${t * 4}"><polygon class="train" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`;
-            d3.select('#train').html(window.xml_symbol);
+            window.xml_symbol = `<polygon class="train" points="${points}" stroke-width="${t / 2}" stroke="#000000" />`;
+            d3.select('#train')
+                .attr('x', -t * 4)
+                .attr('refX', t * 4)
+                .html(window.xml_symbol);
         }
         function reverse_show_linename() {
             window.is_hide_linename = !window.is_hide_linename;
@@ -927,7 +935,7 @@
             }
         }
         function reset() {
-            set_wde('wd');
+            set_wde();
             set_time_now();
             for (line_name in window.is_lines) {
                 for (direct in window.is_lines[line_name]) {
