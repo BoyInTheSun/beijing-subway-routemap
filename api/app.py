@@ -32,8 +32,8 @@ def visit():
         ])
     res = make_response({
         'message': 'new' if is_new else 'repeat',
-        'g.person_time': g.person_time,
-        'g.person_num': g.person_num
+        'person_time': g.person_time,
+        'person_num': g.person_num
     })
     if is_new:
         res.set_cookie(key='uuid', value=this_uuid, path='/api', samesite='Strict', max_age=60 * 60 * 24)
@@ -58,4 +58,4 @@ def handle_before_request():
                     g.uuids.add(line[1])
                     g.person_num += 1
 
-application.run(port=5080, host="127.0.0.1")
+# application.run(port=5080, host="127.0.0.1")
