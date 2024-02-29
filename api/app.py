@@ -35,8 +35,7 @@ def visit():
         'person_time': g.person_time,
         'person_num': g.person_num
     })
-    if is_new:
-        res.set_cookie(key='uuid', value=this_uuid, path='/api', samesite='Strict', max_age=60 * 60 * 24)
+    res.set_cookie(key='uuid', value=this_uuid, path='/api', samesite='Strict', max_age=60 * 60 * 24 * 7)
     return res
 
 @application.before_request
