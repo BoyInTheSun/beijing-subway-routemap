@@ -526,7 +526,7 @@
         height: 15px;
     }
 
-    #footer a{
+    #footer a {
         text-decoration: none;
         color: inherit;
         color: #001261;
@@ -536,6 +536,86 @@
         position: relative;
         overflow: hidden;
         text-align: center;
+    }
+
+    .detail-broad {
+        position: fixed;
+        z-index: 18;
+        bottom: 75px;
+        background-color: #dddddd;
+        left: 52px;
+        width: calc(100% - 52px);
+        height: 240px;
+        font-size: 16px;
+    }
+
+    .detail-firstline {
+        width: 100%;
+        height: 44px;
+    }
+
+    .detail-linename {
+        position: fixed;
+        float: left;
+        font-size: 22px;
+        height: 34px;
+        line-height: 30px;
+        padding: 0 10px;
+        margin: 5px 10px;
+        border: #4e4e4e 2px solid;
+        color: #fff;
+        box-sizing: border-box;
+    }
+    .detail-line-l {
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        width: calc(50% + 6px);
+        padding-left: 10px;
+    }
+    
+    .detail-line-r {
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        width: calc(50% - 30px);
+        padding-left: 10px;
+    }
+    .detail-table {
+        padding-top: 52px;
+    }
+
+    .detail-table > .detail-table-line {
+        background-color: #a8a8a8;
+    }
+
+    .detail-table-line {
+        width: calc(100% - 16px);
+        height: 24px;
+        line-height: 24px;
+        display: flex;
+        text-align: center;
+        justify-content: space-between;
+        padding: 0 8px;
+    }
+    .detail-table-scroll {
+        height: 96px;
+        overflow-y: scroll;
+    }
+    .detail-table-line div {
+        display: inline-block;
+    }
+    .detail-table-line div:nth-child(1) {
+        width: 48px;
+    }
+    .detail-table-line div:nth-child(2) {
+        width: 64px;
+    }
+    .detail-table-line div:nth-child(3) {
+        width: 96px;
+    }
+    .detail-table-line div:nth-child(4) {
+        width: 56px;
     }
 </style>
 
@@ -641,12 +721,42 @@
             <div class="subtitle-div">运行列车数：<a id="count_train">?</a></div>
         </div>
     </div>
-
+    <div class="detail-broad">
+        <div class="detail-firstline">
+            <div class="detail-linename">1号线八通线</div>
+        </div>
+        <div class="detail-line-l">虚拟车号: <a>010001</a></div>
+        <div class="detail-line-r">环球度假区方向</div>
+        <div class="detail-line-l">已运行时间: <a>11:22:33</a></div>
+        <div class="detail-line-r">已经停站数: <a>23</a></div>
+        <div class="detail-table">
+            <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+            <div class="detail-table-scroll">
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+            </div>
+            <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+        </div>
+    </div>
     <div id="footer">
         <div>访问人数: <span id="person_num">xx</span> | 访问人次: <span id="person_time">xx</span></div>
-        <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.en">CC BY-SA 4.0</a></div>
+        <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a
+                href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.en">CC BY-SA 4.0</a></div>
         <div>联系作者 <a target="_blank" href="https://space.bilibili.com/185575427">bilibili@boyinthesun</a></div>
-        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2024 <a target="_blank" href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
+        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2024 <a target="_blank"
+                href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
     </div>
 
     <!--弹出框-->
