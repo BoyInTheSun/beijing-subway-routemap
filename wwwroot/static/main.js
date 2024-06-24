@@ -153,7 +153,10 @@ for (var i = 0; i < root.childElementCount; i++) {
         }
 
         paths[line_name][0].push(d);
-        xml_paths.push(`<path class="line" stroke="${line_color}" d="${d}" />`)
+        if (!(start_p.getAttribute("lb") == '工人体育场' && end_p.getAttribute("lb") == '十里河')){
+            // TODO: 17号线贯通后删除判断
+            xml_paths.push(`<path class="line" stroke="${line_color}" d="${d}" />`);
+        }
 
         d = `M${end_p.getAttribute("x")},${end_p.getAttribute("y")}`; // 下个起点
 
@@ -266,11 +269,23 @@ svg.html(svg_html);
 // TODO: 改并行？
 var sche_wde = new Object();
 var sche_trains_wde = new Object();
-
+/*
 var xhr_sche_wd = new XMLHttpRequest();
 xhr_sche_wd.open("GET", "data/schedule_weekday.json", false);
 xhr_sche_wd.send();
 sche_wde['wd'] = JSON.parse(xhr_sche_wd.responseText);
+var xhr_sche_we = new XMLHttpRequest();
+xhr_sche_we.open("GET", "data/schedule_weekend.json", false);
+xhr_sche_we.send();
+sche_wde['we'] = JSON.parse(xhr_sche_we.responseText);
+*/
+var xhr_sche = new XMLHttpRequest();
+xhr_sche.open("GET", "data/schedule.json", false);
+xhr_sche.send();
+sche_ = JSON.parse(xhr_sche.responseText);
+sche_wde['wd'] = sche_["工作日"];
+sche_wde['we'] = sche_["双休日"];
+
 sche_trains_wde['wd'] = new Object();
 var sche_trains_wd = new Object();
 for (let line in sche_wde['wd']) {
@@ -279,10 +294,6 @@ for (let line in sche_wde['wd']) {
     }
 }
 
-var xhr_sche_we = new XMLHttpRequest();
-xhr_sche_we.open("GET", "data/schedule_weekend.json", false);
-xhr_sche_we.send();
-sche_wde['we'] = JSON.parse(xhr_sche_we.responseText);
 sche_trains_wde['we'] = new Object();
 for (let line in sche_wde['we']) {
     for (let direct in sche_wde['we'][line]) {
@@ -404,10 +415,13 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
     xml_polygons = new Array();
     var sche = sche_wde[wde];
     for (line_name in sche) {
-        direct_index = -1;
         for (direct in sche[line_name]) {
             if (!is_lines[line_name][direct]) continue;  // 隐藏某线路的车
-            direct_index += 1;
+            train_0 = Object.keys(sche[line_name][direct])[0];
+            index_0 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][0][0]);
+            index_1 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][1][0]);
+            if (index_1 - index_0 > 0) direct_index = 0;
+            else direct_index = 1;
             for (train_num in sche[line_name][direct]) {
                 xml_animates = new Array();
                 // 淡入
