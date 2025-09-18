@@ -78,11 +78,8 @@ var stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."
 var stations_xy = new Object();  // 存放站名坐标，{线路: {"站1": ["x", "y"], "站2": ["x", "y"], ...}}
 var ex_stations_xy = new Object();  // 存放换乘站坐标，{"站1": [["x0", "y0"], ["x1", "y1"]], "站2": [[...], [...], [...]], ...}
 var close_stations = {  // TODO 需要体现站点关闭和虚拟换乘、某线路未开通站等
-    '蓟门桥': '暂缓开通',
-    '蓟门桥': '暂缓开通',
-    '蓟门桥': '暂缓开通',
-    '蓟门桥': '暂缓开通',
-    '蓟门桥': '暂缓开通',
+    '木樨地': '虚拟换乘',
+    '大钟寺': '虚拟换乘',
 }
 
 
@@ -106,12 +103,19 @@ for (var i = 0; i < root.childElementCount; i++) {
     line_colors[line_name] = line_color;
 
     // 算linename
-    for (let lps of line.getAttribute("lp").split(';')) {
+    line_nicknames = new Array();
+    for (let slb of line.getAttribute("slb").split(',')) {
+        if (!isNaN(Number(slb))) line_nicknames.push(slb + '号线');
+        else line_nicknames.push(slb + '线');
+    }
+
+    // 画linename
+    for (let [i, lps] of line.getAttribute("lp").split(';').entries()) {
         if (!lps) continue;
         let lp = lps.split(',');
         xml_linenames.push(
             `<rect width="${lp[2]}" height="${lp[3]}" fill="${line_color}" x="${lp[0]}" y="${lp[1]}" />` +
-            `<text class="line-name" x="${add(lp[0], parseFloat(lp[2]) / 2)}" y="${add(lp[1], parseFloat(lp[3]) / 2)}" >${line_name}</text>`
+            `<text class="line-name" x="${add(lp[0], parseFloat(lp[2]) / 2)}" y="${add(lp[1], parseFloat(lp[3]) / 2)}" >${line_nicknames[i]}</text>`
         );
     }
 
@@ -190,6 +194,8 @@ for (var i = 0; i < root.childElementCount; i++) {
         paths[line_name][1].push(t.join(" "));
     }
     paths[line_name][1].reverse();
+
+
     // 算站
     for (var j = 0; j < line.childElementCount; j++) {
         if (line.children[j].getAttribute("st") === "true") {
@@ -220,6 +226,18 @@ for (var i = 0; i < root.childElementCount; i++) {
         }
     }
 }
+
+// 首都机场线特殊处理
+paths['首都机场线'][1] = [
+    paths['首都机场线'][0][3],
+    paths['首都机场线'][0][4],
+    paths['首都机场线'][1][3],
+    paths['首都机场线'][1][4],
+];
+paths['首都机场线'][0].pop();
+stations['首都机场线'][0] = ['北新桥', '东直门', '三元桥', '3号航站楼', '2号航站楼'];
+stations['首都机场线'][1] = ['3号航站楼', '2号航站楼', '三元桥', '东直门', '北新桥'];
+
 
 // 画换乘站
 
@@ -422,6 +440,10 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
             index_1 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][1][0]);
             if (index_1 - index_0 > 0) direct_index = 0;
             else direct_index = 1;
+            if (line_name == '首都机场线') {  // 首都机场线特殊处理
+                if (sche[line_name][direct][train_0][0][0] == '北新桥') direct_index = 0;
+                else direct_index = 1;
+            }
             for (train_num in sche[line_name][direct]) {
                 xml_animates = new Array();
                 // 淡入

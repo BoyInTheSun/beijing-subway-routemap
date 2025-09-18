@@ -690,6 +690,7 @@
                 <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
                 <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_size_s" onclick="set_size('s');">小</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_size_xs" onclick="set_size('xs');">超小</div>
             </div>
         </div>
         <div class="side-l side-2l" onclick="open_siderbar();">
@@ -756,7 +757,7 @@
         <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a
                 href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans">CC BY-SA 4.0</a></div>
         <div>联系作者 <a target="_blank" href="https://space.bilibili.com/185575427">bilibili@BoyInTheSun</a></div>
-        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2024 <a target="_blank"
+        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2025 <a target="_blank"
                 href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
     </div>
 
@@ -920,22 +921,32 @@
         }
         function set_size(size) {
             if (size === 'l') {
-                window.train_size = 5;
+                window.train_size = 4;
                 document.getElementById('btn_size_l').className = 'side-2l2-btn btn-selected';
                 document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
             }
             else if (size === 'm') {
                 window.train_size = 3;
                 document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_m').className = 'side-2l2-btn btn-selected';
                 document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
             }
             else if (size === 's') {
                 window.train_size = 2;
                 document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
                 document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
+            }
+            else if (size === 'xs') {
+                window.train_size = 1;
+                document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
+                document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
+                document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
             }
             let t = window.train_size;
             //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
