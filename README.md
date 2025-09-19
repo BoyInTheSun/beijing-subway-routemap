@@ -28,6 +28,27 @@
 
 请注意，请勿在未授权情况下提供任何内部数据。
 
+## TODO
+
+大体按照优先程度由高到低排序
+
+### 问题修复
+
++ 线路选择滚轮不可用，按住拖拽不应选择
++ 17号线南无车
++ 14号线方庄异常
++ 6号线跨线列车优化，待避列车方向以及跨站列车高亮
++ 房山线、9号线跨站列车
+
+### 功能增改
+
++ 虚拟换乘、暂缓开通站图标
++ 暂缓开通站时刻表
++ 点击站点展示到站列车情况
++ 点击列车展示经停站情况
++ 亦庄T1线数据
++ 多语言（繁体中文、英文）
+
 ## 关于许可证
 
 本项目采用多重许可证，基于内容的性质和用途。请仔细阅读项目根目录的 [LICENSE](./LICENSE) 文件获取完整法律条款和详细规则说明。
@@ -52,7 +73,7 @@
 
 **来源**：本作者另一项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[@Mick235711](https://github.com/Mick235711)的[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。感谢[@Mick235711](https://github.com/Mick235711)提供数据和适用于本项目格式的接口。
 
-[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
+[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [官方原文](https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
 
 ### 演示内容
 
@@ -62,4 +83,4 @@
 
 **核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。该作品的衍生作品包括但不限于：对于本作品的视频录制、剪辑、截图等。署名的方式可以是作者（BoyInTheSun）、演示地址（https://bjsubway.boyinthesun.cn/）、项目地址（https://github.com/BoyInTheSun/beijing-subway-routemap）。
 
-[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
+[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [官方原文](https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
