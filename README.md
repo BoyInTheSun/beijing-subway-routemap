@@ -6,38 +6,60 @@
 
 [bjsubway.boyinthesun.cn](https://bjsubway.boyinthesun.cn)
 
-***正在开发中***
-
 ## 时刻表数据
 
-时刻表数据来源于[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)。由于数据来源于公开渠道，且在整理过程之有可能出现错误，故无法保证准确性。
+时刻表数据的精度是分钟，并且忽略在站经停时间。故即便该时刻表准确，仍会存在一分钟左右的误差。
 
-该时刻表的精度是分钟，并且忽略在站经停时间。故即便现实中严格按照该时刻表执行，仍会存在一分钟左右的误差。
+该时刻表区分了节假日和工作日，但现实中的某些情况也许会执行特殊时刻表，或者因运行图调整、恶劣天气、活动保障、突发故障等原因导致与时刻表不符。出于上述原因，该项目仅作为动画演示，对于任何和现实世界有出入之处不负任何责任。
 
-该时刻表虽然区分了节假日和工作日，但现实中的某些情况也许会执行特殊时刻表，或者因恶劣天气、活动保障、信号故障等原因导致完全与时刻表不符。
-
-出于上述原因，该项目仅作为动画演示，对于任何和现实世界有出入之处不负任何责任。
+关于数据的来源于和许可证见[关于许可证-数据](#数据)
 
 ## 地图数据
 
 地图数据来源于[北京地铁线路图](https://map.bjsubway.com/)。版权归原作者所有。
 
-该地图是变形地图，两站间距离可能不符合实际比例，故动画中某些区间列车的速度突然变快或变慢。
-
-由于地图更新的滞后，对于任何和现实世界有出入之处不负任何责任。
+该地图是变形地图，两站间距离可能不符合现实比例，故动画中某些区间列车的速度突然变快或变慢。
 
 ## 如何贡献
 
 如果你对前端设计或代码逻辑等有建议，或发现bug，请提issue。
 
-如果你能对时刻表数据和地图数据提供帮助，请提issue。
+如果你能对时刻表数据和地图数据提供帮助，请提issue。或贡献项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。
 
-请注意，所有提供的数据必须来源于合法的公开渠道，请勿在未授权情况下提供任何内部数据。
+请注意，请勿在未授权情况下提供任何内部数据。
 
 ## 关于许可证
 
-在深思熟虑后，还是打算采用CC BY-SA 4.0许可证。主要原因是该项目不同其他开源代码项目，其主要意义在于动画展示，而不是共享源码。或者说，基于本项目的二次创作并不会是修改源代码，更可能是对于网页的录屏等。
+本项目采用多重许可证，基于内容的性质和用途。请仔细阅读项目根目录的 [LICENSE](./LICENSE) 文件获取完整法律条款和详细规则说明。
 
-所以，如果您对该项目进行二次创作时，请注明该项目地址或项目演示地址，并按照许可证要求采用允许的许可证。
+### 代码部分
 
-如果你认为该项目中的某些代码有利用价值，请提issue，我会考虑将部分代码划分为新的代码仓库，并在该仓库采用宽松的开源许可协议。
+适用条件：除文件[`wwwroot/data/schedule.json`](wwwroot/data/schedule.json)外，所有用于构建、运行、生成或控制本项目演示内容的功能性元素，包括但不限于：源代码文件（如 .py, .js, .html , .css 等）、脚本等。
+
+适用许可证：Mozilla Public License 2.0 (MPL-2.0)
+
+核心要求：可自由复制使用修改。**分发修改版本时，必须开源对代码文件的修改，并保留所有原始版权和许可证声明（包括下文提到关于数据和演示内容的声明）**。允许与闭源代码组合。
+
+[查看 MPL-2.0 全文](./LICENSE-MPL) | [官方原文](https://www.mozilla.org/en-US/MPL/2.0/)
+
+### 数据
+
+适用条件：文件[`wwwroot/data/schedule.json`](wwwroot/data/schedule.json)。
+
+适用许可证：Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+核心要求：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品。**此举是为了严格遵守引用项目的许可证。
+
+来源：本作者另一项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[@Mick235711](https://github.com/Mick235711)的[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。感谢[@Mick235711](https://github.com/Mick235711)提供数据和适用于本项目格式的接口。
+
+[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
+
+### 演示内容 (网页渲染效果、文本、设计、图像等)
+
+适用许可证：Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+适用条件：所有通过本项目展示或生成的最终呈现形式，包括但不限于：网页的视觉与布局渲染、动画的最终可视化效果、文本内容、设计元素。
+
+核心要求：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品。**该作品的衍生作品包括但不限于：对于本作品的视频录制、剪辑、截图等。
+
+[查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
