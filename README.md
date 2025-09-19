@@ -69,7 +69,7 @@
 
 **适用许可证**：Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
-**核心要求：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。此举是为了严格遵守引用项目的许可证。
+**核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。此举是为了严格遵守引用项目的许可证。
 
 **来源**：本作者另一项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[@Mick235711](https://github.com/Mick235711)的[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。感谢[@Mick235711](https://github.com/Mick235711)提供数据和适用于本项目格式的接口。
 
