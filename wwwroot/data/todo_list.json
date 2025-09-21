@@ -50,10 +50,24 @@
     },
     {
         "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "10号线火器营站列车异常",
+        "description": "因地图数据有误。"
+    },
+    {
+        "hidden": false,
         "status": "技术难题",
         "color": "orangered",
         "title": "暂停功能",
         "description": "当前技术栈难实现。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "跟随视角",
+        "description": "地图跟随列车移动。"
     },
     {
         "hidden": false,

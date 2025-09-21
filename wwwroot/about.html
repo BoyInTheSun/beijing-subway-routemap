@@ -193,7 +193,7 @@
         line-height: 60px;
     }
 
-    #subtitle {
+    .subtitle {
         position: fixed;
         top: 55px;
         width: calc(100% - 52px);
@@ -388,8 +388,8 @@
         <div id="title">
             <h1>北京市地铁动态运行图</h1>
         </div>
-        <div id="subtitle">
-            <div class="subtitle-div">关于</div>
+        <div class="subtitle">
+            <div class="subtitle-div" id="subtitle">关于</div>
         </div>
     </div>
 
@@ -500,6 +500,29 @@
 
 
     <script type="text/javascript">
+        // 加载tips
+        /*
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/data/tips.json')
+                .then(response => response.json())
+                .then(data => {
+                    const subtitle = document.getElementById('subtitle');
+                    subtitle.innerHTML = '';
+                    data.forEach(tip => {
+                        if (!todo.hidden) {
+                            const plan_div = document.createElement('div');
+                            plan_div.className = 'version-item';
+                            plan_div.innerHTML = `
+                                <span class="plan-status" style="background-color: ${todo.color};"> ${todo.status}</span>
+                                <span class="plan-title"> ${todo.title}</span>
+                                <p> ${todo.description}</p>
+                            `;
+                            subtitle.appendChild(plan_div);
+                        }
+                    });
+                })
+        })
+        */
         // 加载计划列表
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/data/todo_list.json')

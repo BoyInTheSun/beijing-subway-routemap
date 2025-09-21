@@ -24,8 +24,9 @@ var is_hide_stationname = false;
 var is_hide_station = false;
 
 //draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
-start();
 svg_init_xy();
+//hide_loading();
+start();
 
 
 
