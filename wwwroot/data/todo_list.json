@@ -1,0 +1,114 @@
+[
+    {
+        "hidden": false,
+        "status": "已解决",
+        "color": "green",
+        "title": "更新地图数据",
+        "description": "已经更新为最新数据。"
+    },
+    {
+        "hidden": false,
+        "status": "亟待解决",
+        "color": "darkred",
+        "title": "优化线路选择",
+        "description": "PC端滚轮不可用，按住拖拽会选中。"
+    },
+    {
+        "hidden": false,
+        "status": "即将完成",
+        "color": "teal",
+        "title": "站点图标优化",
+        "description": "虚拟换乘、暂缓开通站图标优化。"
+    },
+    {
+        "hidden": false,
+        "status": "即将完成",
+        "color": "teal",
+        "title": "左上角列车隐藏",
+        "description": "拿个白块盖一下？"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "goldenrod",
+        "title": "14号线方庄站列车异常",
+        "description": "未知原因。"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "goldenrod",
+        "title": "17号线南无列车",
+        "description": "有数据，但未显示。"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "goldenrod",
+        "title": "14号线陶然桥站列车异常",
+        "description": "因缺失时刻表。"
+    },
+    {
+        "hidden": false,
+        "status": "技术难题",
+        "color": "orangered",
+        "title": "暂停功能",
+        "description": "当前技术栈难实现。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "车站详情",
+        "description": "点击车站显示经停列车情况。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "列车详情",
+        "description": "点击列车显示沿途经停情况。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "6号线优化",
+        "description": "待避列车方向修复及跨站列车高亮。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "房山线、9号线跨线列车",
+        "description": "优化展示方式。"
+    },
+    {
+        "hidden": false,
+        "status": "远期计划",
+        "color": "slategray",
+        "title": "亦庄T1线",
+        "description": "添加亦庄T1线数据。"
+    },
+    {
+        "hidden": false,
+        "status": "远期计划",
+        "color": "slategray",
+        "title": "多语言支持",
+        "description": "添加对于繁体中文、英文的支持。"
+    },
+    {
+        "hidden": false,
+        "status": "远期计划",
+        "color": "slategray",
+        "title": "港铁",
+        "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了港铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
+    },
+    {
+        "hidden": false,
+        "status": "暂无计划",
+        "color": "gray",
+        "title": "真实比例地图",
+        "description": "无数据。且需要重构代码才能实现。"
+    }
+]

@@ -11,12 +11,12 @@
         详细请参见 `https://github.com/BoyInTheSun/beijing-subway-routemap/blob/main/LICENSE` 。
     -->
     <link rel="license" href="https://github.com/BoyInTheSun/beijing-subway-routemap/blob/main/LICENSE">
-    
+
     <meta name='viewport'
         content='width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=scale=1.0,user-scalable=no'>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>北京市地铁动态运行图</title>
-    <link rel="stylesheet" type="text/css" href="static/font_in45mhonvqe/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="static/icon/iconfont.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <style>
@@ -479,28 +479,28 @@
         position: fixed;
         top: 0;
         z-index: 5;
-        height: 120px;
+        height: 85px;
         width: calc(100% - 52px);
         left: 52px;
     }
 
     #title {
-        height: 80px;
+        height: 55px;
         width: 100%;
         background-color: #075990;
     }
 
     #title h1 {
         margin: 0;
-        font-size: 28px;
-        line-height: 80px;
+        font-size: 24px;
+        line-height: 60px;
     }
 
     #subtitle {
         position: fixed;
-        top: 80px;
+        top: 55px;
         width: calc(100% - 52px);
-        height: 40px;
+        height: 30px;
         background-color: #d3d3d3;
         display: flex;
         flex-direction: row;
@@ -508,11 +508,11 @@
     }
 
     .subtitle-div {
-        height: 40px;
-        line-height: 40px;
+        height: 30px;
+        line-height: 30px;
         width: 160px;
         text-align: center;
-
+        font-size: 13px;
     }
 
     #header h1 {
@@ -524,17 +524,17 @@
         position: fixed;
         bottom: 0;
         z-index: 5;
-        height: 70px;
+        height: 52px;
         width: calc(100% - 52px);
         left: 52px;
         background-color: #d3d3d3;
-        padding-top: 5px;
+        padding-top: 2px;
     }
 
     #footer div {
         text-align: center;
-        font-size: 12px;
-        height: 15px;
+        font-size: 10px;
+        height: 12px;
     }
 
     #footer a {
@@ -577,6 +577,7 @@
         color: #fff;
         box-sizing: border-box;
     }
+
     .detail-line-l {
         float: left;
         height: 22px;
@@ -584,7 +585,7 @@
         width: calc(50% + 6px);
         padding-left: 10px;
     }
-    
+
     .detail-line-r {
         float: left;
         height: 22px;
@@ -592,11 +593,12 @@
         width: calc(50% - 30px);
         padding-left: 10px;
     }
+
     .detail-table {
         padding-top: 52px;
     }
 
-    .detail-table > .detail-table-line {
+    .detail-table>.detail-table-line {
         background-color: #a8a8a8;
     }
 
@@ -609,23 +611,29 @@
         justify-content: space-between;
         padding: 0 8px;
     }
+
     .detail-table-scroll {
         height: 96px;
         overflow-y: scroll;
         scrollbar-width: thin;
     }
+
     .detail-table-line div {
         display: inline-block;
     }
+
     .detail-table-line div:nth-child(1) {
         width: 48px;
     }
+
     .detail-table-line div:nth-child(2) {
         width: 64px;
     }
+
     .detail-table-line div:nth-child(3) {
         width: 96px;
     }
+
     .detail-table-line div:nth-child(4) {
         width: 56px;
     }
@@ -743,30 +751,112 @@
         <div class="detail-line-l">已运行时间: <a>11:22:33</a></div>
         <div class="detail-line-r">已通过/所有站数: <a>23</a>/<a>64</a></div>
         <div class="detail-table">
-            <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-            <div class="detail-table-scroll">
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
-                <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+            <div class="detail-table-line">
+                <div>始发站</div>
+                <div>封站改造</div>
+                <div>惠新西街南口</div>
+                <div>12:21</div>
             </div>
-            <div class="detail-table-line"><div>始发站</div><div>封站改造</div><div>惠新西街南口</div><div>12:21</div></div>
+            <div class="detail-table-scroll">
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+                <div class="detail-table-line">
+                    <div>始发站</div>
+                    <div>封站改造</div>
+                    <div>惠新西街南口</div>
+                    <div>12:21</div>
+                </div>
+            </div>
+            <div class="detail-table-line">
+                <div>始发站</div>
+                <div>封站改造</div>
+                <div>惠新西街南口</div>
+                <div>12:21</div>
+            </div>
         </div>
     </div>
     <div id="footer">
         <div>访问人数: <span id="person_num">xx</span> | 访问人次: <span id="person_time">xx</span></div>
         <div>联系作者 <a target="_blank" href="https://space.bilibili.com/185575427">bilibili@BoyInTheSun</a></div>
-        <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans">CC BY-SA 4.0</a> / <a target="_blank" href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2.0</a> <a
+        <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a
+                target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans">CC BY-SA 4.0</a>
+            / <a target="_blank" href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2.0</a> <a target="_blank"
                 href="https://github.com/BoyInTheSun/beijing-subway-routemap?tab=License-1-ov-file">双重许可证</a></div>
         <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2025 <a target="_blank"
                 href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
