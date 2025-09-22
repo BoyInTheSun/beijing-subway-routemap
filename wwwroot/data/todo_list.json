@@ -7,18 +7,18 @@
         "description": "已经更新为最新数据。"
     },
     {
-        "hidden": false,
+        "hidden": true,
         "status": "亟待解决",
         "color": "darkred",
-        "title": "优化线路选择",
-        "description": "PC端滚轮不可用，按住拖拽会选中。"
+        "title": "",
+        "description": ""
     },
     {
         "hidden": true,
         "status": "即将完成",
         "color": "teal",
-        "title": "站点图标优化",
-        "description": "虚拟换乘、暂缓开通站图标优化。"
+        "title": "",
+        "description": ""
     },
     {
         "hidden": false,
@@ -31,29 +31,15 @@
         "hidden": false,
         "status": "进行中",
         "color": "goldenrod",
-        "title": "14号线方庄站列车异常",
-        "description": "未知原因。"
-    },
-    {
-        "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
         "title": "17号线南无列车",
         "description": "有数据，但未显示。"
     },
     {
         "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
+        "status": "进行中",
+        "color": "goldenrod",
         "title": "14号线陶然桥站列车异常",
         "description": "因缺失时刻表。"
-    },
-    {
-        "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
-        "title": "10号线火器营站列车异常",
-        "description": "因地图数据有误。"
     },
     {
         "hidden": false,

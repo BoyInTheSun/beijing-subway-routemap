@@ -373,10 +373,7 @@ for (let wde of ['wd', 'we']) {
 }
 
 
-
 var now_minute;
-
-//console.log(sche_wd);
 
 //算最早最晚时间
 var lines_most = new Object();
