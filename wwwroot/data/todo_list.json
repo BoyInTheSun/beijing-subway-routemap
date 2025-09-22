@@ -14,7 +14,7 @@
         "description": "PC端滚轮不可用，按住拖拽会选中。"
     },
     {
-        "hidden": false,
+        "hidden": true,
         "status": "即将完成",
         "color": "teal",
         "title": "站点图标优化",
@@ -22,8 +22,8 @@
     },
     {
         "hidden": false,
-        "status": "即将完成",
-        "color": "teal",
+        "status": "未开始",
+        "color": "darkslateblue",
         "title": "左上角列车隐藏",
         "description": "拿个白块盖一下？"
     },
@@ -43,8 +43,8 @@
     },
     {
         "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
+        "status": "未开始",
+        "color": "darkslateblue",
         "title": "14号线陶然桥站列车异常",
         "description": "因缺失时刻表。"
     },
@@ -54,6 +54,20 @@
         "color": "darkslateblue",
         "title": "10号线火器营站列车异常",
         "description": "因地图数据有误。"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "goldenrod",
+        "title": "添加分享模块",
+        "description": "可带参数分享链接，生成二维码。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": ""darkslateblue",
+        "title": "载入中动画",
+        "description": "或许可以包含tips。"
     },
     {
         "hidden": false,
@@ -113,14 +127,14 @@
     },
     {
         "hidden": false,
-        "status": "远期计划",
-        "color": "slategray",
+        "status": "暂无规划",
+        "color": "gray",
         "title": "港铁",
         "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了港铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
     },
     {
         "hidden": false,
-        "status": "暂无计划",
+        "status": "暂无规划",
         "color": "gray",
         "title": "真实比例地图",
         "description": "无数据。且需要重构代码才能实现。"
