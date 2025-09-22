@@ -81,6 +81,10 @@ var svg_style = `<style>
     <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" />
     <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
 </symbol>
+<symbol id="station-transfer-dash">
+    <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" stroke-dasharray="1 2"/>
+    <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
+</symbol>
 `
 
 var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
@@ -226,10 +230,13 @@ for (var i = 0; i < root.childElementCount; i++) {
             }
             else {
                 // 普通车站
-
-                // 画普通车站和站名
-                xml_stations.push(`<circle class="station-normal" cx="${x}" cy="${y}" />`);
                 xml_stationnames.push(`<text class="station-name" x="${add(x, line.children[j].getAttribute("rx"))}" y="${add(y, line.children[j].getAttribute("ry")) + 15}">${line.children[j].getAttribute("lb")}</text>`)
+                // 画普通车站和站名
+                if (line.children[j].getAttribute("iu") === "false")
+                    // 暂缓开通
+                    xml_stations.push(`<circle class="station-normal" cx="${x}" cy="${y}" stroke-dasharray="1 2"/>`);
+                else
+                    xml_stations.push(`<circle class="station-normal" cx="${x}" cy="${y}" />`);
             }
 
 
@@ -263,7 +270,11 @@ for (let ex_station in ex_stations_xy) {
     new_x /= count;
     new_y /= count;
     //xml_stations.push(`<circle class="station-transfer" cx="${new_x}" cy="${new_y}"></circle>`);
-    xml_stations.push(`<use xlink:href="#station-transfer" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
+    if (['木樨地', '大钟寺'].indexOf(ex_station) !== -1)
+        // 虚拟换乘
+        xml_stations.push(`<use xlink:href="#station-transfer-dash" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
+    else
+        xml_stations.push(`<use xlink:href="#station-transfer" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
 }
 
 
