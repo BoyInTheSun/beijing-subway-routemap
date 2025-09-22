@@ -65,7 +65,7 @@
     {
         "hidden": false,
         "status": "未开始",
-        "color": ""darkslateblue",
+        "color": "darkslateblue",
         "title": "载入中动画",
         "description": "或许可以包含tips。"
     },
