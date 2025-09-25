@@ -31,13 +31,6 @@
         "hidden": false,
         "status": "进行中",
         "color": "goldenrod",
-        "title": "17号线南无列车",
-        "description": "有数据，但未显示。"
-    },
-    {
-        "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
         "title": "14号线陶然桥站列车异常",
         "description": "因缺失时刻表。"
     },
@@ -88,7 +81,7 @@
         "status": "未开始",
         "color": "darkslateblue",
         "title": "6号线优化",
-        "description": "待避列车方向修复及跨站列车高亮。"
+        "description": "待避列车及跨站列车高亮。"
     },
     {
         "hidden": false,

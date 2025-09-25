@@ -79,11 +79,11 @@ var svg_style = `<style>
 </style>
 <symbol id="station-transfer">
     <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" />
-    <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
+    <svg t="1758790432643" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11486" width="6" height="6" x="2.5" y="2.5"><path d="M816.153981 511.552056L608.307962 716.710411h125.424321c-54.649169 94.964129-155.884514 153.19685-265.182852 153.196851-77.046369 0-147.821522-28.668416-201.574803-77.04637l-138.862642 78.838146c86.901137 96.755906 210.533683 151.405074 340.437445 151.405074 199.783027 0 370.897638-128.111986 434.505687-306.393701h120.944882L816.153981 511.552056zM289.371829 306.393701c54.649169-94.964129 155.884514-153.19685 265.182852-153.196851 78.838145 0 149.613298 30.460192 203.366579 78.838146l137.966754-78.838146C808.986877 55.545057 685.354331 0 554.554681 0 359.251094 0.895888 186.344707 123.632546 120.944882 306.393701H0l206.950131 205.158355 206.950131-205.158355H289.371829z" p-id="11487" fill="#000000"></path></svg>
 </symbol>
 <symbol id="station-transfer-dash">
-    <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" stroke-dasharray="1 2"/>
-    <image xlink:href="static/transfer.png" x="2.5" y="2.5" width="6" height="6" />
+    <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="#5c5c5c" fill="white"/>
+    <svg t="1758790432643" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11486" width="6" height="6" x="2.5" y="2.5"><path d="M816.153981 511.552056L608.307962 716.710411h125.424321c-54.649169 94.964129-155.884514 153.19685-265.182852 153.196851-77.046369 0-147.821522-28.668416-201.574803-77.04637l-138.862642 78.838146c86.901137 96.755906 210.533683 151.405074 340.437445 151.405074 199.783027 0 370.897638-128.111986 434.505687-306.393701h120.944882L816.153981 511.552056zM289.371829 306.393701c54.649169-94.964129 155.884514-153.19685 265.182852-153.196851 78.838145 0 149.613298 30.460192 203.366579 78.838146l137.966754-78.838146C808.986877 55.545057 685.354331 0 554.554681 0 359.251094 0.895888 186.344707 123.632546 120.944882 306.393701H0l206.950131 205.158355 206.950131-205.158355H289.371829z" p-id="11487" fill="#5c5c5c"></path></svg>
 </symbol>
 `
 
@@ -181,9 +181,9 @@ for (var i = 0; i < root.childElementCount; i++) {
     }
     // 计算反方向path，存到paths。
     for (each of paths[line_name][0]) {
-        ds = each.slice(1).split(" ");
-        t1 = new Array();
-        t2 = new Array();
+        let ds = each.slice(1).split(" ");
+        let t1 = new Array();
+        let t2 = new Array();
         for (var j = 0; j < ds.length; j++) {
             if (ds[j].charCodeAt(0) >= 48 && ds[j].charCodeAt(0) <= 57) {
                 t1.push("");
@@ -474,21 +474,26 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                     dur = parseInt((transparency_second) * 1000) + 'ms';
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1" />`);
                 }
-
                 for (var i = 0; i < sche[line_name][direct][train_num].length - 1; i++) {
                     this_station_name = sche[line_name][direct][train_num][i][0];
                     next_station_name = sche[line_name][direct][train_num][i + 1][0];
                     this_time = sche[line_name][direct][train_num][i][1];
                     next_time = sche[line_name][direct][train_num][i + 1][1];
                     is_pass = false;
-                    is_close = false;
+                    is_awaiting  = false;
                     if (this_time.indexOf('(') !== -1) {
                         is_pass = true;
                     }
+
                     if (this_time.indexOf('-') !== -1) {
+                        // 处理待避
                         index = stations[line_name][direct_index].indexOf(this_station_name);
-                        path = paths[line_name][direct_index][index].split(" ")[0];  // only Mx,y
-                        is_close = true;
+                        let [x0, y0] = paths[line_name][direct_index][index].split(" ")[0].slice(1).split(',');
+                        let [x1, y1] = paths[line_name][direct_index][index].split(" ")[1].slice(1).split(',');
+                        x1 = parseFloat(x0) + (parseFloat(x1) - parseFloat(x0)) * 0.0001;
+                        y1 = parseFloat(y0) + (parseFloat(y1) - parseFloat(y0)) * 0.0001;
+                        path = `M${x0},${y0} L${x1},${y1}`;
+                        is_awaiting = true;
                     }
                     else {
                         index = stations[line_name][direct_index].indexOf(this_station_name);
@@ -509,20 +514,6 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                     else {
                         end = parseInt((end_minute - begin_minute) * 60 / speed * 1000) + 'ms';
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
-                        /*
-                        // 别费劲了，polygon没有xy属性，就算有也算不出来角度，放弃吧
-                        // 也未必，可以用use标签！
-                        t = path.split(' ');
-                        t = path.split(' ')[t.length - 1].split(',');
-                        x = t[0];
-                        if (x.charCodeAt(0) < 48 || x.charCodeAt(0) > 57) {
-                            x = x.slice(1);
-                        }
-                        x = parseInt(x);
-                        y = parseInt(t[1]);
-                        xml_animates.push(`<set begin="${end}" attributeName="x" to="${x}"/>`);
-                        xml_animates.push(`<set begin="${end}" attributeName="y" to="${y}"/>`);
-                        */
                         break;
                     }
 
