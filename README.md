@@ -62,7 +62,7 @@ d3用于重载svg。
 
 **核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。此举是为了严格遵守引用项目的许可证。
 
-**来源**：本作者另一项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[@Mick235711](https://github.com/Mick235711)的[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。感谢[@Mick235711](https://github.com/Mick235711)提供数据和适用于本项目格式的接口。
+**来源**：本作者另一项目[beijing-subway-schedule](https://github.com/BoyInTheSun/beijing-subway-schedule)和[@Mick235711](https://github.com/Mick235711)的[Beijing-Subway-Tools](https://github.com/Mick235711/Beijing-Subway-Tools)。
 
 [查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [官方原文](https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
 
@@ -75,3 +75,9 @@ d3用于重载svg。
 **核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。该作品的衍生作品包括但不限于：对于本作品的视频录制、剪辑、截图等。署名的方式可以是作者（BoyInTheSun）、演示地址（https://bjsubway.boyinthesun.cn/）、项目地址（https://github.com/BoyInTheSun/beijing-subway-routemap）。
 
 [查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [官方原文](https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
+
+# 感谢
+
+感谢[@Mick235711](https://github.com/Mick235711)提供数据和适用于本项目格式的接口。
+
+感谢[@EchoGitH](https://github.com/EchoGitH)为前端设计做出贡献。
