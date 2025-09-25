@@ -19,8 +19,8 @@ function ban_event(event) {
 
 function svg_init_xy() {
     var div_svg = document.getElementById('div_svg');
-    div_svg.style.top = ((parseFloat(window.screen.height) - 1500) / 2 + 0) + 'px';
-    div_svg.style.left = ((parseFloat(window.screen.width) - 2000) / 2 + 60) + 'px';
+    div_svg.style.top = (-1200) / 2 + 'px';
+    div_svg.style.left = (-2000 + 52) / 2 + 'px';
     div_svg.style.transform = 'scale(1)';
 }
 

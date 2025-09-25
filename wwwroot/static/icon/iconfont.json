@@ -6,6 +6,62 @@
   "description": "为https://bjsubway.boyinthesun.cn/使用",
   "glyphs": [
     {
+      "icon_id": "1444549",
+      "name": "flower",
+      "font_class": "flower",
+      "unicode": "e748",
+      "unicode_decimal": 59208
+    },
+    {
+      "icon_id": "1444800",
+      "name": "key-variant",
+      "font_class": "key-variant",
+      "unicode": "e7c2",
+      "unicode_decimal": 59330
+    },
+    {
+      "icon_id": "1444845",
+      "name": "lightbulb-on",
+      "font_class": "lightbulb-on",
+      "unicode": "e7d6",
+      "unicode_decimal": 59350
+    },
+    {
+      "icon_id": "1445050",
+      "name": "pause",
+      "font_class": "pause",
+      "unicode": "e836",
+      "unicode_decimal": 59446
+    },
+    {
+      "icon_id": "1445108",
+      "name": "play-pause",
+      "font_class": "play-pause",
+      "unicode": "e851",
+      "unicode_decimal": 59473
+    },
+    {
+      "icon_id": "1445196",
+      "name": "replay",
+      "font_class": "replay",
+      "unicode": "e87a",
+      "unicode_decimal": 59514
+    },
+    {
+      "icon_id": "10527960",
+      "name": "beijing-subway",
+      "font_class": "icon_beijingditie-",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
+      "icon_id": "41126195",
+      "name": "mtr",
+      "font_class": "gangtie",
+      "unicode": "e814",
+      "unicode_decimal": 59412
+    },
+    {
       "icon_id": "1444727",
       "name": "history",
       "font_class": "history",
