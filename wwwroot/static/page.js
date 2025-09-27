@@ -8,27 +8,34 @@
  * 由此代码生成的视觉输出内容遵循 CC BY-SA 4.0 许可证。
  * 详细请参见 `https://github.com/BoyInTheSun/beijing-subway-routemap/blob/main/LICENSE` 。
  */
+async function main_page() {
 
-var wde = set_wde();
-set_time_now();
-write_secelt_time('Start');
-write_secelt_time('End');
-var speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
-write_secelt_speed();
-var is_lines;
-write_secelt_lines();
-count_lines();
-//set_size('m');
-var is_hide_linename = false;
-var is_hide_stationname = false;
-var is_hide_station = false;
+    var wde = set_wde();
+    set_time_now();
+    write_secelt_time('Start');
+    write_secelt_time('End');
+    await updateProgress(65);
 
-//draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
-svg_init_xy();
-//hide_loading();
-start();
+    speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
+    write_secelt_speed();
+    await updateProgress(70);
+    var is_lines;
+    write_secelt_lines();
+    await updateProgress(80);
+    count_lines();
+    await updateProgress(90);
+    //set_size('m');
+    var is_hide_linename = false;
+    var is_hide_stationname = false;
+    var is_hide_station = false;
 
+    //draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+    svg_init_xy();
+    await updateProgress(100);
+    //hide_loading();
+    start();
 
+}
 
 //侧边栏展开与关闭
 function open_siderbar() {
@@ -279,7 +286,7 @@ function write_secelt_speed() {
 function write_secelt_lines() {
     window.is_lines = new Object();
     var sche;
-    sche = window.sche_wde[window.wde];
+    sche = sche_wde[window.wde];
     var temp = '';
     for (line_name in sche) {
         window.is_lines[line_name] = new Object();

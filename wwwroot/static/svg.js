@@ -20,17 +20,17 @@ function ban_event(event) {
 function svg_init_xy() {
     var div_svg = document.getElementById('div_svg');
     div_svg.style.top = (-1200) / 2 + 'px';
-    div_svg.style.left = (-2000 + 52) / 2 + 'px';
+    div_svg.style.left = (-2000 + 100) / 2 + 'px';
     div_svg.style.transform = 'scale(1)';
 }
 
 function svg_on_whell(event) {
     var div_svg = document.getElementById('div_svg');
     var zoom_now = parseFloat(div_svg.style.transform.slice(6, -1));
-    var multiple = 1 + event.wheelDeltaY / 1200;
-    div_svg.style.transform = `scale(${zoom_now * multiple})`;
-    div_svg.style.left = (event.clientX + (parseFloat(div_svg.style.left) - event.clientX) * multiple) + 'px';
-    div_svg.style.top = (event.clientY + (parseFloat(div_svg.style.top) - event.clientY) * multiple) + 'px';
+    var multiple = event.wheelDeltaY / 1200;
+    div_svg.style.transform = `scale(${zoom_now * (1 + multiple)})`;
+    div_svg.style.left = ((event.clientX - window.innerWidth / 2) * -multiple + (parseFloat(div_svg.style.left)) * (1 + multiple)) + 'px';
+    div_svg.style.top = ((event.clientY - window.innerHeight / 2) * -multiple + (parseFloat(div_svg.style.top)) * (1 + multiple)) + 'px';
 }
 
 function svg_on_down(event) {
@@ -101,13 +101,12 @@ function svg_on_down(event) {
         var touches_1_x_now = event.touches[1].clientX;
         var touches_1_y_now = event.touches[1].clientY;
         var distance_now = ab2c(touches_0_x_now - touches_1_x_now, touches_0_y_now - touches_1_y_now);
-        var multiple = 1 + (distance_now - distance_start) / 300;
-        div_svg.style.transform = `scale(${zoom_start * multiple})`;
+        var multiple = (distance_now - distance_start) / 300;
+        div_svg.style.transform = `scale(${zoom_start * (1 + multiple)})`;
         var x0 = (touches_0_x_now + touches_1_x_now) / 2;
         var y0 = (touches_0_y_now + touches_1_y_now) / 2;
-
-        div_svg.style.left = (x0 + (left_start - x0) * multiple) + 'px';
-        div_svg.style.top = (y0 + (top_start - y0) * multiple) + 'px';
+        div_svg.style.left = ((x0 - window.innerWidth / 2) * -multiple + left_start * (1 + multiple)) + 'px';
+        div_svg.style.top = ((y0 - window.innerHeight / 2) * -multiple + top_start * (1 + multiple)) + 'px';
     }
     function stop(event) {
         document.removeEventListener('mousemove', move);
@@ -122,7 +121,7 @@ function svg_on_down(event) {
     document.addEventListener('mouseup', stop);
     document.addEventListener('touchend', stop);
 }
-var div_svg_parent = document.getElementById('div_svg_parent');
+var div_svg_parent = document.getElementById('div_svg_broad');
 
 div_svg_parent.addEventListener('mousedown', svg_on_down);
 div_svg_parent.addEventListener('touchstart', svg_on_down);

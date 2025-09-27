@@ -19,6 +19,14 @@
     <use xlink:href="#sym01" x="100" y="100" />
   </svg>
 
+            <svg width="260" height="180" xmlns="http://www.w3.org/2000/svg" onload="init();">
+                <path d="M70,30 H190 A20,20 0 0 1 210,50 V130 A20,20 0 0 1 190,150 H70 A20,20 0 0 1 50,130 V50 A20,20 0 0 1 70,30" fill="none" stroke="#006098" stroke-width="2" />
+                <path d="M20,110 H240" fill="none" stroke="#C23A30" stroke-width="2" />
+                <symbol id="train" x="-8" refX="8"><polygon class="train" points="2,0 14,0 10,4 2,4" stroke-width="1" stroke="#000000"></polygon></symbol>
+                <use xlink:href="#train" fill="#C23A30">
+                    <animateMotion begin="0" dur="1s" rotate="auto" path="M20,110 H240" repeatCount="indefinite"></animateMotion>
+                </use>
+            </svg>
   <script>
     function getHardwareInfo() {
       gl = document.createElement('canvas').getContext('webgl');
