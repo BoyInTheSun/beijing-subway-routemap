@@ -10,7 +10,7 @@
  */
 async function main_page() {
 
-    var wde = set_wde();
+    wde = set_wde();
     set_time_now();
     write_secelt_time('Start');
     write_secelt_time('End');
@@ -19,21 +19,25 @@ async function main_page() {
     speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
     write_secelt_speed();
     await updateProgress(70);
-    var is_lines;
+    is_lines = new Object();
     write_secelt_lines();
     await updateProgress(80);
     count_lines();
     await updateProgress(90);
     //set_size('m');
-    var is_hide_linename = false;
-    var is_hide_stationname = false;
-    var is_hide_station = false;
+    is_hide_linename = false;
+    is_hide_stationname = false;
+    is_hide_station = false;
 
-    //draw_map(window.is_hide_station, window.is_hide_linename, window.is_hide_stationname);
+    //draw_map(is_hide_station, is_hide_linename, is_hide_stationname);
     svg_init_xy();
     await updateProgress(100);
     //hide_loading();
-    start();
+    is_loop = false;
+    is_auto = true;
+
+
+    if (is_auto) start();
 
 }
 
@@ -69,6 +73,18 @@ function to02d(i) {
         s = '0' + s;
     }
     return s;
+}
+
+function change_auto() {
+    is_auto = !is_auto;
+    if (is_auto) document.getElementById('btn_auto').className = 'side-2l2-btn btn-selected';
+    else document.getElementById('btn_auto').className = 'side-2l2-btn btn-unselected';
+}
+
+function change_loop() {
+    is_loop = !is_loop;
+    if (is_loop) document.getElementById('btn_loop').className = 'side-2l2-btn btn-selected';
+    else document.getElementById('btn_loop').className = 'side-2l2-btn btn-unselected';
 }
 
 function set_wde(wde) {
@@ -128,8 +144,8 @@ function set_size(size) {
         .html(window.xml_symbol);
 }
 function reverse_show_linename() {
-    window.is_hide_linename = !window.is_hide_linename;
-    if (window.is_hide_linename) {
+    is_hide_linename = !is_hide_linename;
+    if (is_hide_linename) {
         document.getElementById('btn_linename').className = 'side-2l2-btn btn-selected';
         d3.select('#g_linenames').attr('display', 'none');
     }
@@ -139,8 +155,8 @@ function reverse_show_linename() {
     }
 }
 function reverse_show_stationname() {
-    window.is_hide_stationname = !window.is_hide_stationname;
-    if (window.is_hide_stationname) {
+    is_hide_stationname = !is_hide_stationname;
+    if (is_hide_stationname) {
         document.getElementById('btn_stationname').className = 'side-2l2-btn btn-selected';
         d3.select('#g_stationnames').attr('display', 'none');
     }
@@ -150,8 +166,8 @@ function reverse_show_stationname() {
     }
 }
 function reverse_show_station() {
-    window.is_hide_station = !window.is_hide_station;
-    if (window.is_hide_station) {
+    is_hide_station = !is_hide_station;
+    if (is_hide_station) {
         document.getElementById('btn_station').className = 'side-2l2-btn btn-selected';
         d3.select('#g_stations').attr('display', 'none');
     }
@@ -165,9 +181,9 @@ function get_lines_most(most) {
     /*most is 'earliest' or 'latest'*/
     var line_most_wde = window.lines_most[most][window.wde];
     var most_time;
-    for (line_name in window.is_lines) {
-        for (direct in window.is_lines[line_name]) {
-            if (!window.is_lines[line_name][direct]) continue;
+    for (line_name in is_lines) {
+        for (direct in is_lines[line_name]) {
+            if (!is_lines[line_name][direct]) continue;
             let temp = line_most_wde[line_name][direct];
             if (!most_time || (most === 'earliest' && most_time > temp) || (most === 'latest' && most_time < temp)) most_time = temp;
         }
@@ -226,11 +242,11 @@ function set_time_after_if_before() {
     }
 }
 function reset() {
-    set_wde();
+    wde = set_wde();
     set_time_now();
-    for (line_name in window.is_lines) {
-        for (direct in window.is_lines[line_name]) {
-            window.is_lines[line_name][direct] = true;
+    for (line_name in is_lines) {
+        for (direct in is_lines[line_name]) {
+            is_lines[line_name][direct] = true;
         }
     }
     document.getElementById('speed').innerText = 1;
@@ -241,9 +257,9 @@ function reset() {
 }
 function reset_map() {
     set_size('m');
-    window.is_hide_linename = false;
-    window.is_hide_stationname = false;
-    window.is_hide_station = false;
+    is_hide_linename = false;
+    is_hide_stationname = false;
+    is_hide_station = false;
     d3.select('#g_stations').attr('display', '');
     d3.select('#g_linenames').attr('display', '');
     d3.select('#g_stationnames').attr('display', '');
@@ -284,16 +300,15 @@ function write_secelt_speed() {
     div_speed.innerHTML = temp;
 }
 function write_secelt_lines() {
-    window.is_lines = new Object();
     var sche;
     sche = sche_wde[window.wde];
     var temp = '';
     for (line_name in sche) {
-        window.is_lines[line_name] = new Object();
+        is_lines[line_name] = new Object();
         temp += '<div class="popup-line"><div class="popup-linename" onclick="invert_line(\'' + line_name + '\', null)" style="background-color: ' + line_colors[line_name] + '; color: #ffffff">' + line_name + '</div>';
         let direct_index = 0;
         for (direct in sche[line_name]) {
-            window.is_lines[line_name][direct] = true;
+            is_lines[line_name][direct] = true;
             direct_index += 1;
             temp += '<div class="popup-direct-' + direct_index + '" onclick="invert_line(\'' + line_name + '\', \'' + direct + '\')" style="background-color: ' + line_colors[line_name] + '; color: #ffffff">' + direct + '</div>';
         }
@@ -767,10 +782,10 @@ for (scroll_lines_item of scroll_lines_items) {
 function count_lines() {
     var num_lines = 0;
     var num_direct = 0;
-    for (line_name in window.is_lines) {
+    for (line_name in is_lines) {
         let t = false;
-        for (direct in window.is_lines[line_name]) {
-            if (window.is_lines[line_name][direct]) {
+        for (direct in is_lines[line_name]) {
+            if (is_lines[line_name][direct]) {
                 num_direct++;
                 t = true;
             }
@@ -790,12 +805,12 @@ function refresh_lines() {
     }
     var div_lines = document.getElementById('selectLines');
     set_scroll_lines_opacity_by_div(div_lines);
-    for (let i = 0; i < Object.keys(window.is_lines).length; i++) {
-        var line_name = Object.keys(window.is_lines)[i];
+    for (let i = 0; i < Object.keys(is_lines).length; i++) {
+        var line_name = Object.keys(is_lines)[i];
         var t = false;
-        for (let j = 0; j < Object.keys(window.is_lines[line_name]).length; j++) {
-            var direct = Object.keys(window.is_lines[line_name])[j];
-            if (window.is_lines[line_name][direct]) {
+        for (let j = 0; j < Object.keys(is_lines[line_name]).length; j++) {
+            var direct = Object.keys(is_lines[line_name])[j];
+            if (is_lines[line_name][direct]) {
                 t = true;
                 //div_lines.childNodes[i].childNodes[j + 1].style = 'background-color: ' + line_colors[line_name] + '; color: #ffffff;';
                 div_lines.childNodes[i].childNodes[j + 1].style['background-color'] = line_colors[line_name];
@@ -818,13 +833,13 @@ function refresh_lines() {
 }
 function invert_line(line_name, direct) {
     if (direct) {
-        window.is_lines[line_name][direct] = !window.is_lines[line_name][direct];
+        is_lines[line_name][direct] = !is_lines[line_name][direct];
     }
     else {
-        let ts = Object.values(window.is_lines[line_name]);
+        let ts = Object.values(is_lines[line_name]);
         let t = ts[0] || ts[1];
-        for (each_direct in window.is_lines[line_name]) {
-            window.is_lines[line_name][each_direct] = !t;
+        for (each_direct in is_lines[line_name]) {
+            is_lines[line_name][each_direct] = !t;
         }
     }
     refresh_lines();
@@ -836,23 +851,23 @@ function select_lines(this_btn, action) {
         return;
     }
     else if (action === 'all') {
-        for (line_name in window.is_lines) {
-            for (direct in window.is_lines[line_name]) {
-                window.is_lines[line_name][direct] = true;
+        for (line_name in is_lines) {
+            for (direct in is_lines[line_name]) {
+                is_lines[line_name][direct] = true;
             }
         }
     }
     else if (action === 'invert') {
-        for (line_name in window.is_lines) {
-            for (direct in window.is_lines[line_name]) {
-                window.is_lines[line_name][direct] = !window.is_lines[line_name][direct];
+        for (line_name in is_lines) {
+            for (direct in is_lines[line_name]) {
+                is_lines[line_name][direct] = !is_lines[line_name][direct];
             }
         }
     }
     else if (action === 'none') {
-        for (line_name in window.is_lines) {
-            for (direct in window.is_lines[line_name]) {
-                window.is_lines[line_name][direct] = false;
+        for (line_name in is_lines) {
+            for (direct in is_lines[line_name]) {
+                is_lines[line_name][direct] = false;
             }
         }
     }
@@ -861,7 +876,6 @@ function select_lines(this_btn, action) {
 }
 
 function start() {
-    close_siderbar();
     set_time_after_if_before();
     var start_hour = parseInt(document.getElementById('startHour').innerText);
     var start_minute = parseInt(document.getElementById('startMinute').innerText);
@@ -877,11 +891,10 @@ function start() {
         end_hour * 60 + end_minute + end_seconds / 60,
         speed,
         window.wde,
-        window.is_lines,
+        is_lines,
     );
 }
 function stop() {
     stop_set_time();
-    open_siderbar();
     draw_map();
 }

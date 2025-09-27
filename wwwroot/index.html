@@ -168,7 +168,7 @@
         border: 2px #4e4e4e solid;
     }
     .btn-selected:hover {
-        border: 2px #d3d3d3 dashed;
+        border: 2px #d3d3d3 dotted;
     }
     .btn-unselected {
         background-color: #d3d3d3;
@@ -661,17 +661,17 @@
             <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
         </div>
         <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="start();">
+        <div class="side-l side-1l" onclick="close_siderbar();start();">
             <div>开始运行<i class="iconfont icon-play"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="stop();">
+        <div class="side-l side-1l" onclick="stop();open_siderbar();">
             <div>停止运行<i class="iconfont icon-stop"></i></div>
         </div>
         <div class="side-l side-2l" onclick="open_siderbar();">
-            <div class="side-2l1">播放控制<i class="iconfont icon-calendar-range"></i></div>
+            <div class="side-2l1">播放控制<i class="iconfont icon-settings"></i></div>
             <div class="side-2l2">
-                <div class="side-2l2-btn btn-unselected" id="btn_loop" onclick="set_wde('we');">循环播放</div>
-                <div class="side-2l2-btn btn-selected" id="btn_auto" onclick="set_wde('wd');">自动开始</div>
+                <div class="side-2l2-btn btn-unselected" id="btn_loop" onclick="change_loop();">循环播放</div>
+                <div class="side-2l2-btn btn-selected" id="btn_auto" onclick="change_auto();">自动开始</div>
             </div>
         </div>
         <div class="side-split"></div>
@@ -745,10 +745,13 @@
             </div>
         </div>
         <div class="side-split"></div>
+        <div class="side-l side-1l" onclick="">附参数分享 <i
+                class="iconfont icon-share-variant"></i></div>
         <div class="side-l side-1l" onclick="window.location.href = 'about.html';">关于 <i
                 class="iconfont icon-information-variant"></i></div>
+        <div class="side-l side-1l" onclick="window.location.href = 'https://boyinthesun.cn/';">作者博客 <i
+                class="iconfont icon-blog"></i></div>
         <div class="side-split"></div>
-
     </div>
 
 

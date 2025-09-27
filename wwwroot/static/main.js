@@ -112,6 +112,7 @@ function set_time(begin_minute, end_minute, reality_minute, speed, wde) {
 
     if (show_minute_now > end_minute) {
         stop_set_time();
+        if (is_loop) start();
         return;
     }
     window.now_minute = show_minute_now;

@@ -6,6 +6,27 @@
   "description": "为https://bjsubway.boyinthesun.cn/使用",
   "glyphs": [
     {
+      "icon_id": "1199084",
+      "name": "blog",
+      "font_class": "blog",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "1445270",
+      "name": "settings",
+      "font_class": "settings",
+      "unicode": "e898",
+      "unicode_decimal": 59544
+    },
+    {
+      "icon_id": "1445274",
+      "name": "share-variant",
+      "font_class": "share-variant",
+      "unicode": "e89b",
+      "unicode_decimal": 59547
+    },
+    {
       "icon_id": "1444549",
       "name": "flower",
       "font_class": "flower",
