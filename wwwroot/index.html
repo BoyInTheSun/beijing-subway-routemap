@@ -450,7 +450,20 @@
         text-align: center;
         font-size: 16px;
     }
-
+    .popup-tips-title {
+        position: fixed;
+        padding-top: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 24px;
+    }
+    .popup-tips-content {
+        position: fixed;
+        padding: 80px 15px;
+        width: 230px;
+        text-align: center;
+        font-size: 18px;
+    }
     .popup-info {
         position: fixed;
         height: 24px;
@@ -739,12 +752,13 @@
             <div class="side-2l1">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
             <div class="side-2l2">
                 <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="reverse_show_linename();">线名</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="reverse_show_stationname();">站名
-                </div>
+                <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="reverse_show_stationname();">站名</div>
                 <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="reverse_show_station();">站点</div>
             </div>
         </div>
         <div class="side-split"></div>
+        <div class="side-l side-1l" onclick="show_popup_tips();">提示 <i
+                class="iconfont icon-lightbulb-on"></i></div>
         <div class="side-l side-1l" onclick="">附参数分享 <i
                 class="iconfont icon-share-variant"></i></div>
         <div class="side-l side-1l" onclick="window.location.href = 'about.html';">关于 <i
@@ -980,6 +994,21 @@
             <div class="popup-ok btn-ok" onclick="select_speed(this, 'ok');">确定</div>
         </div>
     </div>
+    <div id="tips" style="display: none;">
+        <div class="overlay"></div>
+        <div class="popup-content">
+            <div class="popup-tips-title">提示</div>
+            <div class="popup-tips-content" id="tips_content"></div>
+            <div class="popup-presets">
+                <div class="inner">
+                    <div class="popup-btn btn-unselected" onclick="change_tips('prev');">上条</div>
+                    <div class="popup-btn"><span id="tips_now">?</span> / <span id="tips_total">?</span></div>
+                    <div class="popup-btn btn-unselected" onclick="change_tips('next');">下条</div>
+                </div>
+            </div>
+            <div class="popup-ok btn-ok" onclick="document.getElementById('tips').style.display = 'none';">确定</div>
+        </div>
+    </div>
 
     <script type="text/javascript">
         async function init() {
@@ -1001,11 +1030,13 @@
         tips = [
             "本站多端自适应，移动端和电脑端均可使用",
             "若播放卡顿，尝试放慢速度、减少线路或放大地图吧",
+            "先“停止运行”再调整参数吧",
             "按F11可全屏",
             "调整参数后，需重新“开始运行”",
             "移动端双指缩放，电脑端滚轮缩放",
-            "个人开源项目，为爱发电，欢迎转发支持！"
-        ]
+            "个人开源项目，为爱发电，欢迎转发支持！",
+            "更多信息详见关于页"
+        ];
     </script>
     <script src="static/d3.v7.min.js"></script>
     <script src="static/svg.js"></script>

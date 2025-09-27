@@ -39,6 +39,8 @@ async function main_page() {
 
     if (is_auto) start();
 
+    tips_now = 0;
+    change_tips(tips_now);
 }
 
 //侧边栏展开与关闭
@@ -355,6 +357,11 @@ function show_popup_speed() {
 function show_popup_lines() {
     document.getElementById('selectLinesContent').style.display = null;
     refresh_lines();
+}
+
+function show_popup_tips() {
+    change_tips(0);
+    document.getElementById('tips').style.display = null;
 }
 
 function ban_event(event) {
@@ -873,6 +880,15 @@ function select_lines(this_btn, action) {
     }
     refresh_lines();
     if (this_btn) this_btn.className = 'popup-btn btn-selected';
+}
+function change_tips(opcode) {
+    if (parseInt(opcode)) tips_now = parseInt(opcode);
+    else if (opcode == 'next') tips_now += 1;
+    else if (opcode == 'prev' )tips_now -= 1;
+    tips_now %= tips.length;
+    document.getElementById('tips_content').innerHTML = tips[tips_now];
+    document.getElementById('tips_now').innerHTML = tips_now + 1;
+    document.getElementById('tips_total').innerHTML = tips.length;
 }
 
 function start() {
