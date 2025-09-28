@@ -961,7 +961,7 @@ function generate_link() {
     var end_minute = document.getElementById('endMinute').innerText;
     var end_seconds = document.getElementById('endSecond').innerText;
     args['start'] = start_hour + start_minute + start_seconds;
-    args['stop'] = end_hour + end_minute + end_seconds;
+    args['end'] = end_hour + end_minute + end_seconds;
     if (document.getElementById('speed').innerText != '1') args['speed'] = document.getElementById('speed').innerText;
     var style = document.getElementById('div_svg').style;
     args['map'] = style.left + '_' + style.top + '_' + style.transform.slice(6, -1);
