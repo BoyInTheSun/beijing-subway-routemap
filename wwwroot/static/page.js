@@ -117,33 +117,32 @@ function set_wde(wde) {
     return wde;
 }
 function set_size(size) {
+    document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
+    document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
+    document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
+    document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
     if (size === 'l') {
         window.train_size = 4;
         document.getElementById('btn_size_l').className = 'side-2l2-btn btn-selected';
-        document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
     }
     else if (size === 'm') {
         window.train_size = 3;
-        document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
         document.getElementById('btn_size_m').className = 'side-2l2-btn btn-selected';
-        document.getElementById('btn_size_s').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
     }
     else if (size === 's') {
         window.train_size = 2;
-        document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
         document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
-        document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
     }
     else if (size === 'xs') {
         window.train_size = 1;
-        document.getElementById('btn_size_l').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_m').className = 'side-2l2-btn btn-unselected';
-        document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
-        document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
+        document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-selected';
+    }
+    else if (parseFloat(size)) {
+        window.train_size = parseFloat(size);
+    }
+    else {
+        window.train_size = 3;
+        document.getElementById('btn_size_m').className = 'side-2l2-btn btn-selected';
     }
     size_text = size;
     let t = window.train_size;
