@@ -991,7 +991,7 @@ function apply_link(link) {
     var args = queryStringToObject(link.split('#')[1]);
     if (args['auto'] !== undefined) change_auto(args['auto'] === '1' ? true : false);
     if (args['loop'] !== undefined) change_loop(args['loop'] === '1' ? true : false);
-    if (args['wed'] !== undefined) set_wde(args['wed']);;
+    if (args['wde'] !== undefined) set_wde(args['wde']);;
     if (args['start'] !== undefined) {
         let start_time = parseInt(args['start']);
         let hour = Math.floor(start_time / 10000) % 24;
