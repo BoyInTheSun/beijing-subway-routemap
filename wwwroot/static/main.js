@@ -162,6 +162,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                 if (begin_minute <= this_time_minute) {
                     begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
                     dur = parseInt((transparency_second) * 1000) + 'ms';
+                    // xml_animates.push(`<set attributeName="opacity" to="0" begin="0s"/>`);
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1" />`);
                 }
                 for (var i = 0; i < sche[line_name][direct][train_num].length - 1; i++) {
@@ -213,6 +214,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                 dur = parseInt((transparency_second) * 1000) + 'ms';
                 if (begin_minute <= next_time_minute && end_minute >= next_time_minute) {
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="1;0" repeatCount="1" />`)
+                    // xml_animates.push(`<set attributeName="opacity" to="0" begin="${parseInt(((next_time_minute - begin_minute) * 60 / speed) * 1000) + 'ms'}"/>`);
                 }
                 //var t = train_size;
                 //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;

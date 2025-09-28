@@ -36,11 +36,18 @@ async function main_page() {
     is_loop = false;
     is_auto = true;
 
+    apply_link(window.location.href);
 
     if (is_auto) start();
-
+    link = '';
     tips_now = 0;
     change_tips(tips_now);
+    size_text = 'm';
+
+    document.getElementById('link').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.select();
+    });
 }
 
 //侧边栏展开与关闭
@@ -77,20 +84,22 @@ function to02d(i) {
     return s;
 }
 
-function change_auto() {
-    is_auto = !is_auto;
+function change_auto(option) {
+    if (option !== undefined) is_auto = !!option;
+    else is_auto = !is_auto;
     if (is_auto) document.getElementById('btn_auto').className = 'side-2l2-btn btn-selected';
     else document.getElementById('btn_auto').className = 'side-2l2-btn btn-unselected';
 }
 
-function change_loop() {
-    is_loop = !is_loop;
+function change_loop(option) {
+    if (option !== undefined) is_loop = !!option;
+    else is_loop = !is_loop;
     if (is_loop) document.getElementById('btn_loop').className = 'side-2l2-btn btn-selected';
     else document.getElementById('btn_loop').className = 'side-2l2-btn btn-unselected';
 }
 
 function set_wde(wde) {
-    if (!wde) {
+    if (wde !== 'wd' && wde !== 'we') {
         var d = new Date();
         if (d.getDay() == 0 || d.getDay() == 6) wde = 'we';
         else wde = 'wd';
@@ -136,6 +145,7 @@ function set_size(size) {
         document.getElementById('btn_size_s').className = 'side-2l2-btn btn-selected';
         document.getElementById('btn_size_xs').className = 'side-2l2-btn btn-unselected';
     }
+    size_text = size;
     let t = window.train_size;
     //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
     let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
@@ -145,8 +155,9 @@ function set_size(size) {
         .attr('refX', t * 4)
         .html(window.xml_symbol);
 }
-function reverse_show_linename() {
-    is_hide_linename = !is_hide_linename;
+function change_hide_linename(option) {
+    if (option !== undefined) is_hide_linename = !!option;
+    else is_hide_linename = !is_hide_linename;
     if (is_hide_linename) {
         document.getElementById('btn_linename').className = 'side-2l2-btn btn-selected';
         d3.select('#g_linenames').attr('display', 'none');
@@ -156,8 +167,9 @@ function reverse_show_linename() {
         d3.select('#g_linenames').attr('display', '');
     }
 }
-function reverse_show_stationname() {
-    is_hide_stationname = !is_hide_stationname;
+function change_hide_stationname(option) {
+    if (option !== undefined) is_hide_stationname = !!option;
+    else is_hide_stationname = !is_hide_stationname;
     if (is_hide_stationname) {
         document.getElementById('btn_stationname').className = 'side-2l2-btn btn-selected';
         d3.select('#g_stationnames').attr('display', 'none');
@@ -167,8 +179,9 @@ function reverse_show_stationname() {
         d3.select('#g_stationnames').attr('display', '');
     }
 }
-function reverse_show_station() {
-    is_hide_station = !is_hide_station;
+function change_hide_station(option) {
+    if (option !== undefined) is_hide_station = !!option;
+    else is_hide_station = !is_hide_station;
     if (is_hide_station) {
         document.getElementById('btn_station').className = 'side-2l2-btn btn-selected';
         d3.select('#g_stations').attr('display', 'none');
@@ -244,6 +257,7 @@ function set_time_after_if_before() {
     }
 }
 function reset() {
+    window.location.hash = '';
     wde = set_wde();
     set_time_now();
     for (line_name in is_lines) {
@@ -361,9 +375,39 @@ function show_popup_lines() {
 
 function show_popup_tips() {
     change_tips(0);
-    document.getElementById('tips').style.display = null;
+    document.getElementById('popup_tips').style.display = null;
 }
-
+function show_popup_link() {
+    link = generate_link();
+    document.getElementById('btn_copy').className = 'popup-btn btn-unselected';
+    document.getElementById('btn_copy').innerHTML = '复制';
+    document.getElementById('btn_favorite').className = 'popup-btn btn-unselected';
+    document.getElementById('btn_favorite').innerHTML = '收藏';
+    document.getElementById('link').value = link;
+    document.getElementById('popup_link').style.display = null;
+}
+function copy_link() {
+    var btn = document.getElementById('btn_copy');
+    try {
+        btn.className = 'popup-btn btn-selected';
+        navigator.clipboard.writeText(link);
+        btn.innerHTML = '成功';
+    }
+    catch{
+        btn.innerHTML = '失败'
+    }
+}
+function add_favorite() {
+    var btn = document.getElementById('btn_favorite');
+    try {
+        btn.className = 'popup-btn btn-selected';
+        window.external.addFavorite(link);
+        btn.innerHTML = '成功';
+    }
+    catch{
+        btn.innerHTML = '失败'
+    }
+}
 function ban_event(event) {
     event.preventDefault();
 }
@@ -890,7 +934,114 @@ function change_tips(opcode) {
     document.getElementById('tips_now').innerHTML = tips_now + 1;
     document.getElementById('tips_total').innerHTML = tips.length;
 }
+function share_link() {
 
+}
+function objectToQueryString(obj) {
+  return Object.keys(obj)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+    .join('&');
+}
+function queryStringToObject(queryString) {
+  const params = new URLSearchParams(queryString);
+  const result = new Object();
+  for (const [key, value] of params.entries()) {
+      result[key] = value;
+  }
+  return result;
+}
+function generate_link() {
+    var args = new Object();
+    if (!is_auto) args['auto'] = 0;
+    if (is_loop) args['loop'] = 1;
+    args['wde'] = wde;
+    var start_hour = document.getElementById('startHour').innerText;
+    var start_minute = document.getElementById('startMinute').innerText;
+    var start_seconds = document.getElementById('startSecond').innerText;
+    var end_hour = document.getElementById('endHour').innerText;
+    var end_minute = document.getElementById('endMinute').innerText;
+    var end_seconds = document.getElementById('endSecond').innerText;
+    args['start'] = start_hour + start_minute + start_seconds;
+    args['stop'] = end_hour + end_minute + end_seconds;
+    if (document.getElementById('speed').innerText != '1') args['speed'] = document.getElementById('speed').innerText;
+    var style = document.getElementById('div_svg').style;
+    args['map'] = style.left + '_' + style.top + '_' + style.transform.slice(6, -1);
+    if (size_text != 'm') args['size'] = size_text;
+    if (is_hide_linename) args['hide_linename'] = 1;
+    if (is_hide_station) args['hide_station'] = 1;
+    if (is_hide_stationname) args['hide_stationname'] = 1;
+    var is_all_line = true;
+    var lines = '';
+    for (let linename in is_lines) {
+        var is_all_direct = true;
+        var temp = '';
+        for (let direct in is_lines[linename]) {
+            if (is_lines[linename][direct]) temp += '-' + linename + '.' + direct;
+            else is_all_line = is_all_direct = false;
+        }
+        if (!is_all_direct) lines += temp;
+        else lines += '-' + linename;
+    }
+    lines = lines.slice(1);
+    if (!lines) args['lines'] = '0';
+    else if (!is_all_line) args['lines'] = lines;
+    return window.location.origin + '#' + objectToQueryString(args);
+}
+function apply_link(link) {
+    if (link.indexOf('#') === -1) return;
+    var args = queryStringToObject(link.split('#')[1]);
+    if (args['auto'] !== undefined) change_auto(args['auto'] === '1' ? true : false);
+    if (args['loop'] !== undefined) change_loop(args['loop'] === '1' ? true : false);
+    if (args['wed'] !== undefined) set_wde(args['wed']);;
+    if (args['start'] !== undefined) {
+        let start_time = parseInt(args['start']);
+        let hour = Math.floor(start_time / 10000) % 24;
+        let minute = Math.floor(start_time / 100) % 100 % 60;
+        let second = start_time % 100 % 60;
+        document.getElementById('startHour').innerText = to02d(hour);
+        document.getElementById('startMinute').innerText = to02d(minute);
+        document.getElementById('startSecond').innerText = to02d(second);
+    }
+    if (args['end'] !== undefined) {
+        let end_time = parseInt(args['end']);
+        let hour = Math.floor(end_time / 10000) % 24;
+        let minute = Math.floor(end_time / 100) % 100 % 60;
+        let second = end_time % 100 % 60;
+        document.getElementById('endHour').innerText = to02d(hour);
+        document.getElementById('endMinute').innerText = to02d(minute);
+        document.getElementById('endSecond').innerText = to02d(second);
+    }
+    if (args['speed'] !== undefined) document.getElementById('speed').innerText = parseFloat(args['speed']);
+    if (args['map']) {
+        let [left, top, transform] = args['map'].split('_');
+        var style = document.getElementById('div_svg').style;
+        style.left = left;
+        style.top = top;
+        style.transform = 'scale(' + transform + ')';
+    }
+    if (args['size'] !== undefined) set_size(args['size']);
+    if (args['hide_linename'] !== undefined) change_hide_linename(args['hide_linename'] === '1' ? true : false);
+    if (args['hide_station'] !== undefined) change_hide_station(args['hide_station'] === '1' ? true : false);
+    if (args['hide_stationname'] !== undefined) change_hide_stationname(args['hide_stationname'] === '1' ? true : false);
+    if (args['lines'] !== undefined) {
+        for (let line in is_lines) {
+            for (let direct in is_lines[line]) is_lines[line][direct] = false;
+        }
+        for (let line of args['lines'].split('-')) {
+            console.log(line);
+            if (line.indexOf('.') == -1) {
+                if (is_lines[line] !== undefined)
+                    for (let direct in is_lines[line]) 
+                        is_lines[line][direct] = true;
+            }
+            else {
+                let [linename, direct] = line.split('.');
+                if (is_lines[linename] !== undefined && is_lines[linename][direct] !== undefined)
+                    is_lines[linename][direct] = true;
+            }
+        }
+    }
+}
 function start() {
     set_time_after_if_before();
     var start_hour = parseInt(document.getElementById('startHour').innerText);
@@ -900,6 +1051,7 @@ function start() {
     var end_minute = parseInt(document.getElementById('endMinute').innerText);
     var end_seconds = parseInt(document.getElementById('endSecond').innerText);
     var speed = parseFloat(document.getElementById('speed').innerText);
+    if (speed <= 0) speed = 0.0001;
     if (start_hour <= 2) start_hour += 24;
     if (end_hour <= 2) end_hour += 24;
     draw_trains(

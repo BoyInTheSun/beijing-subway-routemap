@@ -5,28 +5,7 @@
 
 
   <h1>测试页面</h1>
-  <svg id="svg" width="2000" height="2000" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-    <path id="sym02" fill="#000000"
-      d="M597.560889 327.907556l1.536-92.814223s0-4.807111 9.443555-6.912a22.272 22.272 0 0 1 15.701334 3.982223l160.256 119.04c8.590222 4.750222 14.108444 13.539556 14.705778 23.381333a24.576 24.576 0 0 1-11.093334 21.020444l-165.006222 110.222223a40.334222 40.334222 0 0 1-19.2 1.649777c-9.415111-2.161778-9.415111-9.244444-9.415111-9.244444l1.706667-86.812445-158.549334-2.56s-125.383111 14.848-126.122666 61.895112c0 0 4.664889-147.228444 131.470222-145.066667M429.169778 699.335111l-1.536 92.928s-1.820444 5.603556-12.003556 6.855111a16.440889 16.440889 0 0 1-12.544-3.868444L242.858667 676.124444a28.842667 28.842667 0 0 1-14.848-23.523555 24.661333 24.661333 0 0 1 11.150222-21.134222l164.977778-110.364445a21.930667 21.930667 0 0 1 16.014222-1.422222c11.434667 3.214222 11.776 9.102222 11.776 9.102222l-1.479111 86.926222 159.402666 2.730667s125.496889-14.848 126.236445-61.923555c0 0-4.693333 147.655111-131.669333 145.265777" />
-
-    <symbol id="sym01">
-      <circle cx="5.5" cy="5.5" r="5" stroke-width="1" stroke="black" fill="white" />
-      <image xlink:href="/static/transfer.png" x="2.5" y="2.5" width="6" height="6"></image>
-    </symbol>
-
-    <!-- actual drawing by "use" element -->
-    <use xlink:href="#sym01" x="100" y="100" />
-  </svg>
-
-            <svg width="260" height="180" xmlns="http://www.w3.org/2000/svg" onload="init();">
-                <path d="M70,30 H190 A20,20 0 0 1 210,50 V130 A20,20 0 0 1 190,150 H70 A20,20 0 0 1 50,130 V50 A20,20 0 0 1 70,30" fill="none" stroke="#006098" stroke-width="2" />
-                <path d="M20,110 H240" fill="none" stroke="#C23A30" stroke-width="2" />
-                <symbol id="train" x="-8" refX="8"><polygon class="train" points="2,0 14,0 10,4 2,4" stroke-width="1" stroke="#000000"></polygon></symbol>
-                <use xlink:href="#train" fill="#C23A30">
-                    <animateMotion begin="0" dur="1s" rotate="auto" path="M20,110 H240" repeatCount="indefinite"></animateMotion>
-                </use>
-            </svg>
+  <input type="text" value="123456789" onclick="this.select();">
   <script>
     function getHardwareInfo() {
       gl = document.createElement('canvas').getContext('webgl');

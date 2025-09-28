@@ -1,7 +1,7 @@
 [
     {
         "hidden": false,
-        "status": "已解决",
+        "status": "已完成",
         "color": "green",
         "title": "更新地图数据",
         "description": "已经更新为最新数据。"
@@ -22,24 +22,24 @@
     },
     {
         "hidden": false,
+        "status": "即将完成",
+        "color": "teal",
+        "title": "运行列车数有误",
+        "description": "总是计算所有线路总数而非选中线路。"
+    },
+    {
+        "hidden": false,
         "status": "未开始",
         "color": "darkslateblue",
         "title": "左上角列车隐藏",
-        "description": "拿个白块盖一下？"
+        "description": "拿个白块盖一下？似乎成因有些复杂。"
     },
     {
         "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
-        "title": "添加分享模块",
-        "description": "可带参数分享链接，生成二维码。"
-    },
-    {
-        "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
-        "title": "载入中动画",
-        "description": "或许可以包含tips。"
+        "status": "搁置",
+        "color": "saddlebrown",
+        "title": "分享模块生成二维码",
+        "description": "使用场景低，有需求再考虑。"
     },
     {
         "hidden": false,
@@ -53,19 +53,19 @@
         "status": "未开始",
         "color": "darkslateblue",
         "title": "跟随视角",
-        "description": "地图跟随列车移动。"
+        "description": "地图跟随列车移动。或许给画布添加一个反向动画？"
     },
     {
         "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
+        "status": "进行中",
+        "color": "goldenrod",
         "title": "车站详情",
         "description": "点击车站显示经停列车情况。"
     },
     {
         "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
+        "status": "进行中",
+        "color": "goldenrod",
         "title": "列车详情",
         "description": "点击列车显示沿途经停情况。"
     },
@@ -80,8 +80,15 @@
         "hidden": false,
         "status": "未开始",
         "color": "darkslateblue",
-        "title": "房山线、9号线跨线列车",
+        "title": "房山线、9号线跨线列车优化",
         "description": "优化展示方式。"
+    },
+    {
+        "hidden": false,
+        "status": "未开始",
+        "color": "darkslateblue",
+        "title": "环线优化",
+        "description": "2号线、10号线区分回库车和运行车。"
     },
     {
         "hidden": false,
