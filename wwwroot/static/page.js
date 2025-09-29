@@ -16,7 +16,7 @@ async function main_page() {
     write_secelt_time('End');
     await updateProgress(65);
 
-    speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
+    speeds = [0.1, 1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
     write_secelt_speed();
     await updateProgress(70);
     is_lines = new Object();
