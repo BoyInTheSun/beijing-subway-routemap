@@ -927,7 +927,7 @@
     <div id="loading">
         <div class="overlay"></div>
         <div class="popup-content">
-            <svg width="260" height="170" xmlns="http://www.w3.org/2000/svg" onload="init();">
+            <svg width="260" height="170" xmlns="http://www.w3.org/2000/svg">
                 <path d="M70,30 H190 A20,20 0 0 1 210,50 V120 A20,20 0 0 1 190,140 H70 A20,20 0 0 1 50,120 V50 A20,20 0 0 1 70,30" fill="none" stroke="#006098" stroke-width="2" />
                 <path d="M20,110 H240" fill="none" stroke="#C23A30" stroke-width="2" />
                 <symbol id="loading_train" x="-8" refX="8"><polygon class="train" points="2,0 14,0 10,4 2,4" stroke-width="1" stroke="#000000"></polygon></symbol>
@@ -1074,6 +1074,9 @@
             "个人开源项目，为爱发电，欢迎转发支持！",
             "更多信息详见关于页"
         ];
+        document.addEventListener('DOMContentLoaded', function() {
+            init(); // 确保 init() 在 JS 加载后执行
+        });
     </script>
     <script src="static/d3.v7.min.js"></script>
     <script src="static/svg.js"></script>

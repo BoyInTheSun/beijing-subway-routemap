@@ -1027,7 +1027,6 @@ function apply_link(link) {
             for (let direct in is_lines[line]) is_lines[line][direct] = false;
         }
         for (let line of args['lines'].split('-')) {
-            console.log(line);
             if (line.indexOf('.') == -1) {
                 if (is_lines[line] !== undefined)
                     for (let direct in is_lines[line]) 
