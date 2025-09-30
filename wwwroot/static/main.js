@@ -111,7 +111,7 @@ function set_time(begin_minute, end_minute, reality_minute, speed, wde) {
     var show_minute_now = begin_minute + time_offset * speed;
 
     if (show_minute_now > end_minute) {
-        stop_set_time();
+        stop();
         if (is_loop) start();
         return;
     }
@@ -493,6 +493,7 @@ async function main_svg() {
     var xml_g_symbols = '<g id="g_symbols">' + xml_symbol + '</g>';
 
     var svg = d3.select('#div_svg').append('svg')
+        .attr('id', 'svg_main')
         .attr('width', 2000)
         .attr('height', 1500)
         .attr('xmlns', 'http://www.w3.org/2000/svg');

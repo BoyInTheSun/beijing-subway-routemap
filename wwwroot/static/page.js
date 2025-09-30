@@ -16,7 +16,7 @@ async function main_page() {
     write_secelt_time('End');
     await updateProgress(65);
 
-    speeds = [1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
+    speeds = [0.1, 1, 2, 4, 8, 15, 30, 60, 120, 240, 600];
     write_secelt_speed();
     await updateProgress(70);
     is_lines = new Object();
@@ -35,7 +35,7 @@ async function main_page() {
     //hide_loading();
     is_loop = false;
     is_auto = true;
-
+    is_pause = false;
     apply_link(window.location.href);
 
     if (is_auto) start();
@@ -1041,6 +1041,9 @@ function apply_link(link) {
     }
 }
 function start() {
+    document.getElementById('icon_play').innerHTML = '重新运行<i class="iconfont icon-replay"></i>';
+    document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+    is_pause = false;
     set_time_after_if_before();
     var start_hour = parseInt(document.getElementById('startHour').innerText);
     var start_minute = parseInt(document.getElementById('startMinute').innerText);
@@ -1061,6 +1064,21 @@ function start() {
     );
 }
 function stop() {
+    document.getElementById('icon_play').innerHTML = '开始运行<i class="iconfont icon-play"></i>';
+    document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+    is_pause = false;
     stop_set_time();
     draw_map();
+}
+function pause() {
+    const svg = document.getElementById('svg_main');
+    if (is_pause) {
+        svg.unpauseAnimations();
+        document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+    }
+    else {
+        svg.pauseAnimations();
+        document.getElementById('icon_pause').innerHTML = '继续运行<i class="iconfont icon-play"></i>'
+    }
+    is_pause = !is_pause;
 }
