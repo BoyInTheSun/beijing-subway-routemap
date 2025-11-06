@@ -1,0 +1,272 @@
+[
+    {
+        "name_cn-zh": "1号线 | 八通线",
+        "name_en": "Line 1 | Batong Line",
+        "code": "01",
+        "color": "#C23A30",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2024-12-20"
+    },
+    {
+        "name_cn-zh": "2号线",
+        "name_en": "Line 2",
+        "code": "02",
+        "color": "#006098",
+        "company": "【运三】北京市地铁运营有限公司运营三分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2024-12-21"
+    },
+    {
+        "name_cn-zh": "3号线",
+        "name_en": "Line 3",
+        "code": "03",
+        "color": "#CE093D",
+        "company": "【运四】北京市地铁运营有限公司运营四分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-05-08"
+    },
+    {
+        "name_cn-zh": "4号线 | 大兴线",
+        "name_en": "Line 4 | Daxing Line",
+        "code": "04",
+        "color": "#008E9C",
+        "company": "【京港】北京京港地铁有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-10"
+    },
+    {
+        "name_cn-zh": "5号线",
+        "name_en": "Line 5",
+        "code": "05",
+        "color": "#A6217F",
+        "company": "【运一】北京市地铁运营有限公司运营一分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-06-03"
+    },
+    {
+        "name_cn-zh": "6号线",
+        "name_en": "Line 6",
+        "code": "06",
+        "color": "#D29700",
+        "company": "【运一】北京市地铁运营有限公司运营一分公司",
+        "repo": "BoyInTheSun/beijing-subway-schedule",
+        "repo_href": "https://github.com/BoyInTheSun/beijing-subway-schedule",
+        "update": "2024-01-27"
+    },
+    {
+        "name_cn-zh": "7号线",
+        "name_en": "Line 7",
+        "code": "07",
+        "color": "#F6C582",
+        "company": "【运一】北京市地铁运营有限公司运营一分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "8号线",
+        "name_en": "Line 8",
+        "code": "08",
+        "color": "#009B6B",
+        "company": "【运三】北京市地铁运营有限公司运营三分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "9号线",
+        "name_en": "Line 9",
+        "code": "09",
+        "color": "#8FC31F",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "10号线",
+        "name_en": "Line 10",
+        "code": "10",
+        "color": "#009BC0",
+        "company": "【运三】北京市地铁运营有限公司运营三分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "11号线",
+        "name_en": "Line 11",
+        "code": "11",
+        "color": "#ED796B",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "12号线",
+        "name_en": "Line 12",
+        "code": "12",
+        "color": "#BD6F16",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-05-08"
+    },
+    {
+        "name_cn-zh": "13号线",
+        "name_en": "Line 13",
+        "code": "13",
+        "color": "#F9E700",
+        "company": "【运三】北京市地铁运营有限公司运营三分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-05-01"
+    },
+    {
+        "name_cn-zh": "14号线",
+        "name_en": "Line 14",
+        "code": "14",
+        "color": "#D5A7A1",
+        "company": "【京港】北京京港地铁有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-09-01"
+    },
+    {
+        "name_cn-zh": "15号线",
+        "name_en": "Line 15",
+        "code": "15",
+        "color": "#582C68",
+        "company": "【运四】北京市地铁运营有限公司运营四分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-07-04"
+    },
+    {
+        "name_cn-zh": "16号线",
+        "name_en": "Line 16",
+        "code": "16",
+        "color": "#76A32E",
+        "company": "【京港】北京京港地铁有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "17号线",
+        "name_en": "Line 17",
+        "code": "17",
+        "color": "#00A9A9",
+        "company": "【京港】北京京港地铁有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "19号线",
+        "name_en": "Line 19",
+        "code": "19",
+        "color": "#D6ABC1",
+        "company": "【运管】北京市轨道交通运营管理有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "S1线",
+        "name_en": "Line S1",
+        "code": "S1",
+        "color": "#B35A02",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "亦庄T1线",
+        "name_en": "Yizhuang T1 Line",
+        "code": "T1",
+        "color": "#E5061B",
+        "company": "【公交】北京公交有轨电车有限公司",
+        "repo": "-",
+        "repo_href": "",
+        "update": "-"
+    },
+    {
+        "name_cn-zh": "亦庄线",
+        "name_en": "Yizhuang Line",
+        "code": "YZ",
+        "color": "#E40077",
+        "company": "【运一】北京市地铁运营有限公司运营一分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2024-05-01"
+    },
+    {
+        "name_cn-zh": "大兴机场线",
+        "name_en": "Daxing Airport Express",
+        "code": "DA",
+        "color": "#004A9F",
+        "company": "【运管】北京市轨道交通运营管理有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "房山线",
+        "name_en": "Fangshan Line",
+        "code": "FS",
+        "color": "#E46022",
+        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2023-12-01"
+    },
+    {
+        "name_cn-zh": "昌平线",
+        "name_en": "Changping Line",
+        "code": "CP",
+        "color": "#DE82B2",
+        "company": "【运四】北京市地铁运营有限公司运营四分公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-20"
+    },
+    {
+        "name_cn-zh": "燕房线",
+        "name_en": "Yanfang Line",
+        "code": "YF",
+        "color": "#E46022",
+        "company": "【运管】北京市轨道交通运营管理有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "西郊线",
+        "name_en": "Xijiao Line",
+        "code": "XJ",
+        "color": "#E50619",
+        "company": "【公交】北京公交有轨电车有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    },
+    {
+        "name_cn-zh": "首都机场线",
+        "name_en": "Capital Airport Express",
+        "code": "CA",
+        "color": "#A29BBB",
+        "company": "【京城】北京京城地铁有限公司",
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2025-01-19"
+    }
+]

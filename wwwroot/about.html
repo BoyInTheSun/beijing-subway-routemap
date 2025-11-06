@@ -353,6 +353,28 @@
         color: #868e96;
         font-size: 14px;
     }
+
+    .frind {
+        height: 60px;
+        width: 100%;
+        background-color: #d8d8d8;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .frind:hover {
+        background-color: #d2d2d2;
+        cursor: pointer;
+    }
+    .frind img {
+        height: 50px;
+        padding: 0 20px;
+    }
+    .frind span {
+        font-size: 22px;
+    }
+
 </style>
 
 <body>
@@ -386,6 +408,9 @@
         <div class="side-l side-1l" onclick="window.location.href = '#感谢'">
             <div>感谢<i class="iconfont icon-flower"></i></div>
         </div>
+        <div class="side-l side-1l" onclick="window.location.href = '#友情链接'">
+            <div>友情链接<i class="iconfont icon-link-variant"></i></div>
+        </div>
         <div class="side-split"></div>
     </div>
 
@@ -414,6 +439,13 @@
                 <a target="_blank" href="https://map.bjsubway.com/">北京地铁线路图</a>。版权归原作者所有。
             </p>
             <p>时刻表数据来源于见<a href="#许可证">许可证</a>。时刻表数据的精度是分钟，并且忽略在站经停时间。区分节假日和工作日。</p>
+            <div class="source-content" id="source-content">
+                <table>
+                    <tr>
+                        <th>线路名</th>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="section" id="计划列表">
             <h2>计划列表</h2>
@@ -494,6 +526,30 @@
             <p>感谢 github <a target="_blank" href="https://github.com/Mick235711">@Mick235711</a> 提供数据和适用于本项目格式的接口。</p>
             <p>感谢 github <a target="_blank" href="https://github.com/EchoGitH">@EchoGitH</a> 为前端设计做出贡献。</p>
             <p>感谢其他所有为本项目做出支持与贡献的个人或组织！</p>
+        </div>
+        <div class="section" id="友情链接">
+            <h2>友情链接</h2>
+            <div class="frind" onclick="window.open('https://www.china-emu.cn/');">
+                <img src="../static/imgs/CEMU.png">
+                <span>中国动车组 CHINA-EMU</span>
+            </div>
+            <div class="frind" onclick="window.open('http://www.xiaguanzhan.com/');">
+                <img src="../static/imgs/xiaguanzhan.jpg">
+                <span>下关站-铁路摄影馆</span>
+            </div>
+            <div class="frind" onclick="window.open('https://centralgo.site/index.html');">
+                <img src="../static/imgs/centralgo.png">
+                <span>Central Go</span>
+            </div>
+            <div class="frind" onclick="window.open('https://toursline.cn/');">
+                <img src="../static/imgs/Toursline.png">
+                <span>通行线 Toursline</span>
+            </div>
+            <div class="frind" onclick="window.open('https://www.metroman.cn/');">
+                <img src="../static/imgs/MetroMan.png">
+                <span>地铁通 MetroMan</span>
+            </div>
+            <p>欢迎各位同好站长互换友链！</p>
         </div>
     </div>
 
