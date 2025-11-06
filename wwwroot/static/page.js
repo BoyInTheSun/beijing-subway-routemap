@@ -35,7 +35,9 @@ async function main_page() {
     //hide_loading();
     is_loop = false;
     is_auto = true;
+
     is_pause = false;
+    is_play = false;
     apply_link(window.location.href);
 
     if (is_auto) start();
@@ -44,7 +46,7 @@ async function main_page() {
     change_tips(tips_now);
     size_text = 'm';
 
-    document.getElementById('link').addEventListener('click', function(e) {
+    document.getElementById('link').addEventListener('click', function (e) {
         e.preventDefault();
         this.select();
     });
@@ -377,7 +379,8 @@ function show_popup_tips() {
     document.getElementById('popup_tips').style.display = null;
 }
 function show_popup_link() {
-    link = generate_link();
+    hash = generate_hash();
+    link = window.location.origin + '#' + hash;
     document.getElementById('btn_copy').className = 'popup-btn btn-unselected';
     document.getElementById('btn_copy').innerHTML = '复制';
     document.getElementById('btn_favorite').className = 'popup-btn btn-unselected';
@@ -392,7 +395,7 @@ function copy_link() {
         navigator.clipboard.writeText(link);
         btn.innerHTML = '成功';
     }
-    catch{
+    catch {
         btn.innerHTML = '失败'
     }
 }
@@ -403,9 +406,15 @@ function add_favorite() {
         window.external.addFavorite(link);
         btn.innerHTML = '成功';
     }
-    catch{
+    catch {
         btn.innerHTML = '失败'
     }
+}
+function update_hash() {
+    var btn = document.getElementById('btn_hash');
+    window.location.hash = hash;
+    btn.className = 'popup-btn btn-selected';
+    btn.innerHTML = '成功';  // 这没法失败吧
 }
 function ban_event(event) {
     event.preventDefault();
@@ -927,7 +936,7 @@ function select_lines(this_btn, action) {
 function change_tips(opcode) {
     if (parseInt(opcode)) tips_now = parseInt(opcode);
     else if (opcode == 'next') tips_now += 1;
-    else if (opcode == 'prev' )tips_now -= 1;
+    else if (opcode == 'prev') tips_now -= 1;
     tips_now %= tips.length;
     document.getElementById('tips_content').innerHTML = tips[tips_now];
     document.getElementById('tips_now').innerHTML = tips_now + 1;
@@ -937,19 +946,19 @@ function share_link() {
 
 }
 function objectToQueryString(obj) {
-  return Object.keys(obj)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
-    .join('&');
+    return Object.keys(obj)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+        .join('&');
 }
 function queryStringToObject(queryString) {
-  const params = new URLSearchParams(queryString);
-  const result = new Object();
-  for (const [key, value] of params.entries()) {
-      result[key] = value;
-  }
-  return result;
+    const params = new URLSearchParams(queryString);
+    const result = new Object();
+    for (const [key, value] of params.entries()) {
+        result[key] = value;
+    }
+    return result;
 }
-function generate_link() {
+function generate_hash() {
     var args = new Object();
     if (!is_auto) args['auto'] = 0;
     if (is_loop) args['loop'] = 1;
@@ -984,7 +993,7 @@ function generate_link() {
     lines = lines.slice(1);
     if (!lines) args['lines'] = '0';
     else if (!is_all_line) args['lines'] = lines;
-    return window.location.origin + '#' + objectToQueryString(args);
+    return objectToQueryString(args);
 }
 function apply_link(link) {
     if (link.indexOf('#') === -1) return;
@@ -1029,7 +1038,7 @@ function apply_link(link) {
         for (let line of args['lines'].split('-')) {
             if (line.indexOf('.') == -1) {
                 if (is_lines[line] !== undefined)
-                    for (let direct in is_lines[line]) 
+                    for (let direct in is_lines[line])
                         is_lines[line][direct] = true;
             }
             else {
@@ -1043,7 +1052,10 @@ function apply_link(link) {
 function start() {
     document.getElementById('icon_play').innerHTML = '重新运行<i class="iconfont icon-replay"></i>';
     document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+    document.getElementById('side_pause').classList.remove('not-allowed');
+    document.getElementById('side_stop').classList.remove('not-allowed');
     is_pause = false;
+    is_play = true;
     set_time_after_if_before();
     var start_hour = parseInt(document.getElementById('startHour').innerText);
     var start_minute = parseInt(document.getElementById('startMinute').innerText);
@@ -1051,34 +1063,38 @@ function start() {
     var end_hour = parseInt(document.getElementById('endHour').innerText);
     var end_minute = parseInt(document.getElementById('endMinute').innerText);
     var end_seconds = parseInt(document.getElementById('endSecond').innerText);
-    var speed = parseFloat(document.getElementById('speed').innerText);
     if (speed <= 0) speed = 0.0001;
     if (start_hour <= 2) start_hour += 24;
     if (end_hour <= 2) end_hour += 24;
-    draw_trains(
-        start_hour * 60 + start_minute + start_seconds / 60,
-        end_hour * 60 + end_minute + end_seconds / 60,
-        speed,
-        window.wde,
-        is_lines,
-    );
+    speed = parseFloat(document.getElementById('speed').innerText);
+    start_time = start_hour * 60 + start_minute + start_seconds / 60;
+    end_time = end_hour * 60 + end_minute + end_seconds / 60;
+    reality_time = get_now_minute();
+    draw_trains();
 }
 function stop() {
     document.getElementById('icon_play').innerHTML = '开始运行<i class="iconfont icon-play"></i>';
     document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+    document.getElementById('side_pause').classList.add('not-allowed');
+    document.getElementById('side_stop').classList.add('not-allowed');
     is_pause = false;
+    is_play = false;
     stop_set_time();
     draw_map();
 }
 function pause() {
     const svg = document.getElementById('svg_main');
-    if (is_pause) {
-        svg.unpauseAnimations();
-        document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
-    }
-    else {
-        svg.pauseAnimations();
-        document.getElementById('icon_pause').innerHTML = '继续运行<i class="iconfont icon-play"></i>'
+    if (is_play) {
+        if (is_pause) {
+            svg.unpauseAnimations();
+            replay_set_time();
+            document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
+        }
+        else {
+            svg.pauseAnimations();
+            pause_set_time();
+            document.getElementById('icon_pause').innerHTML = '继续运行<i class="iconfont icon-play"></i>'
+        }
     }
     is_pause = !is_pause;
 }

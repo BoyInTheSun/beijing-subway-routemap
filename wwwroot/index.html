@@ -687,6 +687,10 @@
     .detail-table-line div:nth-child(4) {
         width: 56px;
     }
+
+    .not-allowed:hover{
+        cursor: not-allowed;
+    }
 </style>
 
 <body>
@@ -695,13 +699,13 @@
             <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
         </div>
         <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="close_siderbar();start();">
+        <div class="side-l side-1l" id="side_play" onclick="close_siderbar();start();">
             <div id="icon_play">开始运行<i class="iconfont icon-play"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="pause();">
+        <div class="side-l side-1l not-allowed" id="side_pause" onclick="pause();">
             <div id="icon_pause">暂停运行<i class="iconfont icon-pause"></i></div>
         </div>
-        <div class="side-l side-1l" onclick="stop();open_siderbar();">
+        <div class="side-l side-1l not-allowed" id="side_stop" onclick="stop();open_siderbar();">
             <div>停止运行<i class="iconfont icon-stop"></i></div>
         </div>
         <div class="side-l side-2l" onclick="open_siderbar();">
@@ -1043,7 +1047,7 @@
                 <div class="inner">
                     <div id="btn_copy" class="popup-btn btn-unselected" onclick="copy_link();">复制</div>
                     <div id="btn_favorite" class="popup-btn btn-unselected" onclick="add_favorite();">收藏</div>
-                    <div class="popup-btn btn-unselected" onclick="window.open(link, '_blank')">打开</div>
+                    <div id="btn_hash" class="popup-btn btn-unselected" onclick="update_hash();">打开</div>
                 </div>
             </div>
             <div class="popup-ok btn-ok" onclick="document.getElementById('popup_link').style.display = 'none';">确定</div>

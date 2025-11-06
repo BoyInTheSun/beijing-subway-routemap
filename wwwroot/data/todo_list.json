@@ -21,6 +21,13 @@
         "description": ""
     },
     {
+        "hidden": true,
+        "status": "技术难题",
+        "color": "orangered",
+        "title": "",
+        "description": ""
+    },
+    {
         "hidden": false,
         "status": "即将完成",
         "color": "teal",
@@ -40,13 +47,6 @@
         "color": "saddlebrown",
         "title": "分享模块生成二维码",
         "description": "使用场景低，有需求再考虑。"
-    },
-    {
-        "hidden": false,
-        "status": "技术难题",
-        "color": "orangered",
-        "title": "暂停功能",
-        "description": "当前技术栈难实现。"
     },
     {
         "hidden": false,

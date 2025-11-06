@@ -94,23 +94,34 @@ function get_now_minute() {
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
-function start_set_time(begin_minute, end_minute, reality_minute, speed, wde) {
-    clearInterval(window.time_interval_id_set_time);
-    init_count_trains(Math.floor(begin_minute / 60), Math.floor(begin_minute % 60), wde);
-    window.time_interval_id_set_time = window.setInterval(`set_time(${begin_minute}, ${end_minute}, ${reality_minute}, ${speed}, "${wde}")`, 50);
+function start_set_time() {
+    if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
+    init_count_trains(Math.floor(start_time / 60), Math.floor(start_time % 60), wde);
+    window.time_interval_id_set_time = window.setInterval(`set_time()`, 10);
 }
 function stop_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
     document.getElementById('time').innerText = '--:--:--';
     document.getElementById('count_train').innerText = '?';
 }
-function set_time(begin_minute, end_minute, reality_minute, speed, wde) {
+function pause_set_time() {
+    if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
     var time_now = get_now_minute();
-    var time_offset = time_now - reality_minute;
-    var show_minute_past = window.now_minute;
-    var show_minute_now = begin_minute + time_offset * speed;
+    start_time = start_time + (time_now - reality_time) * speed;
+}
+function replay_set_time() {
+    var time_now = get_now_minute();
+    reality_time = time_now;
+    window.time_interval_id_set_time = window.setInterval(`set_time()`, 10);
+}
 
-    if (show_minute_now > end_minute) {
+function set_time() {
+    var time_now = get_now_minute();
+    var time_offset = time_now - reality_time;
+    var show_minute_past = window.now_minute;
+    var show_minute_now = start_time + time_offset * speed;
+
+    if (show_minute_now > end_time) {
         stop();
         if (is_loop) start();
         return;
@@ -133,7 +144,7 @@ function draw_map() {
 
 
 // 画车动画
-function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
+function draw_trains() {
     var transparency_second;
     if (speed > 60) transparency_second = 30 / speed;
     else transparency_second = 0.5;
@@ -156,11 +167,11 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                 xml_animates = new Array();
                 // 淡入
                 this_time_minute = hm2time(sche[line_name][direct][train_num][0][1]);
-                if (end_minute <= this_time_minute) {
+                if (end_time <= this_time_minute) {
                     continue;
                 }
-                if (begin_minute <= this_time_minute) {
-                    begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                if (start_time <= this_time_minute) {
+                    begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
                     dur = parseInt((transparency_second) * 1000) + 'ms';
                     // xml_animates.push(`<set attributeName="opacity" to="0" begin="0s"/>`);
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1" />`);
@@ -193,28 +204,28 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
                     this_time_minute = hm2time(this_time);
                     next_time_minute = hm2time(next_time);
 
-                    if (begin_minute > next_time_minute) {
+                    if (start_time > next_time_minute) {
                         continue;
                     }
 
-                    begin = parseInt((this_time_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                    begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
                     dur = parseInt((next_time_minute - this_time_minute) * 60 / speed * 1000) + 'ms';
-                    if (end_minute > next_time_minute) {
+                    if (end_time > next_time_minute) {
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" rotate="auto" path="${path}" repeatCount="1" />`);
                     }
                     else {
-                        end = parseInt((end_minute - begin_minute) * 60 / speed * 1000) + 'ms';
+                        end = parseInt((end_time - start_time) * 60 / speed * 1000) + 'ms';
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
                         break;
                     }
 
                 }
                 // 淡出
-                begin = parseInt(((next_time_minute - begin_minute) * 60 / speed - transparency_second) * 1000) + 'ms';
+                begin = parseInt(((next_time_minute - start_time) * 60 / speed - transparency_second) * 1000) + 'ms';
                 dur = parseInt((transparency_second) * 1000) + 'ms';
-                if (begin_minute <= next_time_minute && end_minute >= next_time_minute) {
+                if (start_time <= next_time_minute && end_time >= next_time_minute) {
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="1;0" repeatCount="1" />`)
-                    // xml_animates.push(`<set attributeName="opacity" to="0" begin="${parseInt(((next_time_minute - begin_minute) * 60 / speed) * 1000) + 'ms'}"/>`);
+                    // xml_animates.push(`<set attributeName="opacity" to="0" begin="${parseInt(((next_time_minute - start_time) * 60 / speed) * 1000) + 'ms'}"/>`);
                 }
                 //var t = train_size;
                 //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
@@ -233,7 +244,7 @@ function draw_trains(begin_minute, end_minute, speed, wde, is_lines) {
     d3.select('#div_svg').html('');
     d3.select('#div_svg').html(svg_html);
     d3.select('#g_trains').html(xml_polygons.join(''));
-    start_set_time(begin_minute, end_minute, get_now_minute(), speed, wde);
+    start_set_time(get_now_minute());
 }
 
 
@@ -579,8 +590,6 @@ async function main_svg() {
     }
 
     await updateProgress(55);
-
-    var now_minute;
 
     //算最早最晚时间
     lines_most = new Object();

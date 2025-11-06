@@ -4,7 +4,9 @@
         "name_en": "Line 1 | Batong Line",
         "code": "01",
         "color": "#C23A30",
-        "company": "【运二】北京市地铁运营有限公司运营二分公司",
+        "model": "6B-",
+        "company": "北京市地铁运营有限公司运营二分公司",
+        "nick_company": "运二",
         "repo": "Mick235711/Beijing-Subway-Tools",
         "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
         "update": "2024-12-20"
@@ -14,7 +16,9 @@
         "name_en": "Line 2",
         "code": "02",
         "color": "#006098",
-        "company": "【运三】北京市地铁运营有限公司运营三分公司",
+        "model": "6B-",
+        "company": "北京市地铁运营有限公司运营三分公司",
+        "nick_company": "运三",
         "repo": "Mick235711/Beijing-Subway-Tools",
         "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
         "update": "2024-12-21"
