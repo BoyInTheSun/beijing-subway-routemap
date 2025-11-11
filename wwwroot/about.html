@@ -355,13 +355,24 @@
     }
 
     .frind {
-        height: 60px;
+        height: 90px;
+        font-size: 20px;
         width: 100%;
         background-color: #d8d8d8;
         border-radius: 10px;
         display: flex;
         align-items: center;
         margin: 10px 0;
+        flex-direction: column;
+        justify-content: center;
+    }
+    @media (min-width: 500px){
+        .frind {
+            height: 60px;
+            font-size: 22px;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
     }
     .frind:hover {
         background-color: #d2d2d2;
@@ -371,10 +382,36 @@
         height: 50px;
         padding: 0 20px;
     }
-    .frind span {
-        font-size: 22px;
+    .source-content table{
+        white-space: nowrap;
+        overflow: auto;
+        width: 100%;
+        height: 260px;
+        display: block;
+        text-align: center;
     }
-
+    .source-content table tr {
+        height: 50px;
+    }
+    .source-content table tr:nth-child(even) {
+        background-color: #ececec;
+    }
+    .source-content table tr:nth-child(odd) {
+        background-color: #dadada;
+    }
+    .source-content table tr:first-child {
+        position: sticky;
+        top: 0;
+        z-index: 101;
+        background-color: #bcbcbc;
+    }
+    .source-content table th:first-child,
+    .source-content table td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 100;
+        color: #fff;
+    }
 </style>
 
 <body>
@@ -439,13 +476,7 @@
                 <a target="_blank" href="https://map.bjsubway.com/">北京地铁线路图</a>。版权归原作者所有。
             </p>
             <p>时刻表数据来源于见<a href="#许可证">许可证</a>。时刻表数据的精度是分钟，并且忽略在站经停时间。区分节假日和工作日。</p>
-            <div class="source-content" id="source-content">
-                <table>
-                    <tr>
-                        <th>线路名</th>
-                    </tr>
-                </table>
-            </div>
+            <div class="source-content" id="source-content"></div>
         </div>
         <div class="section" id="计划列表">
             <h2>计划列表</h2>
@@ -555,7 +586,7 @@
 
     <div id="footer">
         <div>访问人数: <span id="person_num">xx</span> | 访问人次: <span id="person_time">xx</span></div>
-        <div>联系作者 <a target="_blank" href="https://space.bilibili.com/185575427">bilibili@BoyInTheSun</a></div>
+        <div>联系作者 <a target="_blank" href="mailto:a@boyinthesun.cn">a@boyinthesun.cn</a></div>
         <div><a target="_blank" href="https://github.com/BoyInTheSun/beijing-subway-routemap">项目地址</a> | 遵循 <a
                 target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans">CC BY-SA 4.0</a>
             / <a target="_blank" href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2.0</a> <a target="_blank"
@@ -567,29 +598,32 @@
     <script src="static/api.js"></script>
 
     <script type="text/javascript">
-        // 加载tips
-        /*
+        // 加载线路
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('/data/tips.json')
-                .then(response => response.json())
-                .then(data => {
-                    const subtitle = document.getElementById('subtitle');
-                    subtitle.innerHTML = '';
-                    data.forEach(tip => {
-                        if (!todo.hidden) {
-                            const plan_div = document.createElement('div');
-                            plan_div.className = 'version-item';
-                            plan_div.innerHTML = `
-                                <span class="plan-status" style="background-color: ${todo.color};"> ${todo.status}</span>
-                                <span class="plan-title"> ${todo.title}</span>
-                                <p> ${todo.description}</p>
-                            `;
-                            subtitle.appendChild(plan_div);
-                        }
-                    });
-                })
+            fetch('/data/source.json')
+            .then(response => response.json())
+            .then(data => {
+                table = '<table><tr><th style="background-color:#000000">代码</th>';
+                for (th of ['线路名', '英文名', '运营公司', '缩写', '数据来源', '数据更新日期']) {
+                    table += '<th>' + th + '</th>';
+                }
+                table += '</tr>';
+                for (each of data) {
+                    table += '<tr>';
+                    table += '<td style="background-color:' + each['color'] + '">' + each['code'] + '</td>';
+                    table += '<td>' + each['name_cn-zh'] + '</td>';
+                    table += '<td>' + each['name_en'] + '</td>';
+                    table += '<td>' + each['company'] + '</td>';
+                    table += '<td>' + each['nick_company'] + '</td>';
+                    table += '<td><a href="' + each['repo_href'] + '">' + each['repo'] + '</a></td>';
+                    table += '<td>' + each['update'] + '</td>';
+                    table += '</tr>';
+                }
+                table += '</table>';
+                const source = document.getElementById('source-content');
+                source.innerHTML = table;
+            });
         })
-        */
         // 加载计划列表
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/data/todo_list.json')

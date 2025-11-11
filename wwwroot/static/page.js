@@ -936,7 +936,7 @@ function select_lines(this_btn, action) {
 function change_tips(opcode) {
     if (parseInt(opcode)) tips_now = parseInt(opcode);
     else if (opcode == 'next') tips_now += 1;
-    else if (opcode == 'prev') tips_now -= 1;
+    else if (opcode == 'prev') tips_now += tips.length - 1;
     tips_now %= tips.length;
     document.getElementById('tips_content').innerHTML = tips[tips_now];
     document.getElementById('tips_now').innerHTML = tips_now + 1;
