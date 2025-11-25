@@ -242,7 +242,6 @@
         height: 36px;
         background: linear-gradient(to top, #c1c1c1, #ffffff);
         top: 156px;
-
     }
 
     .popup-time {
@@ -469,7 +468,7 @@
     input#link {
         position: fixed;
         outline: none;
-        top: 150px;
+        top: 165px;
         left: 25px;
         height: 24px;
         width: 210px;
@@ -1041,13 +1040,13 @@
         <div class="overlay" onclick="document.getElementById('popup_link').style.display = 'none';"></div>
         <div class="popup-content">
             <div class="popup-title">分享</div>
-            <div class="popup-subtitle">若复制失败请手动选中</br>收藏请通过浏览器操作</div>
+            <div class="popup-subtitle">若复制失败请手动选中</br>存储可将参数至地址栏</br>收藏请通过浏览器操作</div>
             <input id="link" type="text" readonly></input>
             <div class="popup-presets">
                 <div class="inner">
                     <div id="btn_copy" class="popup-btn btn-unselected" onclick="copy_link();">复制</div>
+                    <div id="btn_hash" class="popup-btn btn-unselected" onclick="update_hash();">存储</div>
                     <div id="btn_favorite" class="popup-btn btn-unselected" onclick="add_favorite();">收藏</div>
-                    <div id="btn_hash" class="popup-btn btn-unselected" onclick="update_hash();">打开</div>
                 </div>
             </div>
             <div class="popup-ok btn-ok" onclick="document.getElementById('popup_link').style.display = 'none';">确定</div>

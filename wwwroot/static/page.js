@@ -380,9 +380,11 @@ function show_popup_tips() {
 }
 function show_popup_link() {
     hash = generate_hash();
-    link = window.location.origin + '#' + hash;
+    var link = window.location.origin + '#' + hash;
     document.getElementById('btn_copy').className = 'popup-btn btn-unselected';
     document.getElementById('btn_copy').innerHTML = '复制';
+    document.getElementById('btn_hash').className = 'popup-btn btn-unselected';
+    document.getElementById('btn_hash').innerHTML = '存储';
     document.getElementById('btn_favorite').className = 'popup-btn btn-unselected';
     document.getElementById('btn_favorite').innerHTML = '收藏';
     document.getElementById('link').value = link;
