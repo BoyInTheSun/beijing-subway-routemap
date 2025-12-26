@@ -52,27 +52,6 @@
         "hidden": false,
         "status": "未开始",
         "color": "darkslateblue",
-        "title": "跟随视角",
-        "description": "地图跟随列车移动。或许给画布添加一个反向动画？"
-    },
-    {
-        "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
-        "title": "车站详情",
-        "description": "点击车站显示经停列车情况。"
-    },
-    {
-        "hidden": false,
-        "status": "进行中",
-        "color": "goldenrod",
-        "title": "列车详情",
-        "description": "点击列车显示沿途经停情况。"
-    },
-    {
-        "hidden": false,
-        "status": "未开始",
-        "color": "darkslateblue",
         "title": "6号线优化",
         "description": "待避列车及跨站列车高亮。"
     },

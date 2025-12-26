@@ -97,12 +97,14 @@ function get_now_minute() {
 function start_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
     init_count_trains(Math.floor(start_time / 60), Math.floor(start_time % 60), wde);
-    window.time_interval_id_set_time = window.setInterval(`set_time()`, 10);
+    window.time_interval_id_set_time = window.setInterval(`set_time()`, 100);
 }
 function stop_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
     document.getElementById('time').innerText = '--:--:--';
     document.getElementById('count_train').innerText = '?';
+    now_minute = NaN;
+    update_detail(true);
 }
 function pause_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
@@ -112,13 +114,13 @@ function pause_set_time() {
 function replay_set_time() {
     var time_now = get_now_minute();
     reality_time = time_now;
-    window.time_interval_id_set_time = window.setInterval(`set_time()`, 10);
+    window.time_interval_id_set_time = window.setInterval(`set_time()`, 100);
 }
 
 function set_time() {
     var time_now = get_now_minute();
     var time_offset = time_now - reality_time;
-    var show_minute_past = window.now_minute;
+    var show_minute_past = now_minute;
     var show_minute_now = start_time + time_offset * speed;
 
     if (show_minute_now > end_time) {
@@ -126,7 +128,10 @@ function set_time() {
         if (is_loop) start();
         return;
     }
-    window.now_minute = show_minute_now;
+    var is_update_table = false;
+    if (!now_minute || Math.floor(show_minute_now) > Math.floor(now_minute))
+        is_update_table = true;
+    now_minute = show_minute_now;
     // 更新时间框
     document.getElementById('time').innerText = time2hms(show_minute_now);
     // 更新运行列车数量
@@ -134,7 +139,27 @@ function set_time() {
     var show_minute_now_floor = Math.floor(show_minute_now);
     if (show_minute_now_floor > show_minute_past_floor)
         update_count_trains(show_minute_past_floor, show_minute_now_floor, wde);
+    // 更新detail
+    update_detail(is_update_table);
+}
 
+function update_detail(is_update_table) {
+    if (is_mobile) {
+        if (focus_detail['type'] == 'train') {
+            update_detail_train(focus_detail['train_index'], is_update_table, detail_scroll.indexOf('tag_t_' + focus_detail['train_index']) != -1);
+        }
+        else if (focus_detail['type'] == 'station') {
+            update_detail_station(focus_detail['station_index'], is_update_table, detail_scroll.indexOf('tag_s_' + focus_detail['station_index']) != -1);
+        }
+    }
+    else {
+        for (let train_index of detail_trains.keys()) {
+            update_detail_train(train_index, is_update_table, detail_scroll.indexOf('tag_t_' + train_index) != -1);
+        }
+        for (let station_index of detail_stations.keys()) {
+            update_detail_station(station_index, is_update_table, detail_scroll.indexOf('tag_s_' + station_index) != -1);
+        }
+    }
 }
 
 // 画地图，无车
@@ -230,7 +255,7 @@ function draw_trains() {
                 //var t = train_size;
                 //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
                 //xml_polygon = `<polygon id="T_${train_num}" fill="${line_colors[line_name]}" points="${points}" stroke-width="${t / 2}" stroke="#000000">${xml_animates.join('')}</polygon>`;
-                xml_polygon = `<use id="T_${train_num}" xlink:href="#train" fill="${line_colors[line_name]}">${xml_animates.join('')}</use>`;
+                xml_polygon = `<use id="T_${train_num}" xlink:href="#train" fill="${line_colors[line_name]}" class="svg-train">${xml_animates.join('')}</use>`;
                 xml_polygons.push(xml_polygon);
             }
         }
@@ -269,7 +294,7 @@ var svg_style = `<style>
         font-size: 12px;
         fill: #ffffff;
     }
-    circle.station-normal {
+    circle.svg-station {
         r: 3px;
         fill: #ffffff;
         stroke-width: 1px;
@@ -296,11 +321,25 @@ var svg_style = `<style>
 
 var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
 var stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
+var stations_lines = new Object();  // 存放站名，{站1: ["线路1", "线路2", ...], ...]}
 var stations_xy = new Object();  // 存放站名坐标，{线路: {"站1": ["x", "y"], "站2": ["x", "y"], ...}}
 var ex_stations_xy = new Object();  // 存放换乘站坐标，{"站1": [["x0", "y0"], ["x1", "y1"]], "站2": [[...], [...], [...]], ...}
-var close_stations = {  // TODO 需要体现站点关闭和虚拟换乘、某线路未开通站等
-    '木樨地': '虚拟换乘',
-    '大钟寺': '虚拟换乘',
+var ex_stations_lines = new Object();  // 存放换乘站及线路，{"站1": ["线1", "线2"], "站2": [...], ...}
+var close_stations = {  // 体现施工封闭、暂缓开通等
+    '1号线八通线': {
+        '苹果园': '施工封闭',
+        '八角游乐园': '施工封闭',
+    },
+    '6号线': { '通运门': '暂缓开通' },
+    '14号线': { '陶然桥': '暂缓开通' },
+    '17号线': { '望京西': '暂缓开通' },
+    '亦庄T1线': { '老观里': '暂缓开通' },
+};
+var transfer_without_exiting_stations = {
+    '1号线八通线': ['木樨地'],
+    '9号线': ['木樨地'],
+    '12号线': ['大钟寺'],
+    '13号线': ['大钟寺'],
 }
 
 var count_trains;
@@ -424,30 +463,37 @@ async function main_svg() {
         // 算站
         for (var j = 0; j < line.childElementCount; j++) {
             if (line.children[j].getAttribute("st") === "true") {
-                stations[line_name][0].push(line.children[j].getAttribute("lb"));
-                stations[line_name][1].unshift(line.children[j].getAttribute("lb"));
+                var station_name = line.children[j].getAttribute("lb");
+                stations[line_name][0].push(station_name);
+                stations[line_name][1].unshift(station_name);
+                if (stations_lines[station_name]) stations_lines[station_name].push(line_name);
+                else stations_lines[station_name] = [line_name];
                 let x = line.children[j].getAttribute("x");
                 let y = line.children[j].getAttribute("y");
-                stations_xy[line_name][line.children[j].getAttribute("lb")] = [x, y];
+                stations_xy[line_name][station_name] = [x, y];
                 if (line.children[j].getAttribute("ex") === "true") {
                     // 换乘车站
-                    if (!ex_stations_xy[line.children[j].getAttribute("lb")]) {
-                        ex_stations_xy[line.children[j].getAttribute("lb")] = new Array();
+                    if (!ex_stations_xy[station_name]) {
+                        ex_stations_xy[station_name] = new Array();
                         // 画站名
-                        xml_stationnames.push(`<text class="station-name" x="${add(x, line.children[j].getAttribute("rx"))}" y="${add(y, line.children[j].getAttribute("ry")) + 15}">${line.children[j].getAttribute("lb")}</text>`)
+                        xml_stationnames.push(`<text class="station-name" x="${add(x, line.children[j].getAttribute("rx"))}" y="${add(y, line.children[j].getAttribute("ry")) + 15}">${station_name}</text>`)
                     }
-                    ex_stations_xy[line.children[j].getAttribute("lb")].push([x, y]);
-
+                    ex_stations_xy[station_name].push([x, y]);
+                    // 记换乘站
+                    if (!ex_stations_lines[station_name])
+                        ex_stations_lines[station_name] = [line_name];
+                    else
+                        ex_stations_lines[station_name].push(line_name);
                 }
                 else {
                     // 普通车站
-                    xml_stationnames.push(`<text class="station-name" x="${add(x, line.children[j].getAttribute("rx"))}" y="${add(y, line.children[j].getAttribute("ry")) + 15}">${line.children[j].getAttribute("lb")}</text>`)
+                    xml_stationnames.push(`<text class="station-name" x="${add(x, line.children[j].getAttribute("rx"))}" y="${add(y, line.children[j].getAttribute("ry")) + 15}">${station_name}</text>`)
                     // 画普通车站和站名
                     if (line.children[j].getAttribute("iu") === "false")
                         // 暂缓开通
-                        xml_stations.push(`<circle class="station-normal" cx="${x}" cy="${y}" stroke-dasharray="1 2"/>`);
+                        xml_stations.push(`<circle cx="${x}" cy="${y}" stroke-dasharray="1 2" class="svg-station" id="S_${station_name}"/>`);
                     else
-                        xml_stations.push(`<circle class="station-normal" cx="${x}" cy="${y}" />`);
+                        xml_stations.push(`<circle cx="${x}" cy="${y}" class="svg-station" id="S_${station_name}"/>`);
                 }
 
 
@@ -482,11 +528,11 @@ async function main_svg() {
         new_x /= count;
         new_y /= count;
         //xml_stations.push(`<circle class="station-transfer" cx="${new_x}" cy="${new_y}"></circle>`);
-        if (['木樨地', '大钟寺'].indexOf(ex_station) !== -1)
+        if (transfer_without_exiting_stations[line_name] && transfer_without_exiting_stations[line_name].indexOf(ex_station) != -1)
             // 虚拟换乘
-            xml_stations.push(`<use xlink:href="#station-transfer-dash" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
+            xml_stations.push(`<use xlink:href="#station-transfer-dash" x="${new_x - 5.5}" y="${new_y - 5.5}" class="svg-station" id="S_${ex_station}"/>`);
         else
-            xml_stations.push(`<use xlink:href="#station-transfer" x="${new_x - 5.5}" y="${new_y - 5.5}" />`);
+            xml_stations.push(`<use xlink:href="#station-transfer" x="${new_x - 5.5}" y="${new_y - 5.5}" class="svg-station" id="S_${ex_station}"/>`);
     }
 
 
@@ -517,6 +563,7 @@ async function main_svg() {
     svg_html += xml_g_symbols;
     svg_html += '<g id="g_trains"></g>';
     svg.html(svg_html);
+
     // 请求时刻表
     // TODO: 改并行？
     sche_wde = new Object();
@@ -540,18 +587,20 @@ async function main_svg() {
     sche_wde['wd'] = sche_["工作日"];
     sche_wde['we'] = sche_["双休日"];
     await updateProgress(40);
-    sche_trains_wde['wd'] = new Object();
-    var sche_trains_wd = new Object();
-    for (let line in sche_wde['wd']) {
-        for (let direct in sche_wde['wd'][line]) {
-            sche_trains_wde['wd'] = Object.assign(sche_trains_wde['wd'], sche_wde['wd'][line][direct]);
-        }
-    }
-
-    sche_trains_wde['we'] = new Object();
-    for (let line in sche_wde['we']) {
-        for (let direct in sche_wde['we'][line]) {
-            sche_trains_wde['we'] = Object.assign(sche_trains_wde['we'], sche_wde['we'][line][direct]);
+    for (let wde of ['wd', 'we']) {
+        sche_trains_wde[wde] = new Object();
+        for (let line in sche_wde[wde]) {
+            for (let direct in sche_wde[wde][line]) {
+                //sche_trains_wde[wde] = Object.assign(sche_trains_wde[wde], sche_wde[wde][line][direct]);
+                for (let train_num in sche_wde[wde][line][direct]) {
+                    sche_trains_wde[wde][train_num] = {
+                        'line': line,
+                        'direct': direct,
+                        'wde': wde,
+                        'stations': sche_wde[wde][line][direct][train_num]
+                    };
+                }
+            }
         }
     }
     await updateProgress(45);
@@ -571,11 +620,10 @@ async function main_svg() {
             }
         }
     }
-    await updateProgress(50);
     for (let wde of ['wd', 'we']) {
         for (let train_num in sche_trains_wde[wde]) {
-            let start_time = sche_trains_wde[wde][train_num][0][1];
-            let end_time = sche_trains_wde[wde][train_num][sche_trains_wde[wde][train_num].length - 1][1];
+            let start_time = sche_trains_wde[wde][train_num]['stations'][0][1];
+            let end_time = sche_trains_wde[wde][train_num]['stations'][sche_trains_wde[wde][train_num]['stations'].length - 1][1];
             start_time = start_time.replace('(', '').replace('-', '');
             end_time = end_time.replace('(', '').replace('-', '');
             let [start_h, start_m] = start_time.split(':');
@@ -588,8 +636,8 @@ async function main_svg() {
             end_trains_wde[wde][end_h][end_m].push(train_num);
         }
     }
+    await updateProgress(50);
 
-    await updateProgress(55);
 
     //算最早最晚时间
     lines_most = new Object();
@@ -603,7 +651,7 @@ async function main_svg() {
             lines_most['earliest'][wde][line] = new Object();
             lines_most['latest'][wde][line] = new Object();
             for (let direct in sche[line]) {
-                let earliest = hm2time('02:59'); //TODO 这里有个小问题，注意分和秒的精度区别，应该无伤大雅；
+                let earliest = hm2time('02:59');  // 这里有个小问题，注意分和秒的精度区别，应该无伤大雅；
                 let latest = hm2time('03:00');
                 for (let train_num in sche[line][direct]) {
                     if (hm2time(sche[line][direct][train_num][0][1]) < earliest) earliest = hm2time(sche[line][direct][train_num][0][1]);
@@ -614,5 +662,61 @@ async function main_svg() {
             }
         }
     }
+    await updateProgress(55);
+    // 算到站时刻表
+    sche_stations = Object();
+    for (let wde in sche_wde) {
+        sche_stations[wde] = Object();
+        for (let line in sche_wde[wde]) {
+            for (let direct in sche_wde[wde][line]) {
+                for (let train_id in sche_wde[wde][line][direct]) {
+                    let sche_length = sche_wde[wde][line][direct][train_id].length;
+                    let departure; //始发站
+                    let terminal; // 终点站(回库 余n圈 快车 慢车)
+                    terminal = sche_wde[wde][line][direct][train_id][sche_length - 1][0];
+                    departure = sche_wde[wde][line][direct][train_id][0][0];
+                    if (line == '6号线') {
+                        for (let each of sche_wde[wde][line][direct][train_id]) {
+                            if (each[1].indexOf('(') != -1) {
+                                terminal += '(快车)';
+                                break;
+                            }
+                            else if (each[1].indexOf('-') != -1) {
+                                terminal += '(慢车)';
+                                break;
+                            }
+                        }
+                    }
+                    // TODO 括号内信息
+                    for (let i = 0; i < sche_length; i++) {
+                        let station = sche_wde[wde][line][direct][train_id][i][0];
+                        let time = sche_wde[wde][line][direct][train_id][i][1];
+                        if (!sche_stations[wde][station]) sche_stations[wde][station] = new Object();
+                        if (!sche_stations[wde][station][line]) sche_stations[wde][station][line] = new Object();
+                        if (!sche_stations[wde][station][line][direct]) sche_stations[wde][station][line][direct] = new Array();
+                        sche_stations[wde][station][line][direct].push([
+                            train_id,
+                            i,
+                            time,
+                            departure,
+                            terminal
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+    for (let wde in sche_stations) {
+        for (let station in sche_stations[wde]) {
+            for (let line in sche_stations[wde][station]) {
+                for (let direct in sche_stations[wde][station][line]) {
+                    sche_stations[wde][station][line][direct] = sche_stations[wde][station][line][direct].sort((a, b) => {
+                        return hm2time(a[2]) - hm2time(b[2]);
+                    });
+                }
+            }
+        }
+    }
+
     await updateProgress(60);
 }

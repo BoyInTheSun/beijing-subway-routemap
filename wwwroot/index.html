@@ -40,22 +40,25 @@
         height: 100%;
         width: 220px;
         position: fixed;
-        z-index: 10;
+        z-index: 100;
         top: 0;
         left: 0;
         background-color: #f1f1f1;
-        overflow-x: hidden;
         transition: 0.2s;
-        /*padding-top: 30px;*/
         display: "none";
         user-select: none;
         /*隐藏滚动条 for firefox*/
-        scrollbar-width: none !important;
     }
 
     .sider-bar::-webkit-scrollbar {
         /*隐藏滚动条 for others*/
         display: none !important
+    }
+
+    .sider-bar-scroll {
+        height: calc(100% - 44px);
+        overflow-x: hidden;
+        scrollbar-width: none !important;
     }
 
     .side-iconfont {
@@ -89,8 +92,10 @@
 
     .side-l i {
         padding-left: 16px;
-        padding-right: 16px;
+        padding-right: 11px;
         width: 20px;
+        transition: 0.2s;
+
     }
 
     .side-1l {
@@ -162,22 +167,36 @@
         background-color: #cccccc;
     }
 
+    .btn-unselected:active,
     .btn-selected {
         background-color: #4e4e4e;
         color: #f1f1f1;
-        border: 2px #4e4e4e solid;
+        outline: 2px #4e4e4e solid;
     }
     .btn-selected:hover {
-        border: 2px #d3d3d3 dotted;
+        cursor: pointer;
+        /*border: 2px #4e4e4e solid;*/
     }
+    .btn-selected:active,
     .btn-unselected {
         background-color: #d3d3d3;
         color: #000000;
-        border: 2px #4e4e4e dashed;
+        outline: 2px #4e4e4e dashed;
     }
 
     .btn-unselected:hover {
-        border: 2px #4e4e4e solid;
+        outline: 2px #4e4e4e solid;
+        cursor: pointer;
+    }
+
+    .btn-forbidden {
+        background-color: #d3d3d3;
+        color: #858585;
+        outline: 2px #969696 solid;
+    }
+
+    .btn-forbidden:hover{
+        cursor: not-allowed;
     }
 
     .btn-ok {
@@ -198,7 +217,7 @@
 
     .overlay {
         position: fixed;
-        z-index: 20;
+        z-index: 199;
         top: 0;
         left: 0;
         width: 100%;
@@ -207,7 +226,7 @@
     }
 
     .popup-content {
-        z-index: 21;
+        z-index: 221;
         user-select: none;
         position: absolute;
         top: 50%;
@@ -220,7 +239,7 @@
 
     .popup-mask {
         position: fixed;
-        z-index: 22;
+        z-index: 222;
         width: 100%;
         height: 192px;
         /*background: linear-gradient(to bottom, #c1c1c1 60px, #ffffff 84px, #ffffff 108px, #c1c1c1 132px);*/
@@ -229,7 +248,7 @@
 
     .popup-grad-top {
         position: fixed;
-        z-index: 22;
+        z-index: 222;
         width: 100%;
         height: 36px;
         background: linear-gradient(to bottom, #c1c1c1, #ffffff);
@@ -237,7 +256,7 @@
 
     .popup-grad-bottom {
         position: fixed;
-        z-index: 22;
+        z-index: 222;
         width: 100%;
         height: 36px;
         background: linear-gradient(to top, #c1c1c1, #ffffff);
@@ -246,12 +265,12 @@
 
     .popup-time {
         position: fixed;
-        z-index: 25;
+        z-index: 225;
     }
 
     .popup-digit {
         float: left;
-        z-index: 24;
+        z-index: 224;
         overflow-x: hidden;
         overflow-y: scroll;
         height: 24px;
@@ -280,7 +299,7 @@
 
     .popup-colon {
         float: left;
-        z-index: 25;
+        z-index: 225;
         width: 10px;
         height: 24px;
         line-height: 24px;
@@ -291,7 +310,7 @@
 
     .popup-speed-text {
         position: fixed;
-        z-index: 25;
+        z-index: 225;
         top: 84px;
         height: 24px;
         line-height: 24px;
@@ -303,7 +322,7 @@
     .popup-speed {
         position: fixed;
         float: left;
-        z-index: 25;
+        z-index: 225;
         overflow-x: hidden;
         overflow-y: scroll;
         height: 24px;
@@ -355,7 +374,7 @@
     .popup-lines {
         position: fixed;
         float: left;
-        z-index: 25;
+        z-index: 225;
         overflow-x: hidden;
         overflow-y: scroll;
         height: 144px;
@@ -422,7 +441,7 @@
         position: fixed;
         top: 192px;
         width: 100%;
-        z-index: 23;
+        z-index: 223;
     }
 
     .popup-presets .inner {
@@ -431,7 +450,7 @@
 
     .popup-ok {
         position: fixed;
-        z-index: 21;
+        z-index: 221;
         top: 238px;
         width: 256px;
         text-align: center;
@@ -501,6 +520,15 @@
         position: absolute;
         background-color: white;
         transform-origin: top left;
+        /*transition: 0.5s;*/
+    }
+
+    .transition-linear {
+        transition: 0.5s linear;
+    }
+
+    .transition-ease {
+        transition: 0.5s ease-out;
     }
 
     #div_svg_parent {
@@ -519,10 +547,10 @@
         user-select: none;
         position: fixed;
         top: 0;
-        z-index: 5;
+        z-index: 50;
         height: 85px;
-        width: calc(100% - 52px);
-        left: 52px;
+        width: calc(100% - 42px);
+        left: 42px;
     }
 
     #title {
@@ -540,7 +568,7 @@
     #subtitle {
         position: fixed;
         top: 55px;
-        width: calc(100% - 52px);
+        width: calc(100% - 42px);
         height: 30px;
         background-color: #d3d3d3;
         display: flex;
@@ -564,10 +592,10 @@
     #footer {
         position: fixed;
         bottom: 0;
-        z-index: 5;
+        z-index: 50;
         height: 52px;
-        width: calc(100% - 52px);
-        left: 52px;
+        width: calc(100% - 42px);
+        left: 42px;
         background-color: #d3d3d3;
         padding-top: 2px;
     }
@@ -599,60 +627,265 @@
         margin: 0;
     }
     .detail-broad {
+        background-color: #f1f1f1;
         position: fixed;
-        z-index: 18;
-        bottom: 75px;
-        background-color: #dddddd;
-        left: 52px;
-        width: calc(100% - 52px);
-        height: 240px;
-        font-size: 16px;
+        font-size: 12px;
+        user-select: none;
+        transition: 0.3s;
+    }
+    #detail_broad_mobile {
+        z-index: 40;
+        /*height: 198px;*/
+        height: 0px;
+        bottom: 54px;
+        left: 42px;
+        width: calc(100% - 42px);
+    }
+    #detail_broad_desktop {
+        z-index: 60;
+        /*right: 0px;*/
+        top: 0;
+        width: 320px;
+        height: 100%;
+        display: flex;
+        flex-direction: column
+    }
+    #detail_broad_desktop > div:first-child,
+    #detail_broad_desktop > div:nth-child(3) {
+        flex: 1;
+        overflow-y: scroll;
+    }
+    #detail_mobile > div {
+        height: 100%;
+    }
+    #detail_desktop_train > div,
+    #detail_desktop_station > div {
+        height: 198px;
+        margin-bottom: 4px;
+    }
+    .detail-content {
+        background-color: #e5e5e5;
+        display: flex;
+        justify-content: space-around;
+        white-space: nowrap;
     }
 
-    .detail-firstline {
-        width: 100%;
-        height: 44px;
+    .detail-content-l {
+        width: 130px;
+    }
+
+    .detail-content-r {
+        width: 110px;
+        text-align: center;
+    }
+
+    .detail-content-button {
+        width: 44px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-around;
+        justify-content: space-evenly;
+        flex-direction: column;
+        height: 66px;
+    }
+
+    .detail-content-button div {
+        height: 15px;
+        width: 15px;
+        margin: 2px;
+    }
+
+    .detail-content-button i {
+        height: 15px;
+        line-height: 15px;
+        text-align: center;
+        display: block;
+        font-size: 15px;
+    }
+
+    .detail-text {
+        height: 22px;
+        line-height: 22px;
+    }
+
+    .detail-linename-parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .detail-linename-parent .btn-unselected,
+    .detail-linename-parent .btn-forbidden {
+        height: 26px;
+        line-height: 26px;
+        width: 12px;
+        margin: 0 2px;
+    }
+    
+    .detail-linename-parent .btn-unselected i,
+    .detail-linename-parent .btn-forbidden i{
+        font-size: 12px;
     }
 
     .detail-linename {
-        position: fixed;
-        float: left;
-        font-size: 22px;
-        height: 34px;
+        display: inline-block;
+        font-size: 14px;
+        height: 30px;
         line-height: 30px;
-        padding: 0 10px;
-        margin: 5px 10px;
-        border: #4e4e4e 2px solid;
+        margin: 7px 0;
+        padding: 0 4px;
         color: #fff;
-        box-sizing: border-box;
     }
 
-    .detail-line-l {
-        float: left;
-        height: 22px;
-        line-height: 22px;
-        width: calc(50% + 6px);
-        padding-left: 10px;
+    .custom-scrollbar {
+        /*position: absolute;*/
+        width: 12px;
+        right: 0;
+        height: 100%;
+        z-index: 42;
+        background-color: #c5c5c5;
     }
 
-    .detail-line-r {
-        float: left;
-        height: 22px;
-        line-height: 22px;
-        width: calc(50% - 30px);
-        padding-left: 10px;
+    .scroll-btn {
+        height: 12px;
+        background-color: #adadad;
+    }
+
+    .scroll-btn:active {
+        background-color: #a0a0a0;
+    }
+
+    .scroll-btn i{
+        font-size: 12px;
+        line-height: 12px;
+        display: block;
+    }
+
+    .scroll-bar {
+        height: calc(100% - 24px);
+    }
+
+    .scroll-thumb {
+        position: relative;
+        height: 0;
+        width: 100%;
+        background-color: #8b8b8b;
+    }
+
+    .scroll-thumb:active {
+        background-color: #727272;
+    }
+
+    .scroll-down {
+        bottom: 0;
+    }
+
+    .detail-block-parent {
+        /*position: absolute;*/
+        height: calc(100% - 66px);
+        width: 100%;
+    }
+
+    .detail-block {
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+
+    .detail-text .btn-selected, .detail-text .btn-unselected {
+        display: inline-block;
+        height: 13px;
+        line-height: 13px;
+        font-size: 12px;
+        margin: 0 2px;
     }
 
     .detail-table {
-        padding-top: 52px;
+        width: calc(100% - 12px);
+        flex: 1;
+        height: 100%;
     }
 
-    .detail-table>.detail-table-line {
-        background-color: #a8a8a8;
+    .detail-table > div > div {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 22px;
+        line-height: 22px;
+    }
+
+    .detail-table svg {
+        display: block;
+    }
+
+    .detail-table > div > div > div {
+        text-align: center;
+    }
+
+    .detail-table > div > div > div:nth-child(1) {
+        width: 22px;
+    }
+    
+    .detail-table > div > div > div:nth-child(2) {
+        width: 25px;
+    }
+    
+    .detail-table > div > div > div:nth-child(3) {
+        width: 40px;
+    }
+    
+    .detail-table-train > div > div > div:nth-child(4) {
+        width: 55px;
+    }
+    
+    .detail-table-station > div > div > div:nth-child(4) {
+        width: 147px;
+    }
+    
+    .detail-table-train > div > div > div:nth-child(5) {
+        width: 87px;
+    }
+    
+    .detail-table-station > div > div > div:nth-child(5) {
+        width: 50px;
+    }
+
+    .detail-table-train > div > div > div:nth-child(6) {
+        width: 55px;
+    }
+
+    .detail-table > div > div > div:last-child {
+        width: 22px;
+    }
+
+    .detail-table > div > div > div:last-child:hover {
+        cursor: pointer;
+    }
+
+    .detail-table-scroll {
+        height: calc(100% - 44px);
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        scroll-snap-type: y mandatory;
+    }
+    .detail-table-scroll > div {
+        scroll-snap-align: start;
+    }
+
+    .detail-table-scroll > div:nth-child(even) {
+        background-color: #c9c9c9;
+    }
+
+    .detail-table-scroll > div:nth-child(odd) {
+        background-color: #d7d7d7;
+    }
+
+    .detail-table-first, .detail-table-last {
+        background-color: #bebdbd;
     }
 
     .detail-table-line {
-        width: calc(100% - 16px);
         height: 24px;
         line-height: 24px;
         display: flex;
@@ -661,138 +894,313 @@
         padding: 0 8px;
     }
 
-    .detail-table-scroll {
-        height: 96px;
-        overflow-y: scroll;
-        scrollbar-width: thin;
+    .line-unpassed {
+        fill: #a2a2a2;
     }
 
-    .detail-table-line div {
+    .line-passed {
+        fill: #000000;
+    }
+
+    .line-blink {
+        animation: blink 1s infinite;
+        animation-play-state: running;
+    }
+
+    @keyframes blink {
+        0% {
+            fill: #545454;
+        }
+        50% {
+            fill: #545454;
+        }
+        50.1% {
+            fill: #7d7d7d;
+        }
+        100% {
+            fill: #7d7d7d;
+        }
+    }
+
+    #detail_mobile {
+        height: 100%;
+    }
+    .detail-mobile-header {
+        z-index: 39;
+        position: absolute;
+        height: 25px;
+        top: -25px;
+        background-color: #f1f1f1;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        user-select: none;
+    }
+    
+    .detail-mobile-tab {
+        width: 100px;
+        text-align: center;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    
+    .detail-mobile-tab div{
+        height: 15px;
+        line-height: 15px;
+        font-size: 15px;
+
+    }
+    
+    .detail-mobile-button {
+        display: flex;
+        font-size: 14px;
+        line-height: 14px;
+        justify-content: center;
+    }
+
+    .detail-mobile-button > div {
+        background-color: #bbbbbb;
+        line-height: 25px;
+        font-size: 17px;
+    }
+
+    .detail-mobile-button > div:hover {
+        background-color: #ababab;
+        cursor: pointer;
+    }
+
+
+    #detail_mobile_button_l {
+        clip-path: polygon(33% 0%, 100% 0%, 100% 100%, 0% 100%);
+        width: 55px;
+        text-align: right;
+        padding-right: 7px;
+    }
+
+    #detail_mobile_button_c {
+        width: 20px;
+        text-align: center;
+        margin: 0 2px;
+    }
+    #detail_mobile_button_c i{
+        transition: 0.2s;
         display: inline-block;
     }
-
-    .detail-table-line div:nth-child(1) {
-        width: 48px;
+    #detail_mobile_button_r {
+        clip-path: polygon(0% 0%, 67% 0%, 100% 100%, 0% 100%);
+        width: 55px;
+        text-align: left;
+        padding-left: 7px;
+    }
+    .detail-desktop-header {
+        position: absolute;
+        height: 100%;
+        width: 0;
+        top: 0;
+        display: flex;
+        font-size: 18px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
     }
 
-    .detail-table-line div:nth-child(2) {
-        width: 64px;
+    .detail-desktop-header > div {
+        width: 25px;
+        line-height: 25px;
+        writing-mode: vertical-lr;
+    }
+    #detail_desktop_button_u {
+        clip-path: polygon(0% 33%, 100% 0%, 100% 100%, 0% 100%);
+        height: 55px;
+        text-align: right;
+        background-color: #bbbbbb;
+        padding-bottom: 5px;
+    }
+    #detail_desktop_button_c {
+        text-align: center;
+        height: 25px;
+        background-color: #bbbbbb;
+        border-top: 3px solid #f1f1f1;
+        border-bottom: 3px solid #f1f1f1;
+    }
+    #detail_desktop_button_c i{
+        transition: 0.2s;
+        display: inline-block;
+    }
+    #detail_desktop_button_d {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 67%);
+        height: 55px;
+        text-align: left;
+        background-color: #bbbbbb;
+        padding-top: 5px;
+    }
+    #detail_broad_desktop_info {
+        width: 100%;
+        display: inline-flex;
+    }
+    #detail_broad_desktop_info > div:first-child{
+        border-top: 3px solid #f1f1f1;
+        border-bottom: 3px solid #bbbbbb;
+        border-right: 2px solid #bbbbbb;
+    }
+    #detail_broad_desktop_info > div:last-child{
+        border-top: 3px solid #bbbbbb;
+        border-bottom: 3px solid #f1f1f1;
+        border-left: 2px solid #bbbbbb;
+    }
+    .detail-desktop-tab {
+        height: 25px;
+        display: flex;
+        width: 50%;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .detail-desktop-tab > div {
+        height: 15px;
+        width: 15px;
+        line-height: 15px;
+        font-size: 15px;
+    }
+    .detail-desktop-tab > p {
+        margin: 0;
+        line-height: 25px;
+        font-size: 18px;
     }
 
-    .detail-table-line div:nth-child(3) {
-        width: 96px;
+    .detail-instruction {
+        height: 100%;
+        min-height: 100px;
+        width: 100%;
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        color: #4e4e4e;
     }
-
-    .detail-table-line div:nth-child(4) {
-        width: 56px;
+    .detail-instruction p {
+        margin: 0;
     }
-
     .not-allowed:hover{
         cursor: not-allowed;
     }
 </style>
 
 <body>
-    <div class="sider-bar" id="sider-bar" style="left: -168px;">
-        <div class="side-l side-1l" onclick="invert_siderbar()">
-            <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
-        </div>
-        <div class="side-split"></div>
-        <div class="side-l side-1l" id="side_play" onclick="close_siderbar();start();">
-            <div id="icon_play">开始运行<i class="iconfont icon-play"></i></div>
-        </div>
-        <div class="side-l side-1l not-allowed" id="side_pause" onclick="pause();">
-            <div id="icon_pause">暂停运行<i class="iconfont icon-pause"></i></div>
-        </div>
-        <div class="side-l side-1l not-allowed" id="side_stop" onclick="stop();open_siderbar();">
-            <div>停止运行<i class="iconfont icon-stop"></i></div>
-        </div>
-        <div class="side-l side-2l" onclick="open_siderbar();">
-            <div class="side-2l1">播放控制<i class="iconfont icon-settings"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-btn btn-unselected" id="btn_loop" onclick="change_loop();">循环播放</div>
-                <div class="side-2l2-btn btn-selected" id="btn_auto" onclick="change_auto();">自动开始</div>
+    <div class="sider-bar" id="sider-bar" style="left: -178px;">
+        <div>
+            <div class="side-l side-1l" onclick="invert_siderbar()">
+                <div>隐藏侧边栏<i class="iconfont icon-view-sequential"></i></div>
             </div>
+            <div class="side-split"></div>
         </div>
-        <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="reset();open_siderbar();">
-            <div>重置参数<i class="iconfont icon-cached"></i></div>
-        </div>
-        <div class="side-l side-2l" onclick="open_siderbar();">
-            <div class="side-2l1">选择运行图<i class="iconfont icon-calendar-range"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wde('wd');">工作日</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wde('we');">双休日</div>
+        <div class="sider-bar-scroll">
+            <div class="side-l side-1l" id="side_play" onclick="close_siderbar();start();">
+                <div id="icon_play">开始运行<i class="iconfont icon-play"></i></div>
             </div>
-        </div>
-        <div class="side-l side-2l" onclick="show_popup_time('Start');">
-            <div class="side-2l1">开始时间<i class="iconfont icon-clock-start"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-text">
-                    <div class="side-2l2-digits" id="startHour">03</div>
-                    <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="startMinute">00</div>
-                    <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="startSecond">00</div>
+            <div class="side-l side-1l not-allowed" id="side_pause" onclick="pause();">
+                <div id="icon_pause">暂停运行<i class="iconfont icon-pause"></i></div>
+            </div>
+            <div class="side-l side-1l not-allowed" id="side_stop" onclick="stop();open_siderbar();">
+                <div>停止运行<i class="iconfont icon-stop"></i></div>
+            </div>
+            <div class="side-l side-2l" onclick="open_siderbar();">
+                <div class="side-2l1">播放控制<i class="iconfont icon-settings"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-btn btn-unselected" id="btn_loop" onclick="change_loop();">循环播放</div>
+                    <div class="side-2l2-btn btn-selected" id="btn_auto" onclick="change_auto();">自动开始</div>
                 </div>
             </div>
-        </div>
-        <div class="side-l side-2l" onclick="show_popup_time('End');">
-            <div class="side-2l1">结束时间<i class="iconfont icon-clock-end"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-text">
-                    <div class="side-2l2-digits" id="endHour">02</div>
-                    <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="endMinute">59</div>
-                    <div class="side-2l2-colon">:</div>
-                    <div class="side-2l2-digits" id="endSecond">59</div>
+            <div class="side-split"></div>
+            <div class="side-l side-1l" onclick="reset();open_siderbar();">
+                <div>重置参数<i class="iconfont icon-cached"></i></div>
+            </div>
+            <div class="side-l side-2l" onclick="open_siderbar();">
+                <div class="side-2l1">选择运行图<i class="iconfont icon-calendar-range"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-btn btn-selected" id="btn_wd" onclick="set_wde('wd');">工作日</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_we" onclick="set_wde('we');">双休日</div>
                 </div>
             </div>
-        </div>
-        <div class="side-l side-2l" onclick="show_popup_speed();">
-            <div class="side-2l1">倍速播放<i class="iconfont icon-fast-forward"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
+            <div class="side-l side-2l" onclick="show_popup_time('Start');">
+                <div class="side-2l1">开始时间<i class="iconfont icon-clock-start"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-text">
+                        <div class="side-2l2-digits" id="startHour">03</div>
+                        <div class="side-2l2-colon">:</div>
+                        <div class="side-2l2-digits" id="startMinute">00</div>
+                        <div class="side-2l2-colon">:</div>
+                        <div class="side-2l2-digits" id="startSecond">00</div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="side-l side-2l" onclick="show_popup_lines();">
-            <div class="side-2l1">选择线路<i class="iconfont icon-subway-variant"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-text">已选&nbsp;<a id="countLines">?</a>&nbsp;线路&nbsp;<a
-                        id="countDirect">?</a>&nbsp;方向</div>
+            <div class="side-l side-2l" onclick="show_popup_time('End');">
+                <div class="side-2l1">结束时间<i class="iconfont icon-clock-end"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-text">
+                        <div class="side-2l2-digits" id="endHour">02</div>
+                        <div class="side-2l2-colon">:</div>
+                        <div class="side-2l2-digits" id="endMinute">59</div>
+                        <div class="side-2l2-colon">:</div>
+                        <div class="side-2l2-digits" id="endSecond">59</div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="reset_map();">
-            <div>重置地图<i class="iconfont icon-map-marker-radius"></i></div>
-        </div>
-        <div class="side-l side-2l" onclick="open_siderbar();">
-            <div class="side-2l1">列车大小<i class="iconfont icon-format-size"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
-                <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_size_s" onclick="set_size('s');">小</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_size_xs" onclick="set_size('xs');">超小</div>
+            <div class="side-l side-2l" onclick="show_popup_speed();">
+                <div class="side-2l1">倍速播放<i class="iconfont icon-fast-forward"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-text">当前速率 x<a id="speed">1</a></div>
+                </div>
             </div>
-        </div>
-        <div class="side-l side-2l" onclick="open_siderbar();">
-            <div class="side-2l1">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
-            <div class="side-2l2">
-                <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="change_hide_linename();">线名</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="change_hide_stationname();">站名</div>
-                <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="change_hide_station();">站点</div>
+            <div class="side-l side-2l" onclick="show_popup_lines();">
+                <div class="side-2l1">选择线路<i class="iconfont icon-subway-variant"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-text">已选&nbsp;<a id="countLines">?</a>&nbsp;线路&nbsp;<a
+                            id="countDirect">?</a>&nbsp;方向</div>
+                </div>
             </div>
+            <div class="side-split"></div>
+            <div class="side-l side-1l" onclick="reset_map();">
+                <div>重置地图<i class="iconfont icon-map-marker-radius"></i></div>
+            </div>
+            <div class="side-l side-2l" onclick="open_siderbar();">
+                <div class="side-2l1">列车大小<i class="iconfont icon-format-size"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-btn btn-unselected" id="btn_size_l" onclick="set_size('l');">大</div>
+                    <div class="side-2l2-btn btn-selected" id="btn_size_m" onclick="set_size('m');">中</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_size_s" onclick="set_size('s');">小</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_size_xs" onclick="set_size('xs');">超小</div>
+                </div>
+            </div>
+            <div class="side-l side-2l" onclick="open_siderbar();">
+                <div class="side-2l1">隐藏图注<i class="iconfont icon-tag-text-outline"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-btn btn-unselected" id="btn_linename" onclick="change_hide_linename();">线名</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_stationname" onclick="change_hide_stationname();">站名</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_station" onclick="change_hide_station();">站点</div>
+                </div>
+            </div>
+            <div class="side-l side-2l" onclick="open_siderbar();">
+                <div class="side-2l1">详细信息<i class="iconfont icon-tooltip-text"></i></div>
+                <div class="side-2l2">
+                    <div class="side-2l2-btn btn-unselected" id="btn_detail_disable" onclick="change_detail('disable');">禁用</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_detail_mobile" onclick="change_detail('mobile');">移动版</div>
+                    <div class="side-2l2-btn btn-unselected" id="btn_detail_desktop" onclick="change_detail('desktop');">桌面版</div>
+                </div>
+            </div>
+            <div class="side-split"></div>
+            <div class="side-l side-1l" onclick="show_popup_tips();">提示 <i
+                    class="iconfont icon-lightbulb-on"></i></div>
+            <div class="side-l side-1l" onclick="show_popup_link();">附参数分享 <i
+                    class="iconfont icon-share-variant"></i></div>
+            <div class="side-l side-1l" onclick="window.location.href = 'about.html';">关于 <i
+                    class="iconfont icon-information-variant"></i></div>
+            <div class="side-l side-1l" onclick="window.open('https://boyinthesun.cn/', '_blank');">作者博客 <i
+                    class="iconfont icon-blog"></i></div>
+            <div class="side-split"></div>
         </div>
-        <div class="side-split"></div>
-        <div class="side-l side-1l" onclick="show_popup_tips();">提示 <i
-                class="iconfont icon-lightbulb-on"></i></div>
-        <div class="side-l side-1l" onclick="show_popup_link();">附参数分享 <i
-                class="iconfont icon-share-variant"></i></div>
-        <div class="side-l side-1l" onclick="window.location.href = 'about.html';">关于 <i
-                class="iconfont icon-information-variant"></i></div>
-        <div class="side-l side-1l" onclick="window.open('https://boyinthesun.cn/', '_blank');">作者博客 <i
-                class="iconfont icon-blog"></i></div>
-        <div class="side-split"></div>
     </div>
 
 
@@ -809,115 +1217,80 @@
             <div class="subtitle-div">运行列车数：<a id="count_train">?</a></div>
         </div>
     </div>
-    <div class="detail-broad" style="display: none;">
-        <div class="detail-firstline">
-            <div class="detail-linename">1号线八通线</div>
+    <div id="detail_broad_mobile" class="detail-broad" style="display: none;">
+        <div id="detail_mobile_instructions"  class="detail-instruction">
+            <p>请点击地图中的列车或车站</p>
+            <p><del>或按“+”按钮添加</del></p>
+            <p>以查看详细信息</p>
         </div>
-        <div class="detail-line-l">虚拟车号: <a>010001</a></div>
-        <div class="detail-line-r">环球度假区方向</div>
-        <div class="detail-line-l">已运行时间: <a>11:22:33</a></div>
-        <div class="detail-line-r">已通过/所有站数: <a>23</a>/<a>64</a></div>
-        <div class="detail-table">
-            <div class="detail-table-line">
-                <div>始发站</div>
-                <div>封站改造</div>
-                <div>惠新西街南口</div>
-                <div>12:21</div>
+        <div id="detail_mobile"></div>
+        <div id="detail_mobile_hidden" style="display: none;"></div>
+        <div class="detail-mobile-header">
+            <div class="detail-mobile-tab">
+                <div class="btn-unselected" onclick="select_detail_train()"><i class="iconfont icon-format-list-bulleted"></i></div>
+                <p><a id="detail_mobile_train_count">0</a> 次</p>
+                <div class="btn-unselected" onclick="new_detail_train()"><i class="iconfont icon-plus"></i></div>
             </div>
-            <div class="detail-table-scroll">
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
+            <div class="detail-mobile-button">
+                <div id="detail_mobile_button_l" onclick="switch_detail_mobile('train');">
+                    列车
                 </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
+                <div id="detail_mobile_button_c" onclick="display_detail();">
+                    <i class="iconfont icon-arrow-up-bold" style="transform: rotate(0deg);"></i>
                 </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
-                </div>
-                <div class="detail-table-line">
-                    <div>始发站</div>
-                    <div>封站改造</div>
-                    <div>惠新西街南口</div>
-                    <div>12:21</div>
+                <div id="detail_mobile_button_r" onclick="switch_detail_mobile('station');">
+                    车站
                 </div>
             </div>
-            <div class="detail-table-line">
-                <div>始发站</div>
-                <div>封站改造</div>
-                <div>惠新西街南口</div>
-                <div>12:21</div>
+            <div class="detail-mobile-tab">
+                <div class="btn-unselected" onclick="select_detail_station()"><i class="iconfont icon-format-list-bulleted"></i></div>
+                <p><a id="detail_mobile_station_count">0</a> 座</p>
+                <div class="btn-unselected" onclick="new_detail_station()"><i class="iconfont icon-plus"></i></div>
             </div>
         </div>
     </div>
+    <div id="detail_broad_desktop" class="detail-broad" style="display: none; right: -320px;">
+        <div id="detail_broad_desktop_train">
+            <div id="detail_desktop_train" data-id="table_scroll"></div>
+            <div id="detail_desktop_train_instructions" class="detail-instruction">
+                <p>请点击地图中的列车</p>
+                <p><del>或按“+”按钮添加</del></p>
+                <p>以查看详细信息</p>
+            </div>
+        </div>
+        <div id="detail_broad_desktop_info">
+            <div class="detail-desktop-tab">
+                <div class="btn-unselected" onclick="select_detail_train()"><i class="iconfont icon-format-list-bulleted"></i></div>
+                <p><a id="detail_desktop_train_count">0</a> 次</p>
+                <div class="btn-unselected" onclick="new_detail_train()"><i class="iconfont icon-plus"></i></div>
+            </div>
+            <div class="detail-desktop-tab">
+                <div class="btn-unselected" onclick="select_detail_station()"><i class="iconfont icon-format-list-bulleted"></i></div>
+                <p><a id="detail_desktop_station_count">0</a> 座</p>
+                <div class="btn-unselected" onclick="new_detail_station()"><i class="iconfont icon-plus"></i></div>
+            </div>
+        </div>
+        <div id="detail_broad_desktop_station">
+            <div id="detail_desktop_station" data-id="table_scroll"></div>
+            <div id="detail_desktop_station_instructions" class="detail-instruction">
+                <p>请点击地图中的车站</p>
+                <p><del>或按“+”按钮添加</del></p>
+                <p>以查看详细信息</p>
+            </div>
+        </div>
+        <div class="detail-desktop-header">
+            <div id="detail_desktop_button_u" onclick="display_detail();">
+                列车
+            </div>
+            <div id="detail_desktop_button_c" onclick="display_detail();">
+                <i class="iconfont icon-arrow-up-bold" style="transform: rotate(270deg);"></i>
+            </div>
+            <div id="detail_desktop_button_d" onclick="display_detail();">
+                车站
+            </div>
+        </div>
+    </div>
+
     <div id="footer">
         <div>访问人数: <span id="person_num">xx</span> | 访问人次: <span id="person_time">xx</span></div>
         <div>联系作者 <a target="_blank" href="mailto:a@boyinthesun.cn">a@boyinthesun.cn</a></div>
@@ -1052,7 +1425,67 @@
             <div class="popup-ok btn-ok" onclick="document.getElementById('popup_link').style.display = 'none';">确定</div>
         </div>
     </div>
+    <div id="select_detail_train_content" style="display: none;">
+        <div class="overlay" onclick="document.getElementById('select_detail_train_content').style.display = 'none';"></div>
+        <div class="popup-content">
+            <div class="popup-grad-top"></div>
+            <div class="popup-grad-bottom"></div>
+            <div class="popup-lines" id="select_detail_train" goingto="0">
+                <div>
+                    <div>010001</div>
 
+                </div>
+            </div>
+            <div class="popup-presets">
+                <div class="inner">
+                    <div class="popup-btn btn-unselected" onclick="clear_detail_train();">清空</div>
+                    <div class="popup-btn btn-unselected" onclick="deduplication_detail_train();">去重</div>
+                    <div class="popup-btn btn-unselected" onclick="document.getElementById('select_detail_train_content').style.display = 'none';new_detail_train();">新增</div>
+                </div>
+            </div>
+            <div class="popup-ok btn-ok" onclick="document.getElementById('select_detail_train_content').style.display = 'none';">确定</div>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="detail_v_line_up">
+            <rect x="9" y="0" width="4" height="11"></rect>
+        </symbol>
+        <symbol id="detail_v_line_down">
+            <rect x="9" y="11" width="4" height="11"></rect>
+        </symbol>
+        <symbol id="detail_v_line_left">
+            <rect x="0" y="9" width="11" height="4"></rect>
+        </symbol>
+        <symbol id="detail_v_line_right">
+            <rect x="11" y="9" width="11" height="4"></rect>
+        </symbol>
+        <symbol id="detail_v_station">
+            <circle cx="11" cy="11" r="4" stroke="black" stroke-width="1"
+                fill="white"></circle>
+        </symbol>
+        <symbol id="detail_v_station_dash">
+            <circle cx="11" cy="11" r="4" stroke="black" stroke-width="1"
+                fill="white" stroke-dasharray="1 2"></circle>
+        </symbol>
+        <symbol id="detail_v_transfer_station">
+            <circle cx="11" cy="11" r="6" stroke="black" stroke-width="1"
+                fill="white"></circle>
+            <svg t="1758790432643" class="icon" viewBox="0 0 1024 1024"
+                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11486"
+                width="8" height="8" x="7" y="7"><path
+                    d="M816.153981 511.552056L608.307962 716.710411h125.424321c-54.649169 94.964129-155.884514 153.19685-265.182852 153.196851-77.046369 0-147.821522-28.668416-201.574803-77.04637l-138.862642 78.838146c86.901137 96.755906 210.533683 151.405074 340.437445 151.405074 199.783027 0 370.897638-128.111986 434.505687-306.393701h120.944882L816.153981 511.552056zM289.371829 306.393701c54.649169-94.964129 155.884514-153.19685 265.182852-153.196851 78.838145 0 149.613298 30.460192 203.366579 78.838146l137.966754-78.838146C808.986877 55.545057 685.354331 0 554.554681 0 359.251094 0.895888 186.344707 123.632546 120.944882 306.393701H0l206.950131 205.158355 206.950131-205.158355H289.371829z"
+                    p-id="11487" fill="black"></path></svg>
+        </symbol>
+        <symbol id="detail_v_transfer_station_dash">
+            <circle cx="11" cy="11" r="6" stroke="#5c5c5c" stroke-width="1"
+                fill="white"></circle>
+            <svg t="1758790432643" class="icon" viewBox="0 0 1024 1024"
+                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11486"
+                width="8" height="8" x="7" y="7"><path
+                    d="M816.153981 511.552056L608.307962 716.710411h125.424321c-54.649169 94.964129-155.884514 153.19685-265.182852 153.196851-77.046369 0-147.821522-28.668416-201.574803-77.04637l-138.862642 78.838146c86.901137 96.755906 210.533683 151.405074 340.437445 151.405074 199.783027 0 370.897638-128.111986 434.505687-306.393701h120.944882L816.153981 511.552056zM289.371829 306.393701c54.649169-94.964129 155.884514-153.19685 265.182852-153.196851 78.838145 0 149.613298 30.460192 203.366579 78.838146l137.966754-78.838146C808.986877 55.545057 685.354331 0 554.554681 0 359.251094 0.895888 186.344707 123.632546 120.944882 306.393701H0l206.950131 205.158355 206.950131-205.158355H289.371829z"
+                    p-id="11487" fill="#5c5c5c"></path></svg>
+        </symbol>
+    </svg>
     <script type="text/javascript">
         async function init() {
             await load_tips()
@@ -1089,6 +1522,7 @@
     <script src="static/main.js"></script>
     <script src="static/page.js"></script>
     <script src="static/api.js"></script>
+    <script src="static/detail.js"></script>
 
 </body>
 

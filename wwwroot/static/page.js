@@ -46,10 +46,23 @@ async function main_page() {
     change_tips(tips_now);
     size_text = 'm';
 
+    is_mobile = window.screen.width <= 430;
+    change_detail();
+    now_minute = NaN;
+    thumb_info = {
+        'is_drag': false,
+        'start_y': NaN,
+        'goingto': NaN,
+        'ratio': NaN,
+        'table_id': '',
+    };
+    mouse_start = null;
+    timer_follow = null;  // 用于跟踪train的计时器
     document.getElementById('link').addEventListener('click', function (e) {
         e.preventDefault();
         this.select();
     });
+    bind_event_detail();
 }
 
 //侧边栏展开与关闭
@@ -57,11 +70,15 @@ function open_siderbar() {
     document.getElementById('sider-bar').style.left = '0px';
     for (let each of document.getElementsByClassName('side-2l'))
         each.style.height = '48px';
+    for (let each of document.getElementsByClassName('side-l'))
+        each.getElementsByTagName('i')[0].style.paddingRight = '16px';
 }
 function close_siderbar() {
-    document.getElementById('sider-bar').style.left = '-168px';
+    document.getElementById('sider-bar').style.left = '-178px';
     for (let each of document.getElementsByClassName('side-2l'))
         each.style.height = '24px';
+    for (let each of document.getElementsByClassName('side-l'))
+        each.getElementsByTagName('i')[0].style.paddingRight = '11px';
 }
 function invert_siderbar() {
     if (document.getElementById("sider-bar").style.left === '0px')
@@ -107,12 +124,12 @@ function set_wde(wde) {
         else wde = 'wd';
     }
     if (wde === 'wd') {
-        window.wde = 'wd';
+        //window.wde = 'wd';
         document.getElementById('btn_wd').className = 'side-2l2-btn btn-selected';
         document.getElementById('btn_we').className = 'side-2l2-btn btn-unselected';
     }
     else if (wde === 'we') {
-        window.wde = 'we';
+        //window.wde = 'we';
         document.getElementById('btn_we').className = 'side-2l2-btn btn-selected';
         document.getElementById('btn_wd').className = 'side-2l2-btn btn-unselected';
     }
@@ -1052,13 +1069,14 @@ function apply_link(link) {
     }
 }
 function start() {
+    now_minute = NaN;
     document.getElementById('icon_play').innerHTML = '重新运行<i class="iconfont icon-replay"></i>';
     document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
     document.getElementById('side_pause').classList.remove('not-allowed');
     document.getElementById('side_stop').classList.remove('not-allowed');
     is_pause = false;
     is_play = true;
-    set_time_after_if_before();
+    set_time_after_if_before()
     var start_hour = parseInt(document.getElementById('startHour').innerText);
     var start_minute = parseInt(document.getElementById('startMinute').innerText);
     var start_seconds = parseInt(document.getElementById('startSecond').innerText);
@@ -1068,6 +1086,7 @@ function start() {
     if (speed <= 0) speed = 0.0001;
     if (start_hour <= 2) start_hour += 24;
     if (end_hour <= 2) end_hour += 24;
+    wde = document.getElementById('btn_wd').classList.contains('btn-selected') ? 'wd' : 'we';
     speed = parseFloat(document.getElementById('speed').innerText);
     start_time = start_hour * 60 + start_minute + start_seconds / 60;
     end_time = end_hour * 60 + end_minute + end_seconds / 60;
@@ -1075,6 +1094,7 @@ function start() {
     draw_trains();
 }
 function stop() {
+    end_follow();
     document.getElementById('icon_play').innerHTML = '开始运行<i class="iconfont icon-play"></i>';
     document.getElementById('icon_pause').innerHTML = '暂停运行<i class="iconfont icon-pause"></i>'
     document.getElementById('side_pause').classList.add('not-allowed');

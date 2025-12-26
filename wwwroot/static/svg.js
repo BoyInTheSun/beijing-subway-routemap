@@ -25,6 +25,7 @@ function svg_init_xy() {
 }
 
 function svg_on_whell(event) {
+    end_follow();
     var div_svg = document.getElementById('div_svg');
     var zoom_now = parseFloat(div_svg.style.transform.slice(6, -1));
     var multiple = event.wheelDeltaY / 1200;
@@ -40,7 +41,6 @@ function svg_on_down(event) {
     var div_left_start = parseFloat(div_svg.style.left);
     var div_top_start = parseFloat(div_svg.style.top);
 
-    // move
     if (event.type === 'mousedown') {
         // mouse
         var mouse_x_start = event.clientX;
@@ -51,6 +51,9 @@ function svg_on_down(event) {
         var mouse_x_start = event.touches[0].clientX;
         var mouse_y_start = event.touches[0].clientY;
     }
+    mouse_start = [mouse_x_start, mouse_y_start];
+    // console.log(mouse_start);
+
     var touches_0_x_start;
     var touches_0_y_start;
     var touches_1_x_start;
@@ -61,6 +64,7 @@ function svg_on_down(event) {
     var distance_start;
 
     function move(event) {
+        end_follow();
         var mouse_x_now;
         var mouse_y_now;
         if (event.type === 'mousemove') {
@@ -76,6 +80,7 @@ function svg_on_down(event) {
             }
             else if (event.touches.length >= 1) {
                 // dobule touch
+                mouse_start = null;
                 touches_0_x_start = event.touches[0].clientX;
                 touches_0_y_start = event.touches[0].clientY;
                 touches_1_x_start = event.touches[1].clientX;
@@ -109,6 +114,7 @@ function svg_on_down(event) {
         div_svg.style.top = ((y0 - window.innerHeight / 2) * -multiple + top_start * (1 + multiple)) + 'px';
     }
     function stop(event) {
+        mouse_start = null;
         document.removeEventListener('mousemove', move);
         document.removeEventListener('touchmove', move);
         document.removeEventListener('mouseup', stop);
@@ -125,7 +131,6 @@ var div_svg_parent = document.getElementById('div_svg_broad');
 
 div_svg_parent.addEventListener('mousedown', svg_on_down);
 div_svg_parent.addEventListener('touchstart', svg_on_down);
-div_svg_parent.addEventListener('mousedown', svg_on_down);
 div_svg_parent.addEventListener('wheel', svg_on_whell);
 
 

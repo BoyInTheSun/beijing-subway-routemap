@@ -1,44 +1,51 @@
 <body>
-  <header>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </header>
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <style>
+            .detail-v-station {
+                background-image: url('#detail_v_station');
+                width: 16px;
+                height: 22px;
+            }
+        </style>
+    </header>
 
+    <h1>测试页面</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="detail_v_line">
+            <rect x="7" y="11" width="2" height="22"></rect>
+        </symbol>
+        <symbol id="detail_v_station">
+            <circle cx="8" cy="11" r="3" stroke="black" stroke-width="1"
+                fill="white"></circle>
+        </symbol>
+        <symbol id="detail_v_transfer_station">
+            <circle cx="8" cy="11" r="4" stroke="black" stroke-width="1"
+                fill="white"></circle>
+            <svg t="1758790432643" class="icon" viewBox="0 0 1024 1024"
+                version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11486"
+                width="5" height="5" x="5.5" y="8.5"><path
+                    d="M816.153981 511.552056L608.307962 716.710411h125.424321c-54.649169 94.964129-155.884514 153.19685-265.182852 153.196851-77.046369 0-147.821522-28.668416-201.574803-77.04637l-138.862642 78.838146c86.901137 96.755906 210.533683 151.405074 340.437445 151.405074 199.783027 0 370.897638-128.111986 434.505687-306.393701h120.944882L816.153981 511.552056zM289.371829 306.393701c54.649169-94.964129 155.884514-153.19685 265.182852-153.196851 78.838145 0 149.613298 30.460192 203.366579 78.838146l137.966754-78.838146C808.986877 55.545057 685.354331 0 554.554681 0 359.251094 0.895888 186.344707 123.632546 120.944882 306.393701H0l206.950131 205.158355 206.950131-205.158355H289.371829z"
+                    p-id="11487" fill="#5c5c5c"></path></svg>
+        </symbol>
+        <symbol id="detail_v_train">
+            <polygon points="4,5 4,13 8,17 8,5" stroke-width="1"
+                stroke="#000000" fill="#ffffff">
+            </polygon>
+        </symbol>
+        <symbol id="detail_v_train_move">
+            <use href="#detail_v_train">
+                <animateTransform attributeName="transform" type="translate" dur="4s"
+    values="0,0; 0,22; 0,0" repeatCount="indefinite" />
+            </use>
+        </symbol>
 
-  <h1>测试页面</h1>
-  <input type="text" value="123456789" onclick="this.select();">
-  <script>
-    function getHardwareInfo() {
-      gl = document.createElement('canvas').getContext('webgl');
-      var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-      if (!debugInfo) {
-        return null;
-      }
-      var vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-      var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-      return {
-        vendor: vendor,
-        renderer: renderer
-      };
-    }
-
-    //系统信息获取
-    function getSysInfo() {
-      var locator = new ActiveXObject("WbemScripting.SWbemLocator");
-      var service = locator.ConnectServer(".");
-      //CPU信息
-      var cpu = new Enumerator(service.ExecQuery("SELECT * FROM Win32_Processor")).item();
-      var cpuType = cpu.Name, hostName = cpu.SystemName;
-      //内存信息
-      var memory = new Enumerator(service.ExecQuery("SELECT * FROM Win32_PhysicalMemory"));
-      for (var mem = [], i = 0; !memory.atEnd(); memory.moveNext()) mem[i++] = { cap: memory.item().Capacity / 1024 / 1024, speed: memory.item().Speed }
-      //系统信息
-      var system = new Enumerator(service.ExecQuery("SELECT * FROM Win32_ComputerSystem")).item();
-      var physicMenCap = Math.ceil(system.TotalPhysicalMemory / 1024 / 1024), curUser = system.UserName, cpuCount = system.NumberOfProcessors
-
-      return { cpuType: cpuType, cpuCount: cpuCount, hostName: hostName, curUser: curUser, memCap: physicMenCap, mem: mem }
-    }
-  </script>
-
-  </style>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="44px">
+        <use href="#detail_v_train_move" />
+    </svg>
+    <script>
+        
+    </script>
 
 </body>
