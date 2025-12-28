@@ -1,10 +1,10 @@
 [
     {
         "hidden": false,
-        "status": "已完成",
-        "color": "green",
+        "status": "亟待解决",
+        "color": "darkred",
         "title": "更新地图数据",
-        "description": "已经更新为最新数据。"
+        "description": "2025年底新开通3条线路"
     },
     {
         "hidden": true,
@@ -31,15 +31,22 @@
         "hidden": false,
         "status": "即将完成",
         "color": "teal",
-        "title": "运行列车数有误",
-        "description": "总是计算所有线路总数而非选中线路。"
+        "title": "详情添加与查看列表",
+        "description": "为按钮添加功能"
     },
     {
         "hidden": false,
         "status": "未开始",
         "color": "darkslateblue",
+        "title": "运行列车数有误",
+        "description": "总是计算所有线路总数而非选中线路。"
+    },
+    {
+        "hidden": false,
+        "status": "技术难题",
+        "color": "orangered",
         "title": "左上角列车隐藏",
-        "description": "拿个白块盖一下？似乎成因有些复杂。"
+        "description": "拿个白块盖一下？有些难处理。"
     },
     {
         "hidden": false,

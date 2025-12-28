@@ -40,13 +40,12 @@ async function main_page() {
     is_play = false;
     apply_link(window.location.href);
 
-    if (is_auto) start();
     link = '';
     tips_now = 0;
     change_tips(tips_now);
     size_text = 'm';
 
-    is_mobile = window.screen.width <= 430;
+    is_mobile = window.screen.width <= 768;
     change_detail();
     now_minute = NaN;
     thumb_info = {
@@ -63,6 +62,7 @@ async function main_page() {
         this.select();
     });
     bind_event_detail();
+    if (is_auto) start();
 }
 
 //侧边栏展开与关闭

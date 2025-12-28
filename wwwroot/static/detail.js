@@ -308,7 +308,7 @@ function update_detail_tag() {
             if (is_mobile)
                 btn_up.setAttribute('onclick', `switch_detail_mobile('train', ${indexs[i - 1]});`);
             else
-                btn_up.setAttribute('onclick', `move_detail_tag('train', ${indexs[i]}, 1);`);
+                btn_up.setAttribute('onclick', `move_detail_tag('train', ${indexs[i]}, -1);`);
         }
         if (i == indexs.length - 1) {
             btn_down.className = 'btn-forbidden';
@@ -319,7 +319,7 @@ function update_detail_tag() {
             if (is_mobile)
                 btn_down.setAttribute('onclick', `switch_detail_mobile('train', ${indexs[i + 1]});`);
             else
-                btn_down.setAttribute('onclick', `move_detail_tag('train', ${indexs[i]}, -1);`);
+                btn_down.setAttribute('onclick', `move_detail_tag('train', ${indexs[i]}, 1);`);
         }
     }
     var indexs = detail_stations.keys();
@@ -1100,8 +1100,15 @@ function locate(x, y, easing = '') {
     var scale = parseFloat(div_svg.style.transform.slice(6, -1));
     var x_real = x * scale;
     var y_real = y * scale;
-    var target_left = -x_real + (40) / 2
-    var target_top = -y_real + (85 - document.getElementById('detail_broad_mobile').clientHeight - 20 - 54) / 2;
+    var target_left, target_top;
+    if (is_mobile){
+        target_left = -x_real + (40) / 2
+        target_top = -y_real + (85 - document.getElementById('detail_broad_mobile').clientHeight - 20 - 54) / 2;
+    }
+    else {
+        target_left = -x_real + (40 - document.getElementById('detail_broad_desktop').clientWidth) / 2
+        target_top = -y_real + (85 - 20 - 54) / 2;
+    }
     if (easing == 'linear') {
         div_svg.classList.add('transition-linear');
     }

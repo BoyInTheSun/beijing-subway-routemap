@@ -27,7 +27,7 @@ function time2hm(time) {
     return hm;
 }
 function time2h_m_s(time) {
-    s = Math.round((time % 1) * 60);
+    s = Math.floor((time % 1) * 60);
     m = parseInt(time % 60);
     h = parseInt(time / 60 % 24);
     return [h, m, s];
