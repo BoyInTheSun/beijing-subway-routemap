@@ -144,6 +144,7 @@ function set_time() {
 }
 
 function update_detail(is_update_table) {
+    if (disable_detail) return;
     if (is_mobile) {
         if (focus_detail['type'] == 'train') {
             update_detail_train(focus_detail['train_index'], is_update_table, detail_scroll.indexOf('tag_t_' + focus_detail['train_index']) != -1);

@@ -468,8 +468,8 @@
                 <a target="_blank"
                     href="https://github.com/BoyInTheSun/beijing-subway-routemap">beijing-subway-routemap</a> 。
             </p>
-            <p>该项目使用真实的北京地铁时刻表数据，通过动画形式展示列车在各地铁线路上的运行状态。支持线路选择、时间控制、播放速度调节等功能，为用户提供直观的地铁运行可视化体验。</p>
-            <p>交流QQ群: <a>1028570063</a></p>
+            <p>该项目使用真实的北京地铁时刻表数据，通过动画形式展示列车在各地铁线路上的运行状态。支持线路选择、时间控制、播放速度调节、详情查看等功能，为用户提供直观的地铁运行可视化体验。</p>
+            <p>交流QQ群: 1028570063 <a target="_blank" href="https://qm.qq.com/q/skW87ifPYA">点击加群</a></p>
         </div>
         <div class="section" id="数据来源">
             <h2>数据来源</h2>
@@ -581,6 +581,22 @@
                 <img src="../static/imgs/MetroMan.png">
                 <span>地铁通 MetroMan</span>
             </div>
+            <div class="frind" onclick="window.open('https://www.bjsubway.com/index.html');">
+                <img src="../static/imgs/beijingsubway.png">
+                <span>北京地铁 BEIJING SUBWAY</span>
+            </div>
+            <div class="frind" onclick="window.open('https://www.metroman.cn/');">
+                <img src="../static/imgs/bjmtr.png">
+                <span>京港地铁 BJMTR</span>
+            </div>
+            <div class="frind" onclick="window.open('https://www.bjmoa.cn/');">
+                <img src="../static/imgs/bjmoa.jpg">
+                <span>京投轨道运营 Bii</span>
+            </div>
+            <div class="frind" onclick="window.open('https://www.bjbus.com/home/index.php');">
+                <img src="../static/imgs/bpt.jpg">
+                <span>北京公交 BPT</span>
+            </div>
             <p>欢迎各位同好站长互换友链！</p>
         </div>
     </div>
@@ -605,7 +621,7 @@
             .then(response => response.json())
             .then(data => {
                 table = '<table><tr><th style="background-color:#000000">代码</th>';
-                for (th of ['线路名', '英文名', '运营公司', '缩写', '数据来源', '数据更新日期']) {
+                for (th of ['线路名', '英文名', '运营公司', '缩写', '数据来源', '数据更新日期', '是否需更新']) {
                     table += '<th>' + th + '</th>';
                 }
                 table += '</tr>';
@@ -618,6 +634,7 @@
                     table += '<td>' + each['nick_company'] + '</td>';
                     table += '<td><a href="' + each['repo_href'] + '">' + each['repo'] + '</a></td>';
                     table += '<td>' + each['update'] + '</td>';
+                    table += '<td>' + each['is_out_of_date'] + '</td>';
                     table += '</tr>';
                 }
                 table += '</table>';

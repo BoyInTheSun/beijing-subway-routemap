@@ -80,13 +80,6 @@
         "hidden": false,
         "status": "远期计划",
         "color": "slategray",
-        "title": "亦庄T1线",
-        "description": "添加亦庄T1线数据。"
-    },
-    {
-        "hidden": false,
-        "status": "远期计划",
-        "color": "slategray",
         "title": "多语言支持",
         "description": "添加对于繁体中文、英文的支持。"
     },
@@ -102,6 +95,6 @@
         "status": "暂无规划",
         "color": "gray",
         "title": "真实比例地图",
-        "description": "无数据。且需要重构代码才能实现。"
+        "description": "无数据。且需要重构部分代码。"
     }
 ]

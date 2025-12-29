@@ -80,7 +80,7 @@ class MyMap {
         }
     }
 }
-
+disable_detail = false;
 detail_trains = new MyMap();  // like {0: '010001', 3: '010002', ...}
 detail_stations = new MyMap();  // like {0: ['惠新西街南口', '5号线', '南行'], 2: ['惠新西街南口', '5号线', '内环'], ...}
 detail_scroll = new Array();
@@ -97,6 +97,7 @@ function change_detail(type = null) {
     if (!type)
         type = is_mobile ? 'mobile' : 'desktop';
     if (type == 'mobile') {
+        disable_detail = false;
         is_mobile = true;
         document.getElementById('detail_broad_mobile').style.display = '';
         document.getElementById('detail_broad_desktop').style.display = 'none';
@@ -138,6 +139,7 @@ function change_detail(type = null) {
     }
     else if (type == 'desktop') {
         is_mobile = false;
+        disable_detail = false;
         document.getElementById('detail_broad_mobile').style.display = 'none';
         document.getElementById('detail_broad_desktop').style.display = '';
         document.getElementById('btn_detail_mobile').className = 'side-2l2-btn btn-unselected';
@@ -154,6 +156,7 @@ function change_detail(type = null) {
         update_detail_tag();
     }
     else {
+        disable_detail = true;
         document.getElementById('detail_broad_mobile').style.display = 'none';
         document.getElementById('detail_broad_desktop').style.display = 'none';
         document.getElementById('btn_detail_mobile').className = 'side-2l2-btn btn-unselected';
@@ -1068,6 +1071,8 @@ function on_table_scroll(event) {
 function on_open_detail(event) {
     // 判断是否为点按
     if (!mouse_start) return;
+    // 判断是否禁用
+    if (disable_detail) return;
     var mouse_now_x, mouse_now_y;
     if (event.type == 'touchend') {
         mouse_now_x = event.changedTouches[0].clientX;
