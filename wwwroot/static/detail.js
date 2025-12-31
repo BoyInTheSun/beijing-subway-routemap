@@ -174,9 +174,9 @@ function display_detail() {
         document.getElementById('detail_mobile_button_c').setAttribute('onclick', 'hide_detail()')
     }
     else {
-        if (parseFloat(document.getElementById('detail_broad_desktop').style.right) == 0) return;
+        if (parseFloat(document.getElementById('detail_broad_desktop').style.width) > 0) return;
         document.getElementById('detail_desktop_button_c').children[0].style.transform = 'rotate(90deg)';
-        document.getElementById('detail_broad_desktop').style.right = '0px';
+        document.getElementById('detail_broad_desktop').style.width = '320px';
         document.getElementById('detail_desktop_button_c').setAttribute('onclick', 'hide_detail()')
     }
 }
@@ -189,9 +189,8 @@ function hide_detail() {
         document.getElementById('detail_mobile_button_c').setAttribute('onclick', 'display_detail()')
     }
     else {
-        if (parseFloat(document.getElementById('detail_broad_desktop').style.right) != 0) return;
         document.getElementById('detail_desktop_button_c').children[0].style.transform = 'rotate(270deg)';
-        document.getElementById('detail_broad_desktop').style.right = '-320px';
+        document.getElementById('detail_broad_desktop').style.width = '0px';
         document.getElementById('detail_desktop_button_c').setAttribute('onclick', 'display_detail()')
     }
 }

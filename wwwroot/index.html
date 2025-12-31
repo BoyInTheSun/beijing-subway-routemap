@@ -45,20 +45,17 @@
         left: 0;
         background-color: #f1f1f1;
         transition: 0.2s;
-        display: "none";
         user-select: none;
-        /*隐藏滚动条 for firefox*/
     }
 
-    .sider-bar::-webkit-scrollbar {
-        /*隐藏滚动条 for others*/
-        display: none !important
+    .sider-bar-scroll::-webkit-scrollbar {
+        display: none !important;  /*隐藏滚动条 for Chrome, Safari, Opera*/
     }
 
     .sider-bar-scroll {
         height: calc(100% - 44px);
         overflow-x: hidden;
-        scrollbar-width: none !important;
+        scrollbar-width: none !important; /*隐藏滚动条 for firefox*/
     }
 
     .side-iconfont {
@@ -280,13 +277,11 @@
         scroll-margin: 84px;
         /*scroll-snap-type: y mandatory;*/
         /*scroll-behavior: smooth;*/
-        /*隐藏滚动条 for firefox*/
-        scrollbar-width: none !important;
+        scrollbar-width: none !important; /*隐藏滚动条 for firefox*/
     }
 
     .popup-digit::-webkit-scrollbar {
-        /*隐藏滚动条 for others*/
-        display: none !important
+        display: none !important;  /*隐藏滚动条 for Chrome, Safari, Opera*/
     }
 
     .popup-digit div {
@@ -332,13 +327,11 @@
         scroll-margin: 84px;
         /*scroll-snap-type: y mandatory;*/
         /*scroll-behavior: smooth;*/
-        /*隐藏滚动条 for firefox*/
-        scrollbar-width: none !important;
+        scrollbar-width: none !important; /*隐藏滚动条 for firefox*/
     }
 
     .popup-speed::-webkit-scrollbar {
-        /*隐藏滚动条 for others*/
-        display: none !important
+        display: none !important;  /*隐藏滚动条 for Chrome, Safari, Opera*/
     }
 
     .popup-speed div {
@@ -385,13 +378,11 @@
         scroll-margin: 84px;
         /*scroll-snap-type: y mandatory;*/
         /*scroll-behavior: smooth;*/
-        /*隐藏滚动条 for firefox*/
-        scrollbar-width: none !important;
+        scrollbar-width: none !important; /*隐藏滚动条 for firefox*/
     }
 
     .popup-lines::-webkit-scrollbar {
-        /*隐藏滚动条 for others*/
-        display: none !important
+        display: none !important;  /*隐藏滚动条 for Chrome, Safari, Opera*/
     }
 
     .popup-line {
@@ -632,6 +623,7 @@
         font-size: 12px;
         user-select: none;
         transition: 0.3s;
+        white-space: nowrap;
     }
     #detail_broad_mobile {
         z-index: 40;
@@ -643,9 +635,9 @@
     }
     #detail_broad_desktop {
         z-index: 60;
-        /*right: 0px;*/
+        right: 0px;
         top: 0;
-        width: 320px;
+        /*width: 320px;*/
         height: 100%;
         display: flex;
         flex-direction: column
@@ -866,8 +858,11 @@
         height: calc(100% - 44px);
         overflow-y: scroll;
         -ms-overflow-style: none;
-        scrollbar-width: none;
         scroll-snap-type: y mandatory;
+        scrollbar-width: none !important; /*隐藏滚动条 for firefox*/
+    }
+    .detail-table-scroll::-webkit-scrollbar {
+        display: none !important;  /*隐藏滚动条 for Chrome, Safari, Opera*/
     }
     .detail-table-scroll > div {
         scroll-snap-align: start;
@@ -1249,7 +1244,7 @@
             </div>
         </div>
     </div>
-    <div id="detail_broad_desktop" class="detail-broad" style="display: none; right: -320px;">
+    <div id="detail_broad_desktop" class="detail-broad" style="display: none; width: 0px;">
         <div id="detail_broad_desktop_train">
             <div id="detail_desktop_train" data-id="table_scroll"></div>
             <div id="detail_desktop_train_instructions" class="detail-instruction">
@@ -1298,7 +1293,7 @@
                 target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans">CC BY-SA 4.0</a>
             / <a target="_blank" href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2.0</a> <a target="_blank"
                 href="https://github.com/BoyInTheSun/beijing-subway-routemap?tab=License-1-ov-file">双重许可证</a></div>
-        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2025 <a target="_blank"
+        <div><a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20006745号</a> | © 2020-2026 <a target="_blank"
                 href="https://www.boyinthesun.cn">BoyInTheSun</a></div>
     </div>
 

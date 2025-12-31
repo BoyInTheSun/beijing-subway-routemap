@@ -301,6 +301,9 @@ function reset_map() {
     document.getElementById('btn_stationname').className = 'side-2l2-btn btn-unselected';
     document.getElementById('btn_station').className = 'side-2l2-btn btn-unselected';
     svg_init_xy();
+    is_mobile = window.screen.width <= 768;
+    change_detail();
+    hide_detail();
 }
 /* 弹出框相关函数 */
 function write_secelt_time(time_type) {
@@ -397,7 +400,7 @@ function show_popup_tips() {
 }
 function show_popup_link() {
     hash = generate_hash();
-    var link = window.location.origin + '#' + hash;
+    link = window.location.origin + '#' + hash;
     document.getElementById('btn_copy').className = 'popup-btn btn-unselected';
     document.getElementById('btn_copy').innerHTML = '复制';
     document.getElementById('btn_hash').className = 'popup-btn btn-unselected';
