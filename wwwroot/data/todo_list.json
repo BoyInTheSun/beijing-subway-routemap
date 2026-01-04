@@ -3,7 +3,7 @@
         "hidden": false,
         "status": "亟待解决",
         "color": "darkred",
-        "title": "更新地图数据",
+        "title": "更新时刻表数据",
         "description": "2025年底新开通3条线路"
     },
     {
@@ -39,7 +39,7 @@
         "status": "未开始",
         "color": "darkslateblue",
         "title": "运行列车数有误",
-        "description": "总是计算所有线路总数而非选中线路。"
+        "description": "且总是计算所有线路总数而非选中线路。"
     },
     {
         "hidden": false,
@@ -85,16 +85,16 @@
     },
     {
         "hidden": false,
-        "status": "暂无规划",
-        "color": "gray",
-        "title": "港铁",
-        "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了港铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
+        "status": "远期计划",
+        "color": "slategray",
+        "title": "真实比例地图",
+        "description": "需要svg数据。且需要重构部分代码。"
     },
     {
         "hidden": false,
         "status": "暂无规划",
         "color": "gray",
-        "title": "真实比例地图",
-        "description": "无数据。且需要重构部分代码。"
+        "title": "港铁",
+        "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了港铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
     }
 ]
