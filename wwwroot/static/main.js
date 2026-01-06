@@ -27,7 +27,7 @@ function time2hm(time) {
     return hm;
 }
 function time2h_m_s(time) {
-    let s = Math.floor(time * 60);
+    let s = Math.floor((time % 1) * 60);
     let m = parseInt(time % 60);
     let h = parseInt(time / 60 % 24);
     return [h, m, s];
