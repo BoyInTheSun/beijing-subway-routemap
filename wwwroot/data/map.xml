@@ -345,7 +345,7 @@
 		<p n="53" scode="1067" acc="151018029" lb="首经贸" x="672" y="880" dox="0" doy="1" uox="0" uoy="-1" ax="658" ay="880" aa="0" rx="6" ry="2" st="true" ex="true" iu="true" rc="false" slb="true" arr="7|14" ut="153" dt="89" us="45" ds="45" ud="0" dd="0" />
 		<p n="54" scode="" acc="" lb="" x="644" y="880" dox="0" doy="1" uox="0" uoy="-1" ax="856" ay="1013" aa="311" ai="2" rx="8.0" ry="-10" arc="624:880" uoarc="1:-1" doarc="-1:1" st="false" ex="false" iu="true" rc="false" slb="false" arr="23" ut="198" dt="80" us="30" ds="45" ud="0" dd="0" />
 	</l>
-	<l lid="地铁11号线" lb="11号线" li="11" slb="11" lp="270,725,53,20;" n="45" loop="true" lbx="370" lby="800" lbr="0.0" lc="0xed796b" lnub="11" lcode="11">
+	<l lid="地铁11号线" lb="11号线" li="11" slb="11" lp="270,725,53,20;" n="45" loop="false" lbx="370" lby="800" lbr="0.0" lc="0xed796b" lnub="11" lcode="11">
 		<p n="0" scode="1121" acc="150997781" lb="模式口" x="291" y="580" dox="-1" doy="0" uox="1" uoy="0" ax="291" ay="600" aa="270" rx="-16" ry="-24" st="true" ex="false" iu="true" rc="false" slb="true" int="5" arr="0" ut="220" dt="0" us="0" ds="0" ud="2.606" dd="0" />
 		<p n="1" scode="1123" acc="150997783" lb="金安桥" x="291" y="623" dy="4.5" dox="-1" doy="0" uox="1" uoy="0" ax="291" ay="654" aa="270" rx="-37" ry="-19" st="true" ex="true" iu="true" rc="false" slb="true" int="5" arr="0" ut="220" dt="0" us="0" ds="0" ud="2.606" dd="0" />
 		<p n="2" scode="1125" acc="150997785" lb="北辛安" x="291" y="666" dox="-1" doy="0" uox="1" uoy="0" ax="291" ay="654" aa="270" rx="-35" ry="-8" st="true" ex="false" iu="true" rc="false" slb="true" int="5" arr="0" ut="220" dt="0" us="0" ds="0" ud="2.606" dd="0" />

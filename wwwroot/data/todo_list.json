@@ -81,7 +81,7 @@
         "status": "远期计划",
         "color": "slategray",
         "title": "改用性能更高的动画库",
-        "description": "目前svg出现了明显的性能问题"
+        "description": "目前svg出现了明显的性能问题。如果可行，可以增加向前和向后的播放控制"
     },
     {
         "hidden": false,
@@ -101,7 +101,7 @@
         "hidden": false,
         "status": "暂无规划",
         "color": "gray",
-        "title": "港铁",
-        "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了港铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
+        "title": "台北地铁",
+        "description": "项目 <a target=\"_blank\" href=\"https://github.com/Mick235711/Beijing-Subway-Tools\">Beijing-Subway-Tools</a> 还提供了台北地铁的时刻表，应该可以达到本项目相同的效果。或许会单开一个项目。"
     }
 ]
