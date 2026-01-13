@@ -1,12 +1,5 @@
 [
     {
-        "hidden": false,
-        "status": "亟待解决",
-        "color": "darkred",
-        "title": "更新时刻表数据",
-        "description": "2025年底新开通3条线路"
-    },
-    {
         "hidden": true,
         "status": "亟待解决",
         "color": "darkred",
