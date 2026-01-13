@@ -67,10 +67,10 @@
         "color": "#D29700",
         "company": "北京市地铁运营有限公司运营一分公司",
         "nick_company": "运一",
-        "repo": "BoyInTheSun/beijing-subway-schedule",
-        "repo_href": "https://github.com/BoyInTheSun/beijing-subway-schedule",
-        "update": "2024-01-27",
-        "is_out_of_date": "待更新"
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2026-01-07",
+        "is_out_of_date": ""
     },
     {
         "code": "07",
@@ -201,8 +201,8 @@
         "nick_company": "京港",
         "repo": "Mick235711/Beijing-Subway-Tools",
         "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
-        "update": "2025-01-19",
-        "is_out_of_date": "待更新"
+        "update": "2026-01-07",
+        "is_out_of_date": ""
     },
     {
         "code": "18",
@@ -211,10 +211,10 @@
         "color": "#665794",
         "company": "北京市地铁运营有限公司运营三分公司",
         "nick_company": "运三",
-        "repo": "-",
-        "repo_href": "",
-        "update": "-",
-        "is_out_of_date": "待更新"
+        "repo": "Mick235711/Beijing-Subway-Tools",
+        "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
+        "update": "2026-01-07",
+        "is_out_of_date": ""
     },
     {
         "code": "19",
@@ -333,7 +333,7 @@
         "nick_company": "京城",
         "repo": "Mick235711/Beijing-Subway-Tools",
         "repo_href": "https://github.com/Mick235711/Beijing-Subway-Tools",
-        "update": "2025-09-19",
+        "update": "2026-01-07",
         "is_out_of_date": ""
     }
 ]

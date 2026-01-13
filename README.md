@@ -72,7 +72,7 @@ d3用于重载svg。
 
 **适用条件**：所有通过本项目展示或生成的最终呈现形式，包括但不限于：网页的视觉与布局渲染、动画的最终可视化效果、文本内容、设计元素等。
 
-**核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。该作品的衍生作品包括但不限于：对于本作品的视频录制、剪辑、截图等。署名的方式可以是作者（BoyInTheSun）、演示地址（https://bjsubway.boyinthesun.cn/）、项目地址（https://github.com/BoyInTheSun/beijing-subway-routemap）。
+**核心要求**：可自由分享、改编。**使用时必须署名（注明原作者/来源），并以相同许可证（CC BY-SA 4.0）共享您的演绎作品**。该作品的衍生作品包括但不限于：对于本作品的视频录制、剪辑、截图等。署名的方式可以是作者(BoyInTheSun)、演示地址(https://bjsubway.boyinthesun.cn/)、项目地址(https://github.com/BoyInTheSun/beijing-subway-routemap)。
 
 [查看 CC BY-SA 4.0 全文](./LICENSE-CC-BY-SA) | [官方原文](https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-hans) | [通俗摘要](https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans)
 
