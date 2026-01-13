@@ -36,6 +36,27 @@
     },
     {
         "hidden": false,
+        "status": "进行中",
+        "color": "GoldenRod",
+        "title": "重构，改用性能更高的动画库",
+        "description": "解决当前svg出现的性能问题；如果可行，可以增加向前和向后的播放控制"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "GoldenRod",
+        "title": "改用真实比例地图",
+        "description": "随重构一同进行"
+    },
+    {
+        "hidden": false,
+        "status": "进行中",
+        "color": "GoldenRod",
+        "title": "改用秒精度的时刻表",
+        "description": "正在整理数据"
+    },
+    {
+        "hidden": false,
         "status": "未开始",
         "color": "darkslateblue",
         "title": "运行列车数有误",
@@ -75,20 +96,6 @@
         "color": "darkslateblue",
         "title": "环线优化",
         "description": "2号线、10号线区分回库车和运行车。"
-    },
-    {
-        "hidden": false,
-        "status": "远期计划",
-        "color": "slategray",
-        "title": "改用性能更高的动画库",
-        "description": "目前svg出现了明显的性能问题。如果可行，可以增加向前和向后的播放控制"
-    },
-    {
-        "hidden": false,
-        "status": "远期计划",
-        "color": "slategray",
-        "title": "真实比例地图",
-        "description": "需要地图数据。且需要重构部分代码。"
     },
     {
         "hidden": false,
