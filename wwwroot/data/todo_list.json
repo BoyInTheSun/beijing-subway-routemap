@@ -32,21 +32,21 @@
         "status": "进行中",
         "color": "GoldenRod",
         "title": "重构，改用性能更高的动画库",
-        "description": "解决当前svg出现的性能问题；如果可行，可以增加向前和向后的播放控制"
+        "description": "解决当前svg出现的性能问题；如果可行，可以增加向前和向后的播放控制。目前仍在犹豫继续沿用现有SVG + animateMotion标签，还是SVG + GASP、Canvas、WebGL或其他。"
     },
     {
         "hidden": false,
         "status": "进行中",
         "color": "GoldenRod",
         "title": "改用真实比例地图",
-        "description": "随重构一同进行"
+        "description": "计划采用真实比例地图，目前的难点是没有现成的按照站间路径分段的path数据。目前在考虑能否大胆一些，采用<a href=\"https://github.com/SierraQin/metro\">列车运行前方</a>的地图，并对时刻表补充车辆段、折返等信息，但该数据也需要大量整理工作才可以使用。另一关键问题是如何反应正确的z轴关系？两线路在不同的交叉点存在不同的上下关系。"
     },
     {
         "hidden": false,
         "status": "进行中",
         "color": "GoldenRod",
         "title": "改用秒精度的时刻表",
-        "description": "正在整理数据"
+        "description": "目前已从亿通行拿到了秒精度的到站时刻表，有一些小问题，比如部分站缺失、始末站标注错误等，需要进一步整理。计划对推测或猜测的时间作标注区分。"
     },
     {
         "hidden": false,
