@@ -336,12 +336,7 @@ var close_stations = {  // 体现施工封闭、暂缓开通等
     '17号线': { '望京西': '暂缓开通' },
     '亦庄T1线': { '老观里': '暂缓开通' },
 };
-var transfer_without_exiting_stations = {
-    '1号线八通线': ['木樨地'],
-    '9号线': ['木樨地'],
-    '12号线': ['大钟寺'],
-    '13号线': ['大钟寺'],
-}
+var transfer_without_exiting_stations = ['木樨地','大钟寺'];
 
 var count_trains;
 var time_interval_id_set_time;
@@ -529,7 +524,7 @@ async function main_svg() {
         new_x /= count;
         new_y /= count;
         //xml_stations.push(`<circle class="station-transfer" cx="${new_x}" cy="${new_y}"></circle>`);
-        if (transfer_without_exiting_stations[line_name] && transfer_without_exiting_stations[line_name].indexOf(ex_station) != -1)
+        if (transfer_without_exiting_stations.indexOf(ex_station) != -1)
             // 虚拟换乘
             xml_stations.push(`<use xlink:href="#station-transfer-dash" x="${new_x - 5.5}" y="${new_y - 5.5}" class="svg-station" id="S_${ex_station}"/>`);
         else

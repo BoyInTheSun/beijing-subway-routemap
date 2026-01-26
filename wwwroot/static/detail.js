@@ -441,7 +441,7 @@ function set_detail_train(index, targe_time = null) {
         else station_type = '经停';
 
         var use_station, station_description = '';
-        if (transfer_without_exiting_stations[line_name] && transfer_without_exiting_stations[line_name].indexOf(station_name) != -1) {
+        if (transfer_without_exiting_stations.indexOf(station_name) != -1) {
             use_station = '<use href="#detail_v_transfer_station_dash" />';
             station_description = '虚拟换乘';
         }
