@@ -417,10 +417,7 @@ async function main_svg() {
             }
 
             paths[line_name][0].push(d);
-            if (!(start_p.getAttribute("lb") == '工人体育场' && end_p.getAttribute("lb") == '十里河')) {
-                // TODO: 17号线贯通后删除判断
-                xml_paths.push(`<path class="line" stroke="${line_color}" d="${d}" />`);
-            }
+            xml_paths.push(`<path class="line" stroke="${line_color}" d="${d}" />`);
 
             d = `M${end_p.getAttribute("x")},${end_p.getAttribute("y")}`; // 下个起点
 
@@ -454,7 +451,10 @@ async function main_svg() {
             paths[line_name][1].push(t.join(" "));
         }
         paths[line_name][1].reverse();
-
+        // 环线path特殊处理
+        if (line_name == '2号线' || line_name == '10号线' ) {
+            paths[line_name][1].push(paths[line_name][1].shift());
+        }
 
         // 算站
         for (var j = 0; j < line.childElementCount; j++) {
