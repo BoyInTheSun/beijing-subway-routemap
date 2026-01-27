@@ -349,8 +349,8 @@ const line_colors = {};
 async function main_svg() {
     await updateProgress(5);
     // start schedule fetch in parallel to avoid blocking during map parsing
-    const schePromise = fetch("data/schedule.json").then(r => r.json()).catch(e => null);
-    const mapResp = await fetch("data/map.xml");
+    const scheResp = await fetch("data/schedule.json?v=20260119");
+    const mapResp = await fetch("data/map.xml?v=20260119");
     const mapText = await mapResp.text();
     const parser = new DOMParser();
     const mapXml = parser.parseFromString(mapText, "application/xml");
@@ -587,12 +587,7 @@ async function main_svg() {
     */
     await updateProgress(30);
 
-    const sche_ = await schePromise;
-    if (!sche_) {
-        // fallback: try fetching directly
-        const scheResp = await fetch("data/schedule.json");
-        try { sche_ = await scheResp.json(); } catch (e) { sche_ = {}; }
-    }
+    const sche_ = await scheResp.json();
     sche_wde['wd'] = sche_["工作日"];
     sche_wde['we'] = sche_["双休日"];
     await updateProgress(40);
