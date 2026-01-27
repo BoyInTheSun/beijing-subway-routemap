@@ -18,7 +18,7 @@ function ban_event(event) {
 }
 
 function svg_init_xy() {
-    var div_svg = document.getElementById('div_svg');
+    const div_svg = document.getElementById('div_svg');
     div_svg.style.top = (-1200) / 2 + 'px';
     div_svg.style.left = (-2000 + 100) / 2 + 'px';
     div_svg.style.transform = 'scale(1)';
@@ -26,47 +26,48 @@ function svg_init_xy() {
 
 function svg_on_whell(event) {
     end_follow();
-    var div_svg = document.getElementById('div_svg');
-    var zoom_now = parseFloat(div_svg.style.transform.slice(6, -1));
-    var multiple = event.wheelDeltaY / 1200;
+    const div_svg = document.getElementById('div_svg');
+    const zoom_now = parseFloat(div_svg.style.transform.slice(6, -1));
+    const multiple = event.wheelDeltaY / 1200;
     div_svg.style.transform = `scale(${zoom_now * (1 + multiple)})`;
     div_svg.style.left = ((event.clientX - window.innerWidth / 2) * -multiple + (parseFloat(div_svg.style.left)) * (1 + multiple)) + 'px';
     div_svg.style.top = ((event.clientY - window.innerHeight / 2) * -multiple + (parseFloat(div_svg.style.top)) * (1 + multiple)) + 'px';
 }
 
 function svg_on_down(event) {
-    var div_svg = document.getElementById('div_svg');
+    const div_svg = document.getElementById('div_svg');
     // down
+    let div_left_start = parseFloat(div_svg.style.left);
+    let div_top_start = parseFloat(div_svg.style.top);
 
-    var div_left_start = parseFloat(div_svg.style.left);
-    var div_top_start = parseFloat(div_svg.style.top);
-
+    let mouse_x_start;
+    let mouse_y_start;
     if (event.type === 'mousedown') {
         // mouse
-        var mouse_x_start = event.clientX;
-        var mouse_y_start = event.clientY;
+        mouse_x_start = event.clientX;
+        mouse_y_start = event.clientY;
     }
     else if (event.type === 'touchstart') {
         // touch
-        var mouse_x_start = event.touches[0].clientX;
-        var mouse_y_start = event.touches[0].clientY;
+        mouse_x_start = event.touches[0].clientX;
+        mouse_y_start = event.touches[0].clientY;
     }
-    mouse_start = [mouse_x_start, mouse_y_start];
+    window.mouse_start = [mouse_x_start, mouse_y_start];
     // console.log(mouse_start);
 
-    var touches_0_x_start;
-    var touches_0_y_start;
-    var touches_1_x_start;
-    var touches_1_y_start;
-    var left_start;
-    var top_start;
-    var zoom_start;
-    var distance_start;
+    let touches_0_x_start;
+    let touches_0_y_start;
+    let touches_1_x_start;
+    let touches_1_y_start;
+    let left_start;
+    let top_start;
+    let zoom_start;
+    let distance_start;
 
     function move(event) {
         end_follow();
-        var mouse_x_now;
-        var mouse_y_now;
+        let mouse_x_now;
+        let mouse_y_now;
         if (event.type === 'mousemove') {
             // mouse
             mouse_x_now = event.clientX;
@@ -80,7 +81,7 @@ function svg_on_down(event) {
             }
             else if (event.touches.length >= 1) {
                 // dobule touch
-                mouse_start = null;
+                window.mouse_start = null;
                 touches_0_x_start = event.touches[0].clientX;
                 touches_0_y_start = event.touches[0].clientY;
                 touches_1_x_start = event.touches[1].clientX;
@@ -101,20 +102,20 @@ function svg_on_down(event) {
 
     }
     function zoom(event) {
-        var touches_0_x_now = event.touches[0].clientX;
-        var touches_0_y_now = event.touches[0].clientY;
-        var touches_1_x_now = event.touches[1].clientX;
-        var touches_1_y_now = event.touches[1].clientY;
-        var distance_now = ab2c(touches_0_x_now - touches_1_x_now, touches_0_y_now - touches_1_y_now);
-        var multiple = (distance_now - distance_start) / 300;
+        const touches_0_x_now = event.touches[0].clientX;
+        const touches_0_y_now = event.touches[0].clientY;
+        const touches_1_x_now = event.touches[1].clientX;
+        const touches_1_y_now = event.touches[1].clientY;
+        const distance_now = ab2c(touches_0_x_now - touches_1_x_now, touches_0_y_now - touches_1_y_now);
+        let multiple = (distance_now - distance_start) / 300;
         div_svg.style.transform = `scale(${zoom_start * (1 + multiple)})`;
-        var x0 = (touches_0_x_now + touches_1_x_now) / 2;
-        var y0 = (touches_0_y_now + touches_1_y_now) / 2;
+        const x0 = (touches_0_x_now + touches_1_x_now) / 2;
+        const y0 = (touches_0_y_now + touches_1_y_now) / 2;
         div_svg.style.left = ((x0 - window.innerWidth / 2) * -multiple + left_start * (1 + multiple)) + 'px';
         div_svg.style.top = ((y0 - window.innerHeight / 2) * -multiple + top_start * (1 + multiple)) + 'px';
     }
     function stop(event) {
-        mouse_start = null;
+        window.mouse_start = null;
         document.removeEventListener('mousemove', move);
         document.removeEventListener('touchmove', move);
         document.removeEventListener('mouseup', stop);
@@ -122,19 +123,18 @@ function svg_on_down(event) {
         document.removeEventListener('touchmove', zoom);
     }
 
-    document.addEventListener('mousemove', move);
-    document.addEventListener('touchmove', move);
-    document.addEventListener('mouseup', stop);
-    document.addEventListener('touchend', stop);
+        document.addEventListener('mousemove', move);
+        document.addEventListener('touchmove', move);
+        document.addEventListener('mouseup', stop);
+        document.addEventListener('touchend', stop);
 }
-var div_svg_parent = document.getElementById('div_svg_broad');
+    const div_svg_parent = document.getElementById('div_svg_broad');
 
-div_svg_parent.addEventListener('mousedown', svg_on_down);
-div_svg_parent.addEventListener('touchstart', svg_on_down);
-div_svg_parent.addEventListener('wheel', svg_on_whell);
+    div_svg_parent.addEventListener('mousedown', svg_on_down);
+    div_svg_parent.addEventListener('touchstart', svg_on_down);
+    div_svg_parent.addEventListener('wheel', svg_on_whell);
 
-
-div_svg_parent.addEventListener('wheel', ban_event);
-div_svg_parent.addEventListener('mousedown', ban_event);
-div_svg_parent.addEventListener('touchstart', ban_event);
-div_svg_parent.addEventListener('touchmove', ban_event);
+    div_svg_parent.addEventListener('wheel', ban_event);
+    div_svg_parent.addEventListener('mousedown', ban_event);
+    div_svg_parent.addEventListener('touchstart', ban_event);
+    div_svg_parent.addEventListener('touchmove', ban_event);

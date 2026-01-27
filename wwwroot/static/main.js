@@ -11,19 +11,19 @@
 
 function hm2time(hm) {
     hm = hm.replace("(", "").replace("-", "");
-    t = hm.split(":");
-    h = t[0];
-    m = t[1];
-    time = parseInt(h) * 60 + parseInt(m);
+    const t = hm.split(":");
+    const h = t[0];
+    const m = t[1];
+    let time = parseInt(h) * 60 + parseInt(m);
     if (parseInt(h) <= 2) {
         time += 60 * 24;
     }
     return time;
 }
 function time2hm(time) {
-    m = time % 60;
-    h = (time - m) / 60 % 24;
-    hm = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+    const m = time % 60;
+    const h = (time - m) / 60 % 24;
+    const hm = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
     return hm;
 }
 function time2h_m_s(time) {
@@ -33,8 +33,8 @@ function time2h_m_s(time) {
     return [h, m, s];
 }
 function time2hms(time) {
-    [h, m, s] = time2h_m_s(time);
-    hms = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    const [h, m, s] = time2h_m_s(time);
+    const hms = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
     return hms;
 }
 function add(a, b) {
@@ -46,12 +46,12 @@ function init_count_trains(hour, minute, wde) {
     window.count_trains['wait'] = new Array();
     window.count_trains['running'] = new Array();
     window.count_trains['done'] = new Array();
-    var start_trains = start_trains_wde[wde];
-    var end_trains = end_trains_wde[wde];
-    var train_nums = Object.keys(sche_trains_wde[wde]);
+    let start_trains = start_trains_wde[wde];
+    let end_trains = end_trains_wde[wde];
+    let train_nums = Object.keys(sche_trains_wde[wde]);
     if (hour <= 2) hour += 24;
     for (let i = hour; i >= 0; i--) {
-        h = i % 24;
+        let h = i % 24;
         for (let m = (i == hour ? minute : 59); m >= 0; m--) {
             for (let train_num of end_trains[h][m]) {
                 window.count_trains['done'].push(train_num);
@@ -71,11 +71,11 @@ function init_count_trains(hour, minute, wde) {
     document.getElementById('count_train').innerText = window.count_trains['running'].length;
 }
 function update_count_trains(past_minute, now_minute, wde) {
-    var start_trains = start_trains_wde[wde];
-    var end_trains = end_trains_wde[wde];
+    let start_trains = start_trains_wde[wde];
+    let end_trains = end_trains_wde[wde];
     for (let t = past_minute; t <= now_minute; t++) {
-        var hour = Math.floor(t / 60);
-        var minute = Math.floor(t % 60);
+        let hour = Math.floor(t / 60);
+        let minute = Math.floor(t % 60);
         for (let train_num of end_trains[hour][minute]) {
             window.count_trains['running'].splice(window.count_trains['running'].indexOf(train_num), 1);
             window.count_trains['done'].push(train_num);
@@ -90,53 +90,53 @@ function update_count_trains(past_minute, now_minute, wde) {
 
 
 function get_now_minute() {
-    now = new Date()
+    const now = new Date();
     return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
 }
 
 function start_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
-    init_count_trains(Math.floor(start_time / 60), Math.floor(start_time % 60), wde);
-    window.time_interval_id_set_time = window.setInterval(`set_time()`, 100);
+    init_count_trains(Math.floor(window.start_time / 60), Math.floor(window.start_time % 60), wde);
+    window.time_interval_id_set_time = window.setInterval(set_time, 100);
 }
 function stop_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
     document.getElementById('time').innerText = '--:--:--';
     document.getElementById('count_train').innerText = '?';
-    now_minute = NaN;
+    window.now_minute = NaN;
     update_detail(true);
 }
 function pause_set_time() {
     if (window.time_interval_id_set_time) clearInterval(window.time_interval_id_set_time);
-    var time_now = get_now_minute();
-    start_time = start_time + (time_now - reality_time) * speed;
+    const time_now = get_now_minute();
+    window.start_time = window.start_time + (time_now - window.reality_time) * window.speed;
 }
 function replay_set_time() {
-    var time_now = get_now_minute();
-    reality_time = time_now;
-    window.time_interval_id_set_time = window.setInterval(`set_time()`, 100);
+    const time_now = get_now_minute();
+    window.reality_time = time_now;
+    window.time_interval_id_set_time = window.setInterval(set_time, 100);
 }
 
 function set_time() {
-    var time_now = get_now_minute();
-    var time_offset = time_now - reality_time;
-    var show_minute_past = now_minute;
-    var show_minute_now = start_time + time_offset * speed;
+    const time_now = get_now_minute();
+    const time_offset = time_now - window.reality_time;
+    let show_minute_past = window.now_minute;
+    let show_minute_now = window.start_time + time_offset * window.speed;
 
     if (show_minute_now > end_time) {
         stop();
         if (is_loop) start();
         return;
     }
-    var is_update_table = false;
-    if (!now_minute || Math.floor(show_minute_now) > Math.floor(now_minute))
+    let is_update_table = false;
+    if (!window.now_minute || Math.floor(show_minute_now) > Math.floor(window.now_minute))
         is_update_table = true;
-    now_minute = show_minute_now;
+    window.now_minute = show_minute_now;
     // 更新时间框
     document.getElementById('time').innerText = time2hms(show_minute_now);
     // 更新运行列车数量
-    var show_minute_past_floor = Math.floor(show_minute_past);
-    var show_minute_now_floor = Math.floor(show_minute_now);
+    let show_minute_past_floor = Math.floor(show_minute_past);
+    let show_minute_now_floor = Math.floor(show_minute_now);
     if (show_minute_now_floor > show_minute_past_floor)
         update_count_trains(show_minute_past_floor, show_minute_now_floor, wde);
     // 更新detail
@@ -171,44 +171,48 @@ function draw_map() {
 
 // 画车动画
 function draw_trains() {
-    var transparency_second;
+    let transparency_second;
     if (speed > 60) transparency_second = 30 / speed;
     else transparency_second = 0.5;
 
-    xml_polygons = new Array();
-    sche = sche_wde[wde];
-    for (line_name in sche) {
-        for (direct in sche[line_name]) {
+    let xml_polygons = [];
+    const sche = sche_wde[wde];
+    for (let line_name in sche) {
+        for (let direct in sche[line_name]) {
             if (!is_lines[line_name][direct]) continue;  // 隐藏某线路的车
-            train_0 = Object.keys(sche[line_name][direct])[0];
-            index_0 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][0][0]);
-            index_1 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][1][0]);
+            let train_0 = Object.keys(sche[line_name][direct])[0];
+            let index_0 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][0][0]);
+            let index_1 = stations[line_name][0].indexOf(sche[line_name][direct][train_0][1][0]);
+            let direct_index;
             if (index_1 - index_0 > 0) direct_index = 0;
             else direct_index = 1;
             if (line_name == '首都机场线') {  // 首都机场线特殊处理
                 if (sche[line_name][direct][train_0][0][0] == '北新桥') direct_index = 0;
                 else direct_index = 1;
             }
-            for (train_num in sche[line_name][direct]) {
-                xml_animates = new Array();
+            for (let train_num in sche[line_name][direct]) {
+                let xml_animates = [];
                 // 淡入
-                this_time_minute = hm2time(sche[line_name][direct][train_num][0][1]);
+                let this_time_minute = hm2time(sche[line_name][direct][train_num][0][1]);
+                let next_time_minute;
                 if (end_time <= this_time_minute) {
                     continue;
                 }
                 if (start_time <= this_time_minute) {
-                    begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
-                    dur = parseInt((transparency_second) * 1000) + 'ms';
+                    let begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
+                    let dur = parseInt((transparency_second) * 1000) + 'ms';
                     // xml_animates.push(`<set attributeName="opacity" to="0" begin="0s"/>`);
                     xml_animates.push(`<animate begin="${begin}" dur="${dur}" attributeName="opacity" values="0;1" repeatCount="1" />`);
                 }
-                for (var i = 0; i < sche[line_name][direct][train_num].length - 1; i++) {
-                    this_station_name = sche[line_name][direct][train_num][i][0];
-                    next_station_name = sche[line_name][direct][train_num][i + 1][0];
-                    this_time = sche[line_name][direct][train_num][i][1];
-                    next_time = sche[line_name][direct][train_num][i + 1][1];
-                    is_pass = false;
-                    is_awaiting = false;
+                for (let i = 0; i < sche[line_name][direct][train_num].length - 1; i++) {
+                    let this_station_name = sche[line_name][direct][train_num][i][0];
+                    let next_station_name = sche[line_name][direct][train_num][i + 1][0];
+                    let this_time = sche[line_name][direct][train_num][i][1];
+                    let next_time = sche[line_name][direct][train_num][i + 1][1];
+                    let is_pass = false;
+                    let is_awaiting = false;
+                    let index;
+                    let path;
                     if (this_time.indexOf('(') !== -1) {
                         is_pass = true;
                     }
@@ -217,7 +221,7 @@ function draw_trains() {
                         // 处理待避
                         index = stations[line_name][direct_index].indexOf(this_station_name);
                         let [x0, y0] = paths[line_name][direct_index][index].split(" ")[0].slice(1).split(',');
-                        let [x1, y1] = paths[line_name][direct_index][index].split(" ")[1].slice(1).split(',');
+                        let [x1, y1] = paths[line_name][direct_index][index].split(" ")[1].split(',');
                         x1 = parseFloat(x0) + (parseFloat(x1) - parseFloat(x0)) * 0.0001;
                         y1 = parseFloat(y0) + (parseFloat(y1) - parseFloat(y0)) * 0.0001;
                         path = `M${x0},${y0} L${x1},${y1}`;
@@ -234,13 +238,13 @@ function draw_trains() {
                         continue;
                     }
 
-                    begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
-                    dur = parseInt((next_time_minute - this_time_minute) * 60 / speed * 1000) + 'ms';
+                    let begin = parseInt((this_time_minute - start_time) * 60 / speed * 1000) + 'ms';
+                    let dur = parseInt((next_time_minute - this_time_minute) * 60 / speed * 1000) + 'ms';
                     if (end_time > next_time_minute) {
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" rotate="auto" path="${path}" repeatCount="1" />`);
                     }
                     else {
-                        end = parseInt((end_time - start_time) * 60 / speed * 1000) + 'ms';
+                        let end = parseInt((end_time - start_time) * 60 / speed * 1000) + 'ms';
                         xml_animates.push(`<animateMotion begin="${begin}" dur="${dur}" end="${end}" rotate="auto" path="${path}" repeatCount="1" />`);
                         break;
                     }
@@ -256,7 +260,7 @@ function draw_trains() {
                 //var t = train_size;
                 //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
                 //xml_polygon = `<polygon id="T_${train_num}" fill="${line_colors[line_name]}" points="${points}" stroke-width="${t / 2}" stroke="#000000">${xml_animates.join('')}</polygon>`;
-                xml_polygon = `<use id="T_${train_num}" xlink:href="#train" fill="${line_colors[line_name]}" class="svg-train">${xml_animates.join('')}</use>`;
+                let xml_polygon = `<use id="T_${train_num}" xlink:href="#train" fill="${line_colors[line_name]}" class="svg-train">${xml_animates.join('')}</use>`;
                 xml_polygons.push(xml_polygon);
             }
         }
@@ -266,7 +270,7 @@ function draw_trains() {
     //svg.innerHTML = xml_paths.join('') + xml_polygons.join('');
     d3.select('#g_trains').html('');
     // TODO 只能靠这样重载动画
-    var svg_html = d3.select('#div_svg').html();
+    let svg_html = d3.select('#div_svg').html();
     d3.select('#div_svg').html('');
     d3.select('#div_svg').html(svg_html);
     d3.select('#g_trains').html(xml_polygons.join(''));
@@ -274,7 +278,7 @@ function draw_trains() {
 }
 
 
-var svg_style = `<style>
+const svg_style = `<style>
     text {
         pointer-events: none;
     }
@@ -320,13 +324,13 @@ var svg_style = `<style>
 </symbol>
 `
 
-var paths = new Object();  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
-var stations = new Object();  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
-var stations_lines = new Object();  // 存放站名，{站1: ["线路1", "线路2", ...], ...]}
-var stations_xy = new Object();  // 存放站名坐标，{线路: {"站1": ["x", "y"], "站2": ["x", "y"], ...}}
-var ex_stations_xy = new Object();  // 存放换乘站坐标，{"站1": [["x0", "y0"], ["x1", "y1"]], "站2": [[...], [...], [...]], ...}
-var ex_stations_lines = new Object();  // 存放换乘站及线路，{"站1": ["线1", "线2"], "站2": [...], ...}
-var close_stations = {  // 体现施工封闭、暂缓开通等
+const paths = {};  // 存放path，{线路: [["M0 0 100 100", ...], ["反方向", ...]]}
+const stations = {};  // 存放站名，{线路: [["站1", "站2", "..."], ...]}
+const stations_lines = {};  // 存放站名，{站1: ["线路1", "线路2", ...], ...}
+const stations_xy = {};  // 存放站名坐标，{线路: {"站1": ["x", "y"], "站2": ["x", "y"], ...}}
+const ex_stations_xy = {};  // 存放换乘站坐标，{"站1": [["x0", "y0"], ["x1", "y1"]], "站2": [[...], [...], [...]], ...}
+const ex_stations_lines = {};  // 存放换乘站及线路，{"站1": ["线1", "线2"], "站2": [...], ...}
+const close_stations = {  // 体现施工封闭、暂缓开通等
     '1号线八通线': {
         '苹果园': '施工封闭',
         '八角游乐园': '施工封闭',
@@ -336,34 +340,37 @@ var close_stations = {  // 体现施工封闭、暂缓开通等
     '17号线': { '望京西': '暂缓开通' },
     '亦庄T1线': { '老观里': '暂缓开通' },
 };
-var transfer_without_exiting_stations = ['木樨地','大钟寺'];
+const transfer_without_exiting_stations = ['木樨地','大钟寺'];
 
-var count_trains;
-var time_interval_id_set_time;
+let count_trains;
+let time_interval_id_set_time;
+const line_colors = {};
 
 async function main_svg() {
     await updateProgress(5);
-    var xhr_map = new XMLHttpRequest();
-    xhr_map.open("GET", "data/map.xml", false);
-    xhr_map.send();
-    var root = xhr_map.responseXML.getElementsByTagName("sw")[0];  // 根节点
-    line_colors = new Object();
+    // start schedule fetch in parallel to avoid blocking during map parsing
+    const schePromise = fetch("data/schedule.json").then(r => r.json()).catch(e => null);
+    const mapResp = await fetch("data/map.xml");
+    const mapText = await mapResp.text();
+    const parser = new DOMParser();
+    const mapXml = parser.parseFromString(mapText, "application/xml");
+    const root = mapXml.getElementsByTagName("sw")[0];  // 根节点
 
     //算path，station
-    var xml_paths = new Array();
-    var xml_stationnames = new Array();
-    var xml_stations = new Array();
-    var xml_linenames = new Array();
+    let xml_paths = new Array();
+    let xml_stationnames = new Array();
+    let xml_stations = new Array();
+    let xml_linenames = new Array();
     await updateProgress(10);
-    for (var i = 0; i < root.childElementCount; i++) {
-        line = root.children[i];
-        line_id = line.getAttribute("i")
-        line_name = line.getAttribute("lb");
-        line_color = "#" + line.getAttribute("lc").slice(2);  // 线路颜色
+    for (let i = 0; i < root.childElementCount; i++) {
+        let line = root.children[i];
+        let line_id = line.getAttribute("i");
+        let line_name = line.getAttribute("lb");
+        let line_color = "#" + line.getAttribute("lc").slice(2);  // 线路颜色
         line_colors[line_name] = line_color;
 
         // 算linename
-        line_nicknames = new Array();
+        let line_nicknames = new Array();
         for (let slb of line.getAttribute("slb").split(',')) {
             if (!isNaN(Number(slb))) line_nicknames.push(slb + '号线');
             else line_nicknames.push(slb + '线');
@@ -382,6 +389,7 @@ async function main_svg() {
 
 
         // 环线
+        let line_child_count;
         if (line.getAttribute("loop") === "true") {
             line_child_count = line.childElementCount + 1;
         }
@@ -398,19 +406,20 @@ async function main_svg() {
         stations[line_name].push(new Array());  // 倒序
         stations_xy[line_name] = new Object();
 
-        d = `M${line.children[0].getAttribute("x")},${line.children[0].getAttribute("y")}`; // 起点
-        for (var j = 1; j < line_child_count; j++) {
-            start_p = line.children[j - 1];
-            end_p = line.children[j % line.childElementCount];
+        let d = `M${line.children[0].getAttribute("x")},${line.children[0].getAttribute("y")}`; // 起点
+        for (let j = 1; j < line_child_count; j++) {
+            let start_p = line.children[j - 1];
+            let end_p = line.children[j % line.childElementCount];
 
             if (start_p.getAttribute("arc")) {
-                arc = start_p.getAttribute("arc").split(":");
-                d_add = ` Q${arc[0]},${arc[1]} ${end_p.getAttribute("x")},${end_p.getAttribute("y")}`;
+                let arc = start_p.getAttribute("arc").split(":");
+                let d_add = ` Q${arc[0]},${arc[1]} ${end_p.getAttribute("x")},${end_p.getAttribute("y")}`;
+                d += d_add;
             }
             else {
-                d_add = ` L${end_p.getAttribute("x")},${end_p.getAttribute("y")}`;
+                let d_add = ` L${end_p.getAttribute("x")},${end_p.getAttribute("y")}`;
+                d += d_add;
             }
-            d += d_add
 
             if (end_p.getAttribute("st") == "false") {
                 continue
@@ -423,11 +432,11 @@ async function main_svg() {
 
         }
         // 计算反方向path，存到paths。
-        for (each of paths[line_name][0]) {
+        for (let each of paths[line_name][0]) {
             let ds = each.slice(1).split(" ");
             let t1 = new Array();
             let t2 = new Array();
-            for (var j = 0; j < ds.length; j++) {
+            for (let j = 0; j < ds.length; j++) {
                 if (ds[j].charCodeAt(0) >= 48 && ds[j].charCodeAt(0) <= 57) {
                     t1.push("");
                     t2.push(ds[j]);
@@ -440,8 +449,8 @@ async function main_svg() {
             t1.push("M");
             t1.reverse();
             t2.reverse();
-            t = new Array();
-            for (var j = 0; j < ds.length; j++) {
+            let t = new Array();
+            for (let j = 0; j < ds.length; j++) {
                 if (t1[j + 1] == "Q") {
                     t1[j] = "Q";
                     t1[j + 1] = "";
@@ -457,9 +466,9 @@ async function main_svg() {
         }
 
         // 算站
-        for (var j = 0; j < line.childElementCount; j++) {
+        for (let j = 0; j < line.childElementCount; j++) {
             if (line.children[j].getAttribute("st") === "true") {
-                var station_name = line.children[j].getAttribute("lb");
+                let station_name = line.children[j].getAttribute("lb");
                 stations[line_name][0].push(station_name);
                 stations[line_name][1].unshift(station_name);
                 if (stations_lines[station_name]) stations_lines[station_name].push(line_name);
@@ -533,24 +542,24 @@ async function main_svg() {
 
 
     // 画车symbol
-    var train_size = 3;
-    var t = train_size;
+    let train_size = 3;
+    let t = train_size;
     //let points = `0,0 ${t * 3},0 ${t},${t * 2} -${t * 3},${t * 2} -${t * 3},0`;
-    var points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
-    var xml_symbol = `<symbol id="train" X="-${t * 4}" refX="${t * 4}"><polygon class="train" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`;
+    let points = `${t},0 ${t * 7},0 ${t * 5},${t * 2} ${t},${t * 2}`;
+    let xml_symbol = `<symbol id="train" X="-${t * 4}" refX="${t * 4}"><polygon class="train" points="${points}" stroke-width="${t / 2}" stroke="#000000" /></symbol>`;
 
-    var xml_g_paths = '<g id="g_paths">' + xml_paths.join('') + '</g>';
-    var xml_g_stationnames = '<g id="g_stationnames">' + xml_stationnames.join('') + '</g>';
-    var xml_g_stations = '<g id="g_stations">' + xml_stations.join('') + '</g>';
-    var xml_g_linenames = '<g id="g_linenames">' + xml_linenames.join('') + '</g>';
-    var xml_g_symbols = '<g id="g_symbols">' + xml_symbol + '</g>';
+    const xml_g_paths = '<g id="g_paths">' + xml_paths.join('') + '</g>';
+    const xml_g_stationnames = '<g id="g_stationnames">' + xml_stationnames.join('') + '</g>';
+    const xml_g_stations = '<g id="g_stations">' + xml_stations.join('') + '</g>';
+    const xml_g_linenames = '<g id="g_linenames">' + xml_linenames.join('') + '</g>';
+    const xml_g_symbols = '<g id="g_symbols">' + xml_symbol + '</g>';
 
-    var svg = d3.select('#div_svg').append('svg')
+    const svg = d3.select('#div_svg').append('svg')
         .attr('id', 'svg_main')
         .attr('width', 2000)
         .attr('height', 1500)
         .attr('xmlns', 'http://www.w3.org/2000/svg');
-    var svg_html = '';
+    let svg_html = '';
     svg_html += svg_style;
     svg_html += xml_g_paths;
     svg_html += xml_g_stationnames;
@@ -562,24 +571,28 @@ async function main_svg() {
 
     // 请求时刻表
     // TODO: 改并行？
-    sche_wde = new Object();
-    sche_trains_wde = new Object();
+    window.sche_wde = new Object();
+    window.sche_trains_wde = new Object();
+    const sche_wde = window.sche_wde;
+    const sche_trains_wde = window.sche_trains_wde;
     /*
     var xhr_sche_wd = new XMLHttpRequest();
     xhr_sche_wd.open("GET", "data/schedule_weekday.json", false);
     xhr_sche_wd.send();
     sche_wde['wd'] = JSON.parse(xhr_sche_wd.responseText);
-    var xhr_sche_we = new XMLHttpRequest();
-    xhr_sche_we.open("GET", "data/schedule_weekend.json", false);
-    xhr_sche_we.send();
+    const xhr_sche_wd = new XMLHttpRequest();
+    const xhr_sche_we = new XMLHttpRequest();
+    const xhr_sche = new XMLHttpRequest();
     sche_wde['we'] = JSON.parse(xhr_sche_we.responseText);
     */
     await updateProgress(30);
 
-    var xhr_sche = new XMLHttpRequest();
-    xhr_sche.open("GET", "data/schedule.json", false);
-    xhr_sche.send();
-    sche_ = JSON.parse(xhr_sche.responseText);
+    const sche_ = await schePromise;
+    if (!sche_) {
+        // fallback: try fetching directly
+        const scheResp = await fetch("data/schedule.json");
+        try { sche_ = await scheResp.json(); } catch (e) { sche_ = {}; }
+    }
     sche_wde['wd'] = sche_["工作日"];
     sche_wde['we'] = sche_["双休日"];
     await updateProgress(40);
@@ -602,8 +615,10 @@ async function main_svg() {
     await updateProgress(45);
 
     // 算开始和结束运营时间
-    start_trains_wde = new Object();
-    end_trains_wde = new Object();
+    window.start_trains_wde = new Object();
+    window.end_trains_wde = new Object();
+    const start_trains_wde = window.start_trains_wde;
+    const end_trains_wde = window.end_trains_wde;
     for (let wde of ['wd', 'we']) {
         start_trains_wde[wde] = new Object();
         end_trains_wde[wde] = new Object();
@@ -636,9 +651,10 @@ async function main_svg() {
 
 
     //算最早最晚时间
-    lines_most = new Object();
-    lines_most['earliest'] = new Object();
-    lines_most['latest'] = new Object();
+    window.lines_most = new Object();
+    window.lines_most['earliest'] = new Object();
+    window.lines_most['latest'] = new Object();
+    const lines_most = window.lines_most;
     for (let wde of ['wd', 'we']) {
         lines_most['earliest'][wde] = new Object();
         lines_most['latest'][wde] = new Object();
@@ -660,7 +676,8 @@ async function main_svg() {
     }
     await updateProgress(55);
     // 算到站时刻表
-    sche_stations = Object();
+    window.sche_stations = Object();
+    const sche_stations = window.sche_stations;
     for (let wde in sche_wde) {
         sche_stations[wde] = Object();
         for (let line in sche_wde[wde]) {

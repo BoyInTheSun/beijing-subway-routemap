@@ -80,31 +80,40 @@ class MyMap {
         }
     }
 }
-disable_detail = false;
-detail_trains = new MyMap();  // like {0: '010001', 3: '010002', ...}
-detail_stations = new MyMap();  // like {0: ['惠新西街南口', '5号线', '南行'], 2: ['惠新西街南口', '5号线', '内环'], ...}
-detail_scroll = new Array();
-detail_train_follow = null;
-focus_detail = {
+window.disable_detail = false;
+window.detail_trains = new MyMap();  // like {0: '010001', 3: '010002', ...}
+window.detail_stations = new MyMap();  // like {0: ['惠新西街南口', '5号线', '南行'], 2: ['惠新西街南口', '5号线', '内环'], ...}
+window.detail_scroll = [];
+window.detail_train_follow = null;
+window.focus_detail = {
     type: '',
     train_index: NaN,
     station_index: NaN
 } // for mobile, like {'type': 'train|station', 'train_index': '0', 'station_index': '1'}
-detail_lines = new Array();  // like ['1号线八通线', '2号线', ...]
+window.detail_lines = [];  // like ['1号线八通线', '2号线', ...]
+window.timer_follow = null;
+window.thumb_info = window.thumb_info || {
+    'is_drag': false,
+    'start_y': NaN,
+    'goingto': NaN,
+    'ratio': NaN,
+    'tag_id': '',
+};
+const thumb_info = window.thumb_info;
 
 
 function change_detail(type = null) {
     if (!type)
         type = is_mobile ? 'mobile' : 'desktop';
     if (type == 'mobile') {
-        disable_detail = false;
-        is_mobile = true;
+        window.disable_detail = false;
+        window.is_mobile = true;
         document.getElementById('detail_broad_mobile').style.display = '';
         document.getElementById('detail_broad_desktop').style.display = 'none';
         document.getElementById('btn_detail_mobile').className = 'side-2l2-btn btn-selected';
         document.getElementById('btn_detail_desktop').className = 'side-2l2-btn btn-unselected';
         document.getElementById('btn_detail_disable').className = 'side-2l2-btn btn-unselected';
-        var tag_id;
+        let tag_id;
         if (focus_detail['type'] == 'train')
             tag_id = 'tag_t_' + focus_detail['train_index'];
         else if (focus_detail['type'] == 'station')
@@ -138,8 +147,8 @@ function change_detail(type = null) {
         update_detail_tag();
     }
     else if (type == 'desktop') {
-        is_mobile = false;
-        disable_detail = false;
+        window.is_mobile = false;
+        window.disable_detail = false;
         document.getElementById('detail_broad_mobile').style.display = 'none';
         document.getElementById('detail_broad_desktop').style.display = '';
         document.getElementById('btn_detail_mobile').className = 'side-2l2-btn btn-unselected';
@@ -156,7 +165,7 @@ function change_detail(type = null) {
         update_detail_tag();
     }
     else {
-        disable_detail = true;
+        window.disable_detail = true;
         document.getElementById('detail_broad_mobile').style.display = 'none';
         document.getElementById('detail_broad_desktop').style.display = 'none';
         document.getElementById('btn_detail_mobile').className = 'side-2l2-btn btn-unselected';
@@ -218,7 +227,7 @@ function switch_detail_mobile_header(type) {
 
 function switch_detail_mobile(type, index = NaN) {
     display_detail();
-    var target_tag_id;
+    let target_tag_id;
     if (type == 'train') {
         if (isNaN(index)) index = focus_detail['train_index'];
         if (isNaN(index)) index = detail_trains.last();
@@ -241,7 +250,7 @@ function switch_detail_mobile(type, index = NaN) {
         focus_detail['station_index'] = index;
         target_tag_id = 'tag_s_' + index;
     }
-    var now_tag_id = document.getElementById('detail_mobile').firstChild?.id;
+    let now_tag_id = document.getElementById('detail_mobile').firstChild?.id;
     if (now_tag_id == target_tag_id) return;
     if (document.getElementById('detail_mobile').firstChild) {
         document.getElementById('detail_mobile_hidden').appendChild(document.getElementById('detail_mobile').firstChild);
@@ -250,6 +259,7 @@ function switch_detail_mobile(type, index = NaN) {
 }
 
 function move_detail_tag(type, index, offset) {
+    let tag_id;
     if (type == 'train') {
         detail_trains.move(index, offset);
         tag_id = 'tag_t_' + index;
@@ -265,13 +275,13 @@ function move_detail_tag(type, index, offset) {
 }
 
 function move_div(tag_id, offset) {
-    var tag = document.getElementById(tag_id);
-    var parent_tag = tag.parentNode;
-    var length = parent_tag.children.length;
+    let tag = document.getElementById(tag_id);
+    let parent_tag = tag.parentNode;
+    let length = parent_tag.children.length;
     if (length <= 1) return;
-    var current_index = Array.from(parent_tag.children).indexOf(tag);
+    let current_index = Array.from(parent_tag.children).indexOf(tag);
     if (offset > 0) offset += 1;
-    var new_index = current_index + offset;
+    let new_index = current_index + offset;
     if (new_index > length) new_index = length;
     if (new_index < 0) new_index = 0;
 
@@ -295,7 +305,7 @@ function update_detail_tag() {
         document.getElementById('detail_desktop_train_count').innerText = detail_trains.size();
         document.getElementById('detail_desktop_station_count').innerText = detail_stations.size();
     }
-    var indexs = detail_trains.keys();
+    let indexs = detail_trains.keys();
     for (let i = 0; i < indexs.length; i++) {
         let index = indexs[i];
         let tag = document.getElementById('tag_t_' + index);
@@ -324,7 +334,7 @@ function update_detail_tag() {
                 btn_down.setAttribute('onclick', `move_detail_tag('train', ${indexs[i]}, 1);`);
         }
     }
-    var indexs = detail_stations.keys();
+    indexs = detail_stations.keys();
     for (let i = 0; i < indexs.length; i++) {
         let index = indexs[i];
         let tag = document.getElementById('tag_s_' + index);
@@ -363,13 +373,13 @@ function add_detail_train(train_id, targe_time = null) {
     else {
         document.getElementById('detail_desktop_train_instructions').style.display = 'none';
     }
-    var index = detail_trains.new(train_id)
-    var tag_id = 'tag_t_' + index;
+    let index = detail_trains.new(train_id)
+    let tag_id = 'tag_t_' + index;
     detail_scroll.push(tag_id);
     //focus_detail = { 'type': 'train', 'index': index };
     //focus_detail['type'] = 'train';
     focus_detail['train_index'] = index;
-    var new_div = document.createElement('div');
+    let new_div = document.createElement('div');
     //var tag_id = train_id + '_detail_train';
     new_div.id = tag_id;
     new_div.className = 'detail-tag';
@@ -385,16 +395,16 @@ function add_detail_train(train_id, targe_time = null) {
 }
 
 function set_detail_train(index, targe_time = null) {
-    var train_id = detail_trains.get(index);
-    var tag_id = 'tag_t_' + index;
-    var tag = document.getElementById(tag_id);
-    var temp = sche_trains_wde[wde][train_id];
-    var line_name = temp['line'];
-    var line_direct = temp['direct'];
-    var line_wde = temp['wde'];
-    var line_stations = temp['stations'];
-    var line_color = line_colors[line_name];
-    var html = `
+    let train_id = detail_trains.get(index);
+    let tag_id = 'tag_t_' + index;
+    let tag = document.getElementById(tag_id);
+    let temp = sche_trains_wde[wde][train_id];
+    let line_name = temp['line'];
+    let line_direct = temp['direct'];
+    let line_wde = temp['wde'];
+    let line_stations = temp['stations'];
+    let line_color = line_colors[line_name];
+    let html = `
         <div class="detail-content">
             <div class="detail-content-l">
                 <div class="detail-text">虚拟车号: ${train_id}</div>
@@ -417,11 +427,11 @@ function set_detail_train(index, targe_time = null) {
         <div class="detail-block-parent">
             <div class="detail-block">
     `;
-    var is_wait = false;
+    let is_wait = false;
     for (let i = 0; i < line_stations.length; i++) {
-        var station_type;
-        var time = line_stations[i][1];
-        var station_name = line_stations[i][0];
+        let station_type;
+        let time = line_stations[i][1];
+        let station_name = line_stations[i][0];
         if (is_wait) {
             is_wait = false;
             station_type = '发车';
@@ -440,7 +450,7 @@ function set_detail_train(index, targe_time = null) {
         else if (i == line_stations.length - 1) station_type = '终到';
         else station_type = '经停';
 
-        var use_station, station_description = '';
+        let use_station, station_description = '';
         if (transfer_without_exiting_stations.indexOf(station_name) != -1) {
             use_station = '<use href="#detail_v_transfer_station_dash" />';
             station_description = '虚拟换乘';
@@ -453,7 +463,7 @@ function set_detail_train(index, targe_time = null) {
             use_station = '<use href="#detail_v_station_dash" />';
         else
             use_station = '<use href="#detail_v_station" />';
-        var this_html = `
+        let this_html = `
             <div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
@@ -515,7 +525,8 @@ function set_detail_train(index, targe_time = null) {
     else {
         update_detail_train(index, true, false);
         change_table_scroll(tag_id, true);
-        for (var i = 0; i < line_stations.length; i++) {
+        let i;
+        for (i = 0; i < line_stations.length; i++) {
             if (hm2time(line_stations[i][1]) > hm2time(targe_time)) break;
         }
         table_scroll_to(tag_id, i, NaN, false);
@@ -524,22 +535,22 @@ function set_detail_train(index, targe_time = null) {
 }
 
 function update_detail_train(index, is_update_table, is_scroll_table) {
-    var train_id = detail_trains.get(index);
-    var tag_id = 'tag_t_' + index;
-    var tag = document.getElementById(tag_id);
-    var temp = sche_trains_wde[wde][train_id];
-    // var line_name = temp['line'];
-    // var line_direct = temp['direct'];
-    // var line_wde = temp['wde'];
-    var line_stations = temp['stations'];
-    var a_running_time = tag.querySelectorAll('[data-id="running_time"]')[0];
-    var a_count_passed = tag.querySelectorAll('[data-id="count_passed"]')[0];
-    var lines = [];
+    let train_id = detail_trains.get(index);
+    let tag_id = 'tag_t_' + index;
+    let tag = document.getElementById(tag_id);
+    let temp = sche_trains_wde[wde][train_id];
+    // let line_name = temp['line'];
+    // let line_direct = temp['direct'];
+    // let line_wde = temp['wde'];
+    let line_stations = temp['stations'];
+    let a_running_time = tag.querySelectorAll('[data-id="running_time"]')[0];
+    let a_count_passed = tag.querySelectorAll('[data-id="count_passed"]')[0];
+    let lines = [];
     if (is_update_table) {
         lines = tag.querySelectorAll('[data-id="table"]')[0].getElementsByClassName('detail-v-line');
     }
-    var btn_locate = tag.querySelectorAll('[data-id="locate"]')[0]
-    var btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0]
+    let btn_locate = tag.querySelectorAll('[data-id="locate"]')[0]
+    let btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0]
     if (isNaN(now_minute)) {
         a_running_time.innerText = '--:--:--';
         a_count_passed.innerText = '-';
@@ -576,7 +587,7 @@ function update_detail_train(index, is_update_table, is_scroll_table) {
                 btn_locate.className = 'btn-unselected';
             //a_running_time.innerText = time2hms(now_minute - hm2time(line_stations[0][1]));
             a_running_time.innerText = time2hms(now_minute);
-            var i;
+            let i;
             for (i = 0; i < line_stations.length; i++) {
                 if (hm2time(line_stations[i][1]) > now_minute) break;
             }
@@ -596,9 +607,9 @@ function update_detail_train(index, is_update_table, is_scroll_table) {
 }
 
 function close_detail_train(index) {
-    new_index = detail_trains.delete(index);
-    var tag_id = 'tag_t_' + index;
-    var tag = document.getElementById(tag_id);
+    let new_index = detail_trains.delete(index);
+    let tag_id = 'tag_t_' + index;
+    let tag = document.getElementById(tag_id);
     tag.parentNode.removeChild(tag);
     if (is_mobile) {
         if (focus_detail['type'] == 'train' && focus_detail['train_index'] == index) {
@@ -635,8 +646,8 @@ function new_detail_train() {
 }
 
 function add_detail_station_by_name(station_name) {
-    var line_name = Object.keys(sche_stations[wde][station_name])[0];
-    var direct_name = Object.keys(sche_stations[wde][station_name][line_name])[0];
+    let line_name = Object.keys(sche_stations[wde][station_name])[0];
+    let direct_name = Object.keys(sche_stations[wde][station_name][line_name])[0];
     add_detail_station(station_name, line_name, direct_name);
 }
 
@@ -649,13 +660,13 @@ function add_detail_station(station_name, line_name, direct_name, targe_time = n
         document.getElementById('detail_desktop_station_instructions').style.display = 'none';
     }
     //var station_id = station_name + '|' + line_name + '|' + direct_name;
-    var index = detail_stations.new([station_name, line_name, direct_name]);
-    var tag_id = 'tag_s_' + index;
+    let index = detail_stations.new([station_name, line_name, direct_name]);
+    let tag_id = 'tag_s_' + index;
     detail_scroll.push(tag_id);
     //focus_detail = { 'type': 'station', 'index': index };
     //focus_detail['type'] = 'station';
     focus_detail['station_index'] = index;
-    var new_div = document.createElement('div');
+    let new_div = document.createElement('div');
     new_div.id = tag_id;
     new_div.className = 'detail-tag';
     if (is_mobile) {
@@ -670,17 +681,17 @@ function add_detail_station(station_name, line_name, direct_name, targe_time = n
 }
 
 function set_detail_station(index, targe_time = null) {
-    var [station_name, line_name, direct_name] = detail_stations.get(index);
-    var direct_names = Object.keys(sche_stations[wde][station_name][line_name]);
-    var tag_id = 'tag_s_' + index;
-    var tag = document.getElementById(tag_id);
-    var line_color = line_colors[line_name];
+    let [station_name, line_name, direct_name] = detail_stations.get(index);
+    let direct_names = Object.keys(sche_stations[wde][station_name][line_name]);
+    let tag_id = 'tag_s_' + index;
+    let tag = document.getElementById(tag_id);
+    let line_color = line_colors[line_name];
 
-    var line_prev = line_next = direct_prev = direct_next = null;
-    var btn_prev = '<div class="btn-forbidden"><i class="iconfont icon-menu-left"></i></div>'
-    var btn_next = '<div class="btn-forbidden"><i class="iconfont icon-menu-right"></i></div>'
-    var line_names = Object.keys(sche_stations[wde][station_name]);
-    var this_line_index = line_names.indexOf(line_name);
+    let line_prev = line_next = direct_prev = direct_next = null;
+    let btn_prev = '<div class="btn-forbidden"><i class="iconfont icon-menu-left"></i></div>'
+    let btn_next = '<div class="btn-forbidden"><i class="iconfont icon-menu-right"></i></div>'
+    let line_names = Object.keys(sche_stations[wde][station_name]);
+    let this_line_index = line_names.indexOf(line_name);
     if (this_line_index > 0) {
         line_prev = line_names[this_line_index - 1];
         direct_prev = Object.keys(sche_stations[wde][station_name][line_prev])[0];
@@ -691,7 +702,7 @@ function set_detail_station(index, targe_time = null) {
         direct_next = Object.keys(sche_stations[wde][station_name][line_next])[0];
         btn_next = `<div class="btn-unselected" onclick="detail_stations.set(${index}, ['${station_name}', '${line_next}', '${direct_next}']);set_detail_station(${index});"><i class="iconfont icon-menu-right"></i></div>`
     }
-    var html = `
+    let html = `
         <div class="detail-content">
             <div class="detail-content-l">
                 <div class="detail-text">车站: ${station_name} (${wde == 'wd' ? '工作日' : '双休日'})</div>
@@ -745,7 +756,6 @@ function set_detail_station(index, targe_time = null) {
                 <div onclick="add_detail_train('${train_id}', '${time}')"><i class="iconfont icon-open-in-new"></i></div>
             </div>
         `;
-
         if (i == 0) {
             this_html = `<div class="detail-table detail-table-station" data-id="table"><div class="detail-table-first">` + this_html + `</div><div class="detail-table-scroll" data-id="table_scroll" goingto="2">`;
         }
@@ -789,7 +799,8 @@ function set_detail_station(index, targe_time = null) {
     else {
         update_detail_station(index, true, false);
         change_table_scroll(tag_id, true);
-        for (var i = 0; i < data.length; i++) {
+        let i;
+        for (i = 0; i < data.length; i++) {
             if (hm2time(data[i][2]) > hm2time(targe_time)) break;
         }
         table_scroll_to(tag_id, i, NaN, false);
@@ -798,18 +809,18 @@ function set_detail_station(index, targe_time = null) {
 }
 
 function update_detail_station(index, is_update_table, is_scroll_table) {
-    var [station_name, line_name, direct_name] = detail_stations.get(index);
-    var temp = sche_stations[wde][station_name][line_name];
-    var tag_id = 'tag_s_' + index;
-    var tag = document.getElementById(tag_id);
-    var temp = sche_stations[wde][station_name][line_name][direct_name];
-    var a_running_time = tag.querySelectorAll('[data-id="running_time"]')[0];
-    var a_count_passed = tag.querySelectorAll('[data-id="count_passed"]')[0];
-    var lines = [];
+    let [station_name, line_name, direct_name] = detail_stations.get(index);
+    let temp = sche_stations[wde][station_name][line_name];
+    let tag_id = 'tag_s_' + index;
+    let tag = document.getElementById(tag_id);
+    temp = sche_stations[wde][station_name][line_name][direct_name];
+    let a_running_time = tag.querySelectorAll('[data-id="running_time"]')[0];
+    let a_count_passed = tag.querySelectorAll('[data-id="count_passed"]')[0];
+    let lines = [];
     if (is_update_table) {
         lines = tag.querySelectorAll('[data-id="table"]')[0].getElementsByClassName('detail-v-line');
     }
-    var btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0]
+    let btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0]
     if (isNaN(now_minute)) {
         //停止
         a_running_time.innerText = '--:--:--';
@@ -843,7 +854,8 @@ function update_detail_station(index, is_update_table, is_scroll_table) {
             //运行中
             //a_running_time.innerText = time2hms(now_minute - hm2time(temp[0][1]));
             a_running_time.innerText = time2hms(now_minute);
-            for (var i = 0; i < temp.length; i++) {
+            let i;
+            for (i = 0; i < temp.length; i++) {
                 if (hm2time(temp[i][2]) > now_minute) break;
             }
             a_count_passed.innerText = i;
@@ -862,9 +874,9 @@ function update_detail_station(index, is_update_table, is_scroll_table) {
 }
 
 function close_detail_station(index) {
-    new_index = detail_stations.delete(index);
-    var tag_id = 'tag_s_' + index;
-    var tag = document.getElementById(tag_id);
+    let new_index = detail_stations.delete(index);
+    let tag_id = 'tag_s_' + index;
+    let tag = document.getElementById(tag_id);
     tag.parentNode.removeChild(tag);
     if (is_mobile) {
         if (focus_detail['type'] == 'station' && focus_detail['station_index'] == index) {
@@ -902,24 +914,24 @@ function new_detail_station() {
 }
 
 function update_scroll_thumb(tag_id) {
-    var tag = document.getElementById(tag_id);
-    var table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
-    var total_length = table.clientHeight + 2 * line_height - 2 * btn_height;
-    var thumb_length;
+    let tag = document.getElementById(tag_id);
+    let table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
+    let total_length = table.clientHeight + 2 * line_height - 2 * btn_height;
+    let thumb_length;
     if (table.children.length - table.clientHeight / line_height <= 0)
         thumb_length = total_length;
     else
         thumb_length = total_length / (table.children.length) * (table.clientHeight / line_height);
     if (thumb_length < 20) thumb_length = 20;
-    var y = (total_length - thumb_length) * (table.scrollTop / line_height) / (table.children.length - table.clientHeight / line_height);
-    var thumb = tag.querySelectorAll('[data-id="scroll_thumb"]')[0];
+    let y = (total_length - thumb_length) * (table.scrollTop / line_height) / (table.children.length - table.clientHeight / line_height);
+    let thumb = tag.querySelectorAll('[data-id="scroll_thumb"]')[0];
     thumb.style.height = thumb_length + 'px';
     thumb.style.top = y + 'px';
 }
 
 function change_table_scroll(tag_id, is_move = false) {
-    var tag = document.getElementById(tag_id);
-    var btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0];
+    let tag = document.getElementById(tag_id);
+    let btn_scroll = tag.querySelectorAll('[data-id="scroll"]')[0];
     if (btn_scroll.className == 'btn-forbidden') {
         return;
     }
@@ -941,16 +953,16 @@ function change_table_scroll(tag_id, is_move = false) {
         if (detail_scroll.indexOf(tag_id) == -1) {
             detail_scroll.push(tag_id);
         }
-        var index = parseInt(tag.querySelectorAll('[data-id="count_passed"]')[0].innerText);
+        let index = parseInt(tag.querySelectorAll('[data-id="count_passed"]')[0].innerText);
         table_scroll_to(tag_id, index);
     }
 }
 
 function table_scroll_to(tag_id, index = NaN, offset = 0, is_smooth = true) {
-    var tag = document.getElementById(tag_id);
-    var table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
-    var total_lines = table.children.length + 2;
-    var lines = table.clientHeight / line_height;
+    let tag = document.getElementById(tag_id);
+    let table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
+    let total_lines = table.children.length + 2;
+    let lines = table.clientHeight / line_height;
     if (!index) index = parseInt(table.getAttribute('goingto')) + offset;
     if (index == -1) index = total_lines - lines;
     if (index > total_lines - lines) index = total_lines - lines;
@@ -960,11 +972,11 @@ function table_scroll_to(tag_id, index = NaN, offset = 0, is_smooth = true) {
 }
 
 function on_table_wheel(event) {
-    var target = event.target;
+    let target = event.target;
     while (target.id.slice(0, 3) != 'tag') {
         target = target.parentNode;
     }
-    var tag_id = target.id;
+    let tag_id = target.id;
     change_table_scroll(tag_id, true);
     if (event.wheelDelta > 0) {
         table_scroll_to(tag_id, NaN, -1);
@@ -975,32 +987,32 @@ function on_table_wheel(event) {
 }
 
 function on_table_touch_move(event) {
-    var target = event.target;
+    let target = event.target;
     while (target.id.slice(0, 3) != 'tag') {
         target = target.parentNode;
     }
-    var tag_id = target.id;
-    var table = target.querySelectorAll('[data-id="table_scroll"]')[0];
+    let tag_id = target.id;
+    let table = target.querySelectorAll('[data-id="table_scroll"]')[0];
     change_table_scroll(tag_id, true);
     table.setAttribute('goingto', Math.round(tag_id.scrollTop / line_height + 2));
 }
 
 function on_scroll_bar_down(event) {
-    var target = event.target;
+    let target = event.target;
     if (target.getAttribute('data-id') != 'scroll_bar') return;
     while (target.id.slice(0, 3) != 'tag') {
         target = target.parentNode;
     }
-    var tag_id = target.id;
-    var table = target.querySelectorAll('[data-id="table_scroll"]')[0];
+    let tag_id = target.id;
+    let table = target.querySelectorAll('[data-id="table_scroll"]')[0];
     change_table_scroll(tag_id, true);
-    now_y = event.layerY;
-    var moveable_lines = table.children.length - table.clientHeight / line_height;
+    let now_y = event.layerY;
+    let moveable_lines = table.children.length - table.clientHeight / line_height;
     if (moveable_lines < 0) moveable_lines = 0;
-    var thumb_bar_length = table.clientHeight + 2 * line_height - 2 * btn_height;
-    var thumb_length = event.target.children[0].clientHeight;
-    var ratio = moveable_lines / (thumb_bar_length - thumb_length);
-    var goingto = (now_y - thumb_length / 2 - btn_height) * ratio + 2;
+    let thumb_bar_length = table.clientHeight + 2 * line_height - 2 * btn_height;
+    let thumb_length = event.target.children[0].clientHeight;
+    let ratio = moveable_lines / (thumb_bar_length - thumb_length);
+    let goingto = (now_y - thumb_length / 2 - btn_height) * ratio + 2;
     if (goingto > table.children.length - table.clientHeight / line_height + 2) goingto = table.children.length - table.clientHeight / line_height + 2;
     if (goingto < 2) goingto = 2;
     table.scrollTop = (goingto - 2) * line_height;
@@ -1008,11 +1020,11 @@ function on_scroll_bar_down(event) {
 }
 
 function on_scroll_thumb_start(event) {
-    var target = event.target;
+    let target = event.target;
     while (target.id.slice(0, 3) != 'tag') {
         target = target.parentNode;
     }
-    var tag_id = target.id;
+    let tag_id = target.id;
     change_table_scroll(tag_id, true);
     thumb_info['tag_id'] = tag_id;
     thumb_info['is_drag'] = true;
@@ -1022,27 +1034,27 @@ function on_scroll_thumb_start(event) {
     else if (event.type == 'mousedown') {
         thumb_info['start_y'] = event.clientY;
     }
-    var table = target.querySelectorAll('[data-id="table_scroll"]')[0];
+    let table = target.querySelectorAll('[data-id="table_scroll"]')[0];
     thumb_info['goingto'] = parseInt(table.getAttribute('goingto'));
-    var moveable_lines = table.children.length - table.clientHeight / line_height;
+    let moveable_lines = table.children.length - table.clientHeight / line_height;
     if (moveable_lines < 0) moveable_lines = 0;
-    var thumb_bar_length = table.clientHeight + 2 * line_height - 2 * btn_height;
-    var thumb_length = event.target.clientHeight;
+    let thumb_bar_length = table.clientHeight + 2 * line_height - 2 * btn_height;
+    let thumb_length = event.target.clientHeight;
     thumb_info['ratio'] = moveable_lines / (thumb_bar_length - thumb_length);
 }
 
 function on_scroll_thumb_move(event) {
     if (!thumb_info || !thumb_info['is_drag']) return;
-    var now_y;
+    let now_y;
     if (event.type == 'touchmove') {
         now_y = event.targetTouches[0].clientY;
     }
     else if (event.type == 'mousemove') {
         now_y = event.clientY;
     }
-    var tag = document.getElementById(thumb_info['tag_id']);
-    var table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
-    var goingto = (now_y - thumb_info['start_y']) * thumb_info['ratio'] + thumb_info['goingto'];
+    let tag = document.getElementById(thumb_info['tag_id']);
+    let table = tag.querySelectorAll('[data-id="table_scroll"]')[0];
+    let goingto = (now_y - thumb_info['start_y']) * thumb_info['ratio'] + thumb_info['goingto'];
     if (goingto > table.children.length - table.clientHeight / line_height + 2) goingto = table.children.length - table.clientHeight / line_height + 2;
     if (goingto < 2) goingto = 2;
     table.scrollTop = (goingto - 2) * line_height;
@@ -1050,17 +1062,15 @@ function on_scroll_thumb_move(event) {
 }
 
 function on_scroll_thumb_end(event) {
-    thumb_info = {
-        'is_drag': false,
-        'start_y': NaN,
-        'goingto': NaN,
-        'ratio': NaN,
-        'tag_id': '',
-    };
+    thumb_info['is_drag'] = false;
+    thumb_info['start_y'] = NaN;
+    thumb_info['goingto'] = NaN;
+    thumb_info['ratio'] = NaN;
+    thumb_info['tag_id'] = '';
 }
 
 function on_table_scroll(event) {
-    var target = event.target;
+    let target = event.target;
     while (target.id.slice(0, 3) != 'tag') {
         target = target.parentNode;
     }
@@ -1072,7 +1082,7 @@ function on_open_detail(event) {
     if (!mouse_start) return;
     // 判断是否禁用
     if (disable_detail) return;
-    var mouse_now_x, mouse_now_y;
+    let mouse_now_x, mouse_now_y;
     if (event.type == 'touchend') {
         mouse_now_x = event.changedTouches[0].clientX;
         mouse_now_y = event.changedTouches[0].clientY;
@@ -1084,27 +1094,27 @@ function on_open_detail(event) {
     if (ab2c(mouse_now_x - mouse_start[0], mouse_now_y - mouse_start[1]) > 5) return;
 
     // 判断是否为列车或车站
-    var target_id = event.target.id;
+    let target_id = event.target.id;
     if (target_id.slice(0, 2) == 'T_') {
-        var train_id = target_id.slice(2);
+        let train_id = target_id.slice(2);
         // console.log(train_id);
         add_detail_train(train_id);
     }
     else if (target_id.slice(0, 2) == 'S_') {
-        var station_name = target_id.slice(2);
+        let station_name = target_id.slice(2);
         add_detail_station_by_name(station_name);
     }
 }
 
 
 function locate(x, y, easing = '') {
-    var x = parseFloat(x);
-    var y = parseFloat(y);
-    var div_svg = document.getElementById('div_svg');
-    var scale = parseFloat(div_svg.style.transform.slice(6, -1));
-    var x_real = x * scale;
-    var y_real = y * scale;
-    var target_left, target_top;
+    x = parseFloat(x);
+    y = parseFloat(y);
+    let div_svg = document.getElementById('div_svg');
+    let scale = parseFloat(div_svg.style.transform.slice(6, -1));
+    let x_real = x * scale;
+    let y_real = y * scale;
+    let target_left, target_top;
     if (is_mobile){
         target_left = -x_real + (40) / 2
         target_top = -y_real + (85 - document.getElementById('detail_broad_mobile').clientHeight - 20 - 54) / 2;
@@ -1131,7 +1141,7 @@ function locate(x, y, easing = '') {
 }
 
 function locate_train(event, train_id) {
-    var target = event.target;
+    let target = event.target;
     while (target.getAttribute('data-id') != 'locate') {
         target = target.parentNode;
     }
@@ -1141,10 +1151,10 @@ function locate_train(event, train_id) {
         return;
     }
     target.className = 'btn-selected';
-    var use_tag = document.getElementById('T_' + train_id);
+    let use_tag = document.getElementById('T_' + train_id);
     if (!use_tag) return;
-    clearInterval(timer_follow);
-    timer_follow = setInterval(() => {
+    clearInterval(window.timer_follow);
+    window.timer_follow = setInterval(() => {
         let ctm = use_tag.getCTM();
         let x = ctm.e;
         let y = ctm.f;
@@ -1157,7 +1167,7 @@ function locate_train(event, train_id) {
 }
 
 function locate_station(station_name) {
-    var use_tag = document.getElementById('S_' + station_name);
+    let use_tag = document.getElementById('S_' + station_name);
     if (!use_tag) return;
     locate(
         parseFloat(use_tag.getAttribute('cx')) || parseFloat(use_tag.getAttribute('x')) + 5,
@@ -1167,10 +1177,10 @@ function locate_station(station_name) {
 }
 
 function end_follow() {
-    clearInterval(timer_follow);
-    var div_svg = document.getElementById('div_svg');
+    clearInterval(window.timer_follow);
+    let div_svg = document.getElementById('div_svg');
     div_svg.className = '';
-    var btns = document.querySelectorAll('[data-id="locate"]');
+    let btns = document.querySelectorAll('[data-id="locate"]');
     for (let btn of btns) {
         if (btn.className == 'btn-selected')
             btn.className = 'btn-unselected';
